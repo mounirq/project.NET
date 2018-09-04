@@ -15,3 +15,20 @@ C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\obj\Debug\ProjetNet.pdb
 C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\bin\Debug\Prism.dll
 C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\bin\Debug\Prism.xml
 C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\obj\Debug\ProjetNet.csproj.CopyComplete
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\bin\Debug\ProjetNet.exe.config
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\bin\Debug\ProjetNet.exe
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\bin\Debug\ProjetNet.pdb
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\bin\Debug\Prism.xml
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\ProjetNet.csprojAssemblyReference.cache
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\MainWindow.g.cs
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\App.g.cs
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\ProjetNet_MarkupCompile.cache
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\ProjetNet_MarkupCompile.lref
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\MainWindow.baml
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\ProjetNet.g.resources
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\ProjetNet.Properties.Resources.resources
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\ProjetNet.csproj.GenerateResource.cache
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\ProjetNet.csproj.CoreCompileInputs.cache
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\ProjetNet.csproj.CopyComplete
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\ProjetNet.exe
+C:\Users\ensimag\Downloads\Projet .NET\test\projectNET\ProjetNet\obj\Debug\ProjetNet.pdb
