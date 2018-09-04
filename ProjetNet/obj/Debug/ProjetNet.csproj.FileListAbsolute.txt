@@ -1,7 +1,6 @@
 C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\bin\Debug\ProjetNet.exe.config
 C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\bin\Debug\ProjetNet.exe
 C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\bin\Debug\ProjetNet.pdb
-C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\obj\Debug\ProjetNet.csprojAssemblyReference.cache
 C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\obj\Debug\MainWindow.g.cs
 C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\obj\Debug\App.g.cs
 C:\Users\ensimag\Documents\GitHub\projectNET\ProjetNet\obj\Debug\ProjetNet_MarkupCompile.cache

@@ -6,5 +6,10 @@
         xmlns:local="clr-namespace:ProjetNet"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid/>
+    <Grid Margin="54,54,181,149">
+        <TextBlock HorizontalAlignment="Left" Margin="31,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Width="308">
+        <Run Text="This is the welcome message : " />
+        <Run Text="{Binding HelloMessage.HelloWorldMessage,Mode=OneWay}" />
+        </TextBlock>    
+    </Grid>
 </Window>
