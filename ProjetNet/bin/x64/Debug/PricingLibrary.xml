@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PricingLibrary</name>
+    </assembly>
+    <members>
+        <member name="T:PricingLibrary.Computations.NamespaceDoc">
+            <summary>
+            The <see cref="N:PricingLibrary.Computations"/> namespace contains classes related to the pricing of the financial derivatives of the <see cref="N:PricingLibrary.FinancialProducts"/> namespace.
+            </summary>
+        </member>
+        <member name="T:PricingLibrary.Computations.Pricer">
+            <summary>
+            Class in charge of computing the price and deltas for the considered derivatives.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Computations.Pricer.PriceBasket(PricingLibrary.FinancialProducts.BasketOption,System.DateTime,System.Int32,System.Double[],System.Double[],System.Double[0:,0:])">
+            <summary>
+            Computes the price and deltas for a basket option.
+            </summary>
+            <param name="basket">The basket option under consideration.</param>
+            <param name="atTime">Time at which the results are to be computed.</param>
+            
+            <param name="nbDaysPerYear">Convention on the number of days in a year.</param>
+            <param name="spots">Values of the underlying spots.</param>
+            <param name="volatilities">Values of the volatilities.</param>
+            <param name="correlationMatrix">Correlation matrix.</param>
+            <returns>Returns the price and deltas for the basket option.</returns>
+        </member>
+        <member name="M:PricingLibrary.Computations.Pricer.PriceCall(PricingLibrary.FinancialProducts.VanillaCall,System.DateTime,System.Int32,System.Double,System.Double)">
+            <summary>
+            Computes the price and delta for a vanilla call option.
+            </summary>
+            <param name="call">The call under consideration.</param>
+            <param name="atTime">Time at which the results are to be computed.</param>
+            <param name="nbDaysPerYear">Convention on the number of days in a year.</param>
+            <param name="spot">Value of the underlying spot.</param>
+            <param name="volatility">Values of the volatility.</param>
+            <returns>Returns the price and deltas for the vanilla call option.</returns>
+        </member>
+        <member name="M:PricingLibrary.Computations.Pricer.#ctor">
+            <summary>
+            Unique constructor for the <see cref="T:PricingLibrary.Computations.Pricer"/> class.
+            </summary>
+        </member>
+        <member name="T:PricingLibrary.Computations.PricingResults">
+            <summary>
+            Data class returned by the methods of the <see cref="T:PricingLibrary.Computations.Pricer"/> class.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.Computations.PricingResults.Price">
+            <summary>
+            Readonly property containing the price of the option.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.Computations.PricingResults.Deltas">
+            <summary>
+            Readonly property containing the deltas of the option.
+            </summary>
+        </member>
+        <member name="T:PricingLibrary.FinancialProducts.BasketOption">
+            <summary>
+            Class representing a basket option.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.BasketOption.Weights">
+            <summary>
+            Readonly property containing the weights of the option. Each weight should be strictly positive and their sum should be equal to one.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.FinancialProducts.BasketOption.GetPayoff(System.Collections.Generic.Dictionary{System.String,System.Decimal})">
+            <summary>
+            Computes the payoff of the option.
+            </summary>
+            <param name="priceList">Spot values of the underlyings</param>
+            <returns>The payoff of the option.</returns>
+        </member>
+        <member name="M:PricingLibrary.FinancialProducts.BasketOption.#ctor(System.String,PricingLibrary.FinancialProducts.Share[],System.Double[],System.DateTime,System.Double)">
+            <summary>
+            Unique constructor for the <see cref="T:PricingLibrary.FinancialProducts.BasketOption"/> class.
+            </summary>
+            <param name="name">Name of the option.</param>
+            <param name="underlyingShares">Array containing the underlying shares of the option.</param>
+            <param name="weights">Weights for each of the shares.</param>
+            <param name="maturity">Maturity of the option.</param>
+            <param name="strike">Strike of the option.</param>
+        </member>
+        <member name="T:PricingLibrary.FinancialProducts.IOption">
+            <summary>
+            Interface that should be implemented by option classes.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.FinancialProducts.IOption.GetPayoff(System.Collections.Generic.Dictionary{System.String,System.Decimal})">
+            <summary>
+            Payoff computation.
+            </summary>
+            <param name="priceList">List of prices containing those of the underlying shares.</param>
+            <returns>Payoff of the option.</returns>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.IOption.Maturity">
+            <summary>
+            Maturity of the option.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.IOption.Name">
+            <summary>
+            Option name.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.IOption.Strike">
+            <summary>
+            Option strike.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.IOption.UnderlyingShareIds">
+            <summary>
+            Ids of the underlying assets.
+            </summary>
+        </member>
+        <member name="T:PricingLibrary.FinancialProducts.NamespaceDoc">
+            <summary>
+            The <see cref="N:PricingLibrary.FinancialProducts"/> namespace contains classes defining the financial products that can be used (shares, options).
+            </summary>
+        </member>
+        <member name="T:PricingLibrary.FinancialProducts.Option">
+            <summary>
+            Abstract class representing an option. Contains the initialization code that is common to all options.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.Option.Name">
+            <summary>
+            Readonly property containing the name of the option.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.Option.Strike">
+            <summary>
+            Readonly property containing the option strike.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.Option.Maturity">
+            <summary>
+            Readonlyl property containing the option maturity.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.Option.UnderlyingShareIds">
+            <summary>
+            Property containing the ids of the underlying shares for the option.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.FinancialProducts.Option.GetPayoff(System.Collections.Generic.Dictionary{System.String,System.Decimal})">
+            <summary>
+            Abstract method for computing the payoff of the option.
+            </summary>
+            <param name="priceList">List of prices of shares, including those of underlying shares.</param>
+            <returns>The payoff of the option.</returns>
+        </member>
+        <member name="T:PricingLibrary.FinancialProducts.Share">
+            <summary>
+            Data class representing a share.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.Share.Name">
+            <summary>
+            Readonly property containing the name of the share.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.Share.Id">
+            <summary>
+            Readonly property containing the id of the share.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.FinancialProducts.Share.#ctor(System.String,System.String)">
+            <summary>
+            Constructor for the share class.
+            </summary>
+            <param name="name">Name of the share.</param>
+            <param name="id">Id of the share.</param>
+        </member>
+        <member name="M:PricingLibrary.FinancialProducts.Share.Equals(PricingLibrary.FinancialProducts.Share)">
+            <summary>
+            Equality comparison operator between two shares. 
+            </summary>
+            <param name="other">Share to be compared with</param>
+            <returns>True if both have the same id.</returns>
+        </member>
+        <member name="T:PricingLibrary.FinancialProducts.VanillaCall">
+            <summary>
+            Class representing a vanilla call.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.FinancialProducts.VanillaCall.UnderlyingShare">
+            <summary>
+            Readonly property containing the underlying share.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.FinancialProducts.VanillaCall.GetPayoff(System.Collections.Generic.Dictionary{System.String,System.Decimal})">
+            <summary>
+            Computes the payoff of the vanilla call.
+            </summary>
+            <param name="priceList">Current prices, including that of the underlying.</param>
+            <returns>The payoff of the option.</returns>
+        </member>
+        <member name="M:PricingLibrary.FinancialProducts.VanillaCall.#ctor(System.String,PricingLibrary.FinancialProducts.Share,System.DateTime,System.Double)">
+            <summary>
+            Constructor for the class.
+            </summary>
+            <param name="name">Name of the option.</param>
+            <param name="underlyingShare">The underlying share.</param>
+            <param name="maturity">Maturity of the option.</param>
+            <param name="strike">Strike of the option.</param>
+        </member>
+        <member name="T:PricingLibrary.Utilities.DayCount">
+            <summary>
+            Helper class to handle days.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Utilities.DayCount.ConvertToDouble(System.Int32,System.Int32)">
+            <summary>
+            Conversion of a number of days into a timespan, represented as a double.
+            </summary>
+            <param name="nbDays">Timespan represented as a number of days.</param>
+            <param name="nbDaysPerYear">Convention on the number of days per year.</param>
+            <returns>Day conversion as a double.</returns>
+        </member>
+        <member name="M:PricingLibrary.Utilities.DayCount.CountBusinessDays(System.DateTime,System.DateTime)">
+            <summary>
+            Counting the number of business days between two dates, excluding the first one and including the last one. 
+            This version assumes there are no bank holidays, only weekends.
+            </summary>
+            <param name="start">Start date.</param>
+            <param name="end">End date.</param>
+            <returns>The number of days between start date and end date.</returns>
+        </member>
+        <member name="T:PricingLibrary.Utilities.MarketDataFeed.DataFeed">
+            <summary>
+            Represents a market data feed at a given date.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.DataFeed.PriceList">
+            <summary>
+            Readonly property containing the price list of the datafeed.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.DataFeed.Date">
+            <summary>
+            Readonly property containing the date of the datafeed.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.DataFeed.#ctor(System.DateTime,System.Collections.Generic.Dictionary{System.String,System.Decimal})">
+            <summary>
+            Constructor for the datafeed class.
+            </summary>
+            <param name="date">Date for the data feed.</param>
+            <param name="priceList">Price list of the data feed.</param>
+        </member>
+        <member name="T:PricingLibrary.Utilities.MarketDataFeed.IDataFeedProvider">
+            <summary>
+            Interface for the classes that permit to obtain a market data feed.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.IDataFeedProvider.GetDataFeed(PricingLibrary.FinancialProducts.IOption,System.DateTime)">
+            <summary>
+            Obtaining the market data feed
+            </summary>
+            <param name="option">The data feed will provide prices for the underlying shares of this option.</param>
+            <param name="from">Date from which the feed will be obtained. Prices will be obtained until the maturity of the option.</param>
+            <returns>The list of market data feed.</returns>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.IDataFeedProvider.GetMinDate">
+            <summary>
+            Returns the minimal date from which market data feed can be obtained.
+            </summary>
+            <returns>The minimal date</returns>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.IDataFeedProvider.Name">
+            <summary>
+            Name of the data feed provider.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.IDataFeedProvider.NumberOfDaysPerYear">
+            <summary>
+            Convention on the number of days there are in a year that is used by the data feed provider.
+            </summary>
+        </member>
+        <member name="T:PricingLibrary.Utilities.MarketDataFeed.NamespaceDoc">
+            <summary>
+            The <see cref="N:PricingLibrary.Utilities.MarketDataFeed"/> namespace contains utility classes and methods related to market data feeds.
+            </summary>
+        </member>
+        <member name="T:PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider">
+            <summary>
+            Provider for operations involving the risk-free rate.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRateAccruedValue(System.Double)">
+            <summary>
+            Returns the accrued value of one unit for the given risk-free rate.
+            </summary>
+            <param name="timespan">Timespan over which the unit is invested at the risk-free rate.</param>
+            <returns>The accrued value of one unit.</returns>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate">
+            <summary>
+            Returns the risk-free rate, which is assumed to be constant.
+            </summary>
+            <returns>The constant risk-free rate.</returns>
+        </member>
+        <member name="T:PricingLibrary.Utilities.MarketDataFeed.ShareValue">
+            <summary>
+            Class that stores the value of the share at a given date.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.ShareValue.Id">
+            <summary>
+            Readonly property containing the id of the share.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.ShareValue.DateOfPrice">
+            <summary>
+            Readonly property containing the considered date.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.ShareValue.Value">
+            <summary>
+            Readonly property containing the value of the share.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.ShareValue.#ctor(System.String,System.DateTime,System.Decimal)">
+            <summary>
+            Constructor for the class.
+            </summary>
+            <param name="id">Id of the share.</param>
+            <param name="dateOfPrice">Date at which the share has the price.</param>
+            <param name="value">Price of the share.</param>
+        </member>
+        <member name="T:PricingLibrary.Utilities.MarketDataFeed.SemiHistoricDataFeedProvider">
+            <summary>
+            Provider that returns a simulated market data feed.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.SemiHistoricDataFeedProvider.#ctor">
+            <summary>
+            Constructor for the class.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.SemiHistoricDataFeedProvider.GetDataFeed(PricingLibrary.FinancialProducts.IOption,System.DateTime)">
+            <summary>
+            Returns a market data feed that was generated by setting all volatilities to .4, all non-diagonal correlations to .1 and all initial spots to 10.
+            </summary>
+            <param name="option">Option the underlyings of which have to be simulated.</param>
+            <param name="from">Start date of the simulation.</param>
+            <returns>A list of datafeeds representing the simulated market.</returns>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.SemiHistoricDataFeedProvider.GetMinDate">
+            <summary>
+            Returns the minimal date from which market data feed can be obtained.
+            </summary>
+            <returns>The minimal date.</returns>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.SemiHistoricDataFeedProvider.Name">
+            <summary>
+            Property containing the name of the datafeed provider.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.SemiHistoricDataFeedProvider.NumberOfDaysPerYear">
+            <summary>
+            Readonly property containing the conventional number of days in a year.
+            </summary>
+        </member>
+        <member name="T:PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider">
+            <summary>
+            Provider that returns a simulated market data feed.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider.#ctor">
+            <summary>
+            Constructor for the class.
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider.GetDataFeed(PricingLibrary.FinancialProducts.IOption,System.DateTime)">
+            <summary>
+            Returns a market data feed that was generated by setting all volatilities to .4, all non-diagonal correlations to .1 and all initial spots to 10.
+            </summary>
+            <param name="option">Option the underlyings of which have to be simulated.</param>
+            <param name="from">Start date of the simulation.</param>
+            <returns>A list of datafeeds representing the simulated market.</returns>
+        </member>
+        <member name="M:PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider.GetMinDate">
+            <summary>
+            Returns the minimal date from which market data feed can be obtained.
+            </summary>
+            <returns>The minimal date.</returns>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider.Name">
+            <summary>
+            Property containing the name of the datafeed provider.
+            </summary>
+        </member>
+        <member name="P:PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider.NumberOfDaysPerYear">
+            <summary>
+            Readonly property containing the conventional number of days in a year.
+            </summary>
+        </member>
+        <member name="T:PricingLibrary.Utilities.LinearAlgebra">
+            <summary>
+            Utility class for linear algebra computations
+            </summary>
+        </member>
+        <member name="M:PricingLibrary.Utilities.LinearAlgebra.Cholesky(System.Double[0:,0:])">
+            <summary>
+            Computation of the Cholesky decomposition of a matrix
+            </summary>
+            <param name="matrix">The matrix to decompose</param>
+            <returns>The lower triangular matrix obtained by the decomposition algorithm</returns>
+            <exception cref="T:System.ArgumentException">Thrown if the matrix is not positive-definite</exception>
+        </member>
+        <member name="T:PricingLibrary.Utilities.NamespaceDoc">
+            <summary>
+            The <see cref="N:PricingLibrary.Utilities"/> namespace contains utility classes and methods.
+            </summary>
+        </member>
+    </members>
+</doc>
