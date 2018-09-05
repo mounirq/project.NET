@@ -19,7 +19,7 @@ namespace ProjetNet.Models
         }
 
 
-        public static void Main(string[] args)
+       /* public static void Main(string[] args)
         {
             // header
             Console.WriteLine("************************************");
@@ -38,7 +38,7 @@ namespace ProjetNet.Models
                 Console.WriteLine("\n\n\n\n" + element.Date.ToString() + "\n" + string.Join(",", element.PriceList.Select(kv => kv.Key + "=" + kv.Value).ToArray()));
             }
             Console.WriteLine("**************End of simulation****************");
-            //Console.ReadKey(true);
-        }
+            Console.ReadKey(true);
+        }*/
     }
 }
