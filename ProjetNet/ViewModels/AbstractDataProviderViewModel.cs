@@ -14,7 +14,7 @@ namespace ProjetNet.ViewModels
 
         public AbstractDataProviderViewModel(IDataProvider data)
         {
-            this._data = data;
+            _data = data;
         }
 
         #endregion Public Constructors
