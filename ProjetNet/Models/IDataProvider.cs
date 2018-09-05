@@ -2,13 +2,10 @@
 using PricingLibrary.Utilities.MarketDataFeed;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjetNet.Models
 {
-    internal interface IData
+    internal interface IDataProvider
     {
         #region Public Methods
 
