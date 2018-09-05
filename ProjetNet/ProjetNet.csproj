@@ -38,7 +38,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>ProjetNet.Models.HistoricalData</StartupObject>
-    <StartupObject>ProjetNet.Models.SimulatedDataProvider</StartupObject>
+    <StartupObject>ProjetNet.Models.HistoricalDataProvider</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -114,10 +114,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataBaseAccess.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\HistoricalData.cs" />
-    <Compile Include="Models\IData.cs" />
-    <Compile Include="Models\program.cs" />
-    <Compile Include="Models\SimulatedData.cs" />
+    <Compile Include="Models\HistoricalDataProvider.cs" />
     <Compile Include="Models\IDataProvider.cs" />
     <Compile Include="Models\SimulatedDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
