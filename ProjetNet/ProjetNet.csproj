@@ -37,7 +37,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
+<<<<<<< HEAD
     <StartupObject>ProjetNet.Models.HistoricalData</StartupObject>
+=======
+    <StartupObject>ProjetNet.Models.SimulatedDataProvider</StartupObject>
+>>>>>>> c92369df297c6a3d1fd72fe00675bc762e074390
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -90,6 +94,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\AbstractDataProviderViewModel.cs" />
+    <Compile Include="ViewModels\SimulatedDataProviderViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,6 +112,7 @@
   <ItemGroup>
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Message.cs" />
+<<<<<<< HEAD
     <Compile Include="Models\DataBaseAccess.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -115,6 +122,10 @@
     <Compile Include="Models\IData.cs" />
     <Compile Include="Models\program.cs" />
     <Compile Include="Models\SimulatedData.cs" />
+=======
+    <Compile Include="Models\IDataProvider.cs" />
+    <Compile Include="Models\SimulatedDataProvider.cs" />
+>>>>>>> c92369df297c6a3d1fd72fe00675bc762e074390
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -150,7 +161,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
