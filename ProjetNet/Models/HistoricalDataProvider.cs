@@ -13,7 +13,7 @@ using PricingLibrary.Utilities.MarketDataFeed;
 namespace ProjetNet.Models
 {
 
-    internal class HistoricalData : IData
+    internal class HistoricalDataProvider : IDataProvider
     {
         public List<DataFeed> GetDataFeeds(IOption option, DateTime from)
         {

@@ -1,9 +1,4 @@
-.vs/ProjetNet/v15
 packages
-ProjetNet/packages.config
-ProjetNet/ProjetNet.csproj
 ProjetNet/obj
 ProjetNet/bin
 .vs
-/ProjetNet/ProjetNet.csproj
-ProjetNet.csproj
