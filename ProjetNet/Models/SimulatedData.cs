@@ -10,35 +10,35 @@ using PricingLibrary.Utilities.MarketDataFeed;
 
 namespace ProjetNet.Models
 {
-    class SimulationVanille
+    internal class SimulatedData : IData
     {
-        public List<DataFeed> Simulate()
+        public List<DataFeed> GetDataFeeds(IOption option, DateTime from)
         {
-            DateTime Maturity = new DateTime(2019, 09, 04);
-            DateTime from = new DateTime(2018, 09, 04);
-            string Name = "Vanille";
-            double Strike = 1000;
-            Share UnderlyingShare = new Share("Vanille", "Vanille");
-            IOption option = new VanillaCall(Name, UnderlyingShare, Maturity, Strike);
             SimulatedDataFeedProvider simulateur = new SimulatedDataFeedProvider();
             return simulateur.GetDataFeed(option, from);
         }
 
 
-        /*public static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // header
             Console.WriteLine("************************************");
             Console.WriteLine("*    Test Simulation CallVanille   *");
             Console.WriteLine("************************************");
-            var cls = new SimulationVanille();
-            var lst = cls.Simulate();
+            var simulatedData = new SimulatedData();
+            DateTime from = new DateTime(2018, 09, 04);
+            DateTime maturity = new DateTime(2019, 09, 04);
+            string name = "VanillaCall";
+            double strike = 7000;
+            Share underlying = new Share("vod.l", "vod.l");
+            IOption option = new VanillaCall(name, underlying, maturity, strike);
+            var lst = simulatedData.GetDataFeeds(option, from);
             foreach (DataFeed element in lst)
             {
                 Console.WriteLine("\n\n\n\n" + element.Date.ToString() + "\n" + string.Join(",", element.PriceList.Select(kv => kv.Key + "=" + kv.Value).ToArray()));
             }
-            Console.WriteLine("\nType enter to exit");
-            Console.ReadKey(true);
-        }*/
+            Console.WriteLine("**************End of simulation****************");
+            //Console.ReadKey(true);
+        }
     }
 }
