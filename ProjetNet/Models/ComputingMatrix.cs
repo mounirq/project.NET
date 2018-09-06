@@ -9,6 +9,7 @@ using PricingLibrary.FinancialProducts;
 namespace ProjetNet.Models
 {
     internal class ComputingMatrix
+    {
 
         private double[,] getAssetValues(List<DataFeed> dataFeedList)
         {

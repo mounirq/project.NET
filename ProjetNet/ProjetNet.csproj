@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DE742E01-106D-424D-A649-E1B46D87022C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>ProjetNet</RootNamespace>
     <AssemblyName>ProjetNet</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -37,8 +37,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
+    <StartupObject>ProjetNet.Models.Portfolio</StartupObject>
     <StartupObject>ProjetNet.Models.HistoricalData</StartupObject>
     <StartupObject>ProjetNet.Models.ComputingMatrix</StartupObject>
+    <StartupObject>ProjetNet.Models.Portfolio</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -92,6 +94,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\ComputingMatrix.cs" />
+    <Compile Include="Models\PortfolioBasket.cs" />
     <Compile Include="ViewModels\AbstractDataProviderViewModel.cs" />
     <Compile Include="ViewModels\SimulatedDataProviderViewModel.cs" />
     <Page Include="MainWindow.xaml">
@@ -110,6 +113,7 @@
   <ItemGroup>
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="Models\Portfolio.cs" />
     <Compile Include="Models\DataBaseAccess.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
