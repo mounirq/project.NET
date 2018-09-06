@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ProjetNet.Models.PortfolioVanille</StartupObject>
+    <StartupObject>ProjetNet.Models.Portfolio</StartupObject>
     <StartupObject>ProjetNet.Models.HistoricalData</StartupObject>
     <StartupObject>ProjetNet.Models.PortfolioBasket</StartupObject>
   </PropertyGroup>
@@ -111,7 +111,7 @@
   <ItemGroup>
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Message.cs" />
-    <Compile Include="Models\PortfolioVanille.cs" />
+    <Compile Include="Models\Portfolio.cs" />
     <Compile Include="Models\DataBaseAccess.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
