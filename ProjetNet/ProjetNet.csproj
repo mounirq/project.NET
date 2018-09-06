@@ -39,7 +39,7 @@
   <PropertyGroup>
     <StartupObject>ProjetNet.Models.Portfolio</StartupObject>
     <StartupObject>ProjetNet.Models.HistoricalData</StartupObject>
-    <StartupObject>ProjetNet.Models.PortfolioBasket</StartupObject>
+    <StartupObject>ProjetNet.Models.Portfolio</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>

@@ -75,6 +75,7 @@ namespace ProjetNet.Models
                 optionValue[0] = callPrice;
                 portfolioValue[0] = portfolio.currentPortfolioValue;
 
+                int indexArrays = 1;
                 /* Skip the first day : because it's already initialized*/
                 foreach (DataFeed data in dataFeeds.Skip(1))
                 {
@@ -82,14 +83,25 @@ namespace ProjetNet.Models
                     {
                         portfolio.updateValue(spot, data, pricer, callOption, volatility, numberOfDaysPerYear);
                         spot = updateSpot(data, share[0]);
+
+                        double pricing = getPricingResult(data, callOption, pricer, volatility, numberOfDaysPerYear);
+                        
+                        /* Fill arrays of optionValue and portfolioValue */
+                        optionValue[indexArrays] = pricing;
+                        portfolioValue[indexArrays] = portfolio.currentPortfolioValue;
+
+                        Console.WriteLine("Valeur option = " + optionValue[indexArrays]);
+                        Console.WriteLine("Valeur portefeuille = " + portfolioValue[indexArrays]);
+
                     }
 
-                    /* For the last day :  */
+                    /* For the last day : */
                     else
                     {
                         portfolio.currentDate = data.Date;
                         payoff = callOption.GetPayoff(data.PriceList);
                     }
+                    indexArrays++;
                 }
 
                 double valuePortfolio = (portfolio.currentPortfolioValue - payoff) / portfolio.firstPortfolioValue;
@@ -101,6 +113,16 @@ namespace ProjetNet.Models
                 Console.WriteLine("Valeur = " + finalportfolioValue);
             }
         }
+
+        private static double getPricingResult(DataFeed data, VanillaCall callOption, Pricer pricer, double volatility, int numberOfDaysPerYear)
+        {
+            DateTime currentDay = data.Date;
+            double spot = (double)data.PriceList[callOption.UnderlyingShare.Id];
+            PricingResults pricingResults = pricer.PriceCall(callOption, currentDay, numberOfDaysPerYear, spot, volatility);
+            return pricingResults.Price;
+        }
+
+
 
         #region Public Methods
 
@@ -154,10 +176,11 @@ namespace ProjetNet.Models
                 if (i != 0 && i != totalDays)
                 {
                     currentDay = data.Date;
-                    double freeRate = RiskFreeRateProvider.GetRiskFreeRateAccruedValue(1 / numberOfDaysPerYear);
                     spot = (double)data.PriceList[share.Id];
                     pricingResults = pricer.PriceCall(callOption, currentDay, numberOfDaysPerYear, spot, volatility);
                     currentDelta = pricingResults.Deltas[0];
+
+                    double freeRate = RiskFreeRateProvider.GetRiskFreeRateAccruedValue(1 / numberOfDaysPerYear);
                     riskFreecash = (prevDelta - currentDelta) * spot + riskFreecash * freeRate;
                     this.currentPortfolioValue = currentDelta * spot + riskFreecash;
                     prevDelta = currentDelta;
