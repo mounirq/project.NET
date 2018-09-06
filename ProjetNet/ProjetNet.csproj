@@ -38,7 +38,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>ProjetNet.Models.HistoricalData</StartupObject>
-    <StartupObject>ProjetNet.Models.HistoricalDataProvider</StartupObject>
+    <StartupObject>ProjetNet.Models.ComputingMatrix</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -91,6 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\ComputingMatrix.cs" />
     <Compile Include="ViewModels\AbstractDataProviderViewModel.cs" />
     <Compile Include="ViewModels\SimulatedDataProviderViewModel.cs" />
     <Page Include="MainWindow.xaml">

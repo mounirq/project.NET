@@ -45,7 +45,7 @@ namespace ProjetNet.Models
             Double[] weights = { 0.3, 0.7 };
             DateTime maturityBasket = new DateTime(2019, 09, 04);
             IOption optionBasket = new BasketOption(nameBasket, sharesBasket, weights, maturityBasket, strikeBasket);
-            var simulationBasket = simulatedData.GetDataFeeds(optionBasket, from);
+            List<DataFeed> simulationBasket = simulatedData.GetDataFeeds(optionBasket, from);
 
             Console.WriteLine("\n\n\n\n");
             Console.WriteLine("************************************");
@@ -56,7 +56,11 @@ namespace ProjetNet.Models
                 Console.WriteLine("\n\n\n\n" + element.Date.ToString() + "\n" + string.Join(",", element.PriceList.Select(kv => kv.Key + "=" + kv.Value).ToArray()));
             }
             Console.WriteLine("**************End of simulation BasketOption****************");
-
+            String[] id = simulationBasket[0].PriceList.Keys.ToArray();
+            Console.WriteLine("Basket ID : " + id[0] + " et " + id[1]);
+            Console.WriteLine("Basket : " + simulationBasket[0].PriceList.Keys.ToString());
+            Console.WriteLine("Vanille : " + lst[0].PriceList.Count);
+            Console.WriteLine("Vanille dates : " + lst.Count);
             Console.ReadKey(true);
         }
     }
