@@ -1,6 +1,8 @@
-.vs/ProjetNet/v15
 packages
+<<<<<<< HEAD
 ProjetNet/ProjetNet.csproj.user
+=======
+>>>>>>> 021e7e71d9f4d9df61c7498349e7b239a9e6ee0e
 ProjetNet/obj
 ProjetNet/bin
 .vs
