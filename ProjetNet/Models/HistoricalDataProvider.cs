@@ -28,7 +28,7 @@ namespace ProjetNet.Models
                     Dictionary<string, decimal> priceList = new Dictionary<string, decimal>();
                     foreach (string id in underlyingIds)
                     {
-                        decimal price = req.First(el => (DateTime.Compare(el.date,d)==0 && (el.id.Trim() == id.Trim()))).value;
+                        decimal price = req.First(el => (DateTime.Compare(el.date, d) == 0 && (el.id.Trim() == id.Trim()))).value;
                         priceList.Add(id, price);
                     }
                     r.Add(new DataFeed(d, priceList));
@@ -37,7 +37,7 @@ namespace ProjetNet.Models
             }
         }
 
-       /* public static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // header
             Console.WriteLine("***********************");
@@ -48,7 +48,7 @@ namespace ProjetNet.Models
             DateTime maturity = new DateTime(2010, 01, 12);
             Share share1 = new Share("ACCOR SA", "AC FP");
             Share share2 = new Share("CREDIT AGRICOLE SA", "ACA FP");
-            Share[] underlyingShares = new Share[] {share1, share2};
+            Share[] underlyingShares = new Share[] { share1, share2 };
             double[] weights = new double[] { 0.3, 0.7 };
             double strike = 7000;
             IOption option = new BasketOption("panier", underlyingShares, weights, maturity, strike);
@@ -59,6 +59,6 @@ namespace ProjetNet.Models
             }
             Console.WriteLine("**************End of Loading****************");
             Console.ReadKey(true);
-        }*/
+        }
     }
 }

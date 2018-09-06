@@ -39,7 +39,7 @@
   <PropertyGroup>
     <StartupObject>ProjetNet.Models.PortfolioVanille</StartupObject>
     <StartupObject>ProjetNet.Models.HistoricalData</StartupObject>
-    <StartupObject>ProjetNet.Models.PortfolioVanille</StartupObject>
+    <StartupObject>ProjetNet.Models.PortfolioBasket</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -92,6 +92,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\PortfolioBasket.cs" />
     <Compile Include="ViewModels\AbstractDataProviderViewModel.cs" />
     <Compile Include="ViewModels\SimulatedDataProviderViewModel.cs" />
     <Page Include="MainWindow.xaml">
