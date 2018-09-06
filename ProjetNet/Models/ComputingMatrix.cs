@@ -191,7 +191,7 @@ namespace ProjetNet.Models
             double strikeBasket = 7000;
             Share[] sharesBasket = { share1, share2, share3, share4 };
             Double[] weights = { 0.2, 0.5, 0.2, 0.1 };
-            DateTime maturityBasket = new DateTime(2018, 09, 10);
+            DateTime maturityBasket = new DateTime(2150, 09, 10);
             IOption optionBasket = new BasketOption(nameBasket, sharesBasket, weights, maturityBasket, strikeBasket);
             List<DataFeed> simulationBasket = simulatedData.GetDataFeeds(optionBasket, from);
 
