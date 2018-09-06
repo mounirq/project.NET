@@ -40,7 +40,7 @@
     <StartupObject>ProjetNet.Models.Portfolio</StartupObject>
     <StartupObject>ProjetNet.Models.HistoricalData</StartupObject>
     <StartupObject>ProjetNet.Models.ComputingMatrix</StartupObject>
-    <StartupObject>ProjetNet.Models.ComputingMatrix</StartupObject>
+    <StartupObject>ProjetNet.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -94,9 +94,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\ComputingMatrix.cs" />
+    <Compile Include="Models\HedgingTool.cs" />
     <Compile Include="Models\PortfolioBasket.cs" />
+    <Compile Include="Models\ShareName.cs" />
+    <Compile Include="Models\UserInput.cs" />
     <Compile Include="ViewModels\AbstractDataProviderViewModel.cs" />
     <Compile Include="ViewModels\SimulatedDataProviderViewModel.cs" />
+    <Compile Include="ViewModels\UserInputViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

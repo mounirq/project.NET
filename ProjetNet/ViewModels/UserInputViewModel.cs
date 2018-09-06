@@ -1,13 +1,14 @@
 ﻿using PricingLibrary.FinancialProducts;
+using ProjetNet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjetNet.Models
+namespace ProjetNet.ViewModels
 {
-    internal class UserInput
+    internal class UserInputViewModel
     {
         #region Private Fields
 
@@ -17,16 +18,16 @@ namespace ProjetNet.Models
         private String[] _undelyingsIds;
         private Double[] _weights;
         private DateTime _startDateTest;
-        private IDataProvider _dataType;
+        private AbstractDataProviderViewModel _dataType;
         private int _estimationStep;
 
         #endregion Private Fields
 
         #region Public Constructors
 
-        public UserInput(){ }
+        public UserInputViewModel() { }
 
-        public UserInput(string optionType, DateTime maturity, double strike, string[] undelyingsIds, double[] weights, DateTime startDateTest, IDataProvider dataType, int estimationStep)
+        public UserInputViewModel(string optionType, DateTime maturity, double strike, string[] undelyingsIds, double[] weights, DateTime startDateTest, AbstractDataProviderViewModel dataType, int estimationStep)
         {
             _optionType = optionType;
             _maturity = maturity;
@@ -78,7 +79,7 @@ namespace ProjetNet.Models
             set { _startDateTest = value; }
         }
 
-        public IDataProvider DataType
+        public AbstractDataProviderViewModel DataType
         {
             get { return _dataType; }
             set { _dataType = value; }
@@ -87,7 +88,8 @@ namespace ProjetNet.Models
         public int EstimationStep
         {
             get { return _estimationStep; }
-            set {
+            set
+            {
                 _estimationStep = value;
             }
         }
@@ -96,19 +98,26 @@ namespace ProjetNet.Models
 
         #region Public Methods
 
-        public IOption constructOption() 
+        public IOption constructOption()
         {
             IOption option = null;
 
-            if (!(Weights==null) && Weights.Sum() != 1)
+            if (!(Weights == null) && Weights.Sum() != 1)
             {
                 throw new ArgumentException("The sum of the weights must equal");
             }
             List<Share> underlyingsShares = new List<Share>();
             foreach (string underlyingId in UnderlyingsIds)
             {
-                String underlyingName = ShareName.GetShareName(underlyingId);
-                underlyingsShares.Add(new Share(underlyingName, underlyingId));
+                if (DataType.Name == "Historical")
+                {
+                    String underlyingName = ShareName.GetShareName(underlyingId);
+                    underlyingsShares.Add(new Share(underlyingName, underlyingId));
+                }                    
+                else
+                {
+                    underlyingsShares.Add(new Share(underlyingId, underlyingId));
+                }
             }
             if (OptionType.Equals("VanillaCall"))
             {
@@ -116,7 +125,7 @@ namespace ProjetNet.Models
             }
             else if (OptionType.Equals("BasketOption"))
             {
-                option = new BasketOption(OptionType, underlyingsShares.ToArray(), Weights,  Maturity, Strike);
+                option = new BasketOption(OptionType, underlyingsShares.ToArray(), Weights, Maturity, Strike);
             }
             else
             {
