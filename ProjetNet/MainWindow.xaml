@@ -8,9 +8,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Margin="54,54,21,9">
-        <TextBlock HorizontalAlignment="Left" Margin="31,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Width="308">
-        <Run Text="This is the welcome message : " />
-        <Run Text="{Binding HelloMessage.HelloWorldMessage,Mode=OneWay}" />
+        <TextBlock Margin="10,6,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Text="Welcome to TesterApp" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
         </TextBlock>
 
         <lvc:CartesianChart Series="{Binding windowPlotVM.SeriesCollection}" LegendLocation="Right" >
@@ -21,6 +27,4 @@
                 <lvc:Axis Title="Month" Labels="{Binding windowPlotVM.Labels}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
-
-    </Grid>
 </Window>

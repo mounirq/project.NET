@@ -26,86 +26,36 @@ namespace ProjetNet.Models
             }
             return assets;
         }
-        
-        // import WRE dlls -Log-
-        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
 
-        // declaration
-        public static extern int WREmodelingLogReturns(
-            ref int nbValues,
-            ref int nbAssets,
-            double[,] assetsValues,
-            ref int horizon,
-            double[,] assetsReturns,
-            ref int info
-        );
+
+
+        // notre calcul
         private double[,] computeLogAssets(double[,] assetValues)
         {
-
             int nbValues = assetValues.GetLength(0);
             int nbAssets = assetValues.GetLength(1);
-            int info = 0;
-            int res;
-            int horizon = 1;
-            double[,] assetReturns = new double[nbValues-1, nbAssets];
-            res = WREmodelingLogReturns(ref nbValues, ref nbAssets, assetValues, ref horizon, assetReturns, ref info);
-            if (res != 0)
+            double[,] assetReturns = new double[nbValues - 1, nbAssets];
+            for (int i = 0; i < nbValues - 1; i++)
             {
-                if (res < 0)
-                    throw new Exception("ERROR: WREmodelingCov encountred a problem. See info parameter for more details");
-                else
-                    throw new Exception("WARNING: WREmodelingCov encountred a problem. See info parameter for more details");
+                for (int j = 0; j < nbAssets; j++)
+                {
+                    assetReturns[i, j] = (double)Math.Log(assetValues[i+1,j]/ assetValues[i,j]);
+                }
             }
             return assetReturns;
         }
 
-
-        // import WRE dlls -Cov-
-        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
-
-        // declaration
-        public static extern int WREmodelingCov(
-            ref int returnsSize,
-            ref int nbSec,
-            double[,] secReturns,
-            double[,] covMatrix,
-            ref int info
-        );
-
         public double[,] computeCovarianceMatrix(double[,] returns)
         {
-            int dataSize = returns.GetLength(0);
-            int nbAssets = returns.GetLength(1);
-            double[,] covMatrix = new double[nbAssets, nbAssets];
-            int info = 0;
-            int res;
-            res = WREmodelingCov(ref dataSize, ref nbAssets, returns, covMatrix, ref info);
-            if (res != 0)
-            {
-                if (res < 0)
-                    throw new Exception("ERROR: WREmodelingCov encountred a problem. See info parameter for more details");
-                else
-                    throw new Exception("WARNING: WREmodelingCov encountred a problem. See info parameter for more details");
-            }
-            return covMatrix;
+            return Accord.Statistics.Measures.Covariance(returns);
         }
+
 
         public double[,] constructCovarianceMatrix(List<DataFeed> dataFeedList)
         {
             double[,] assetValues = getAssetValues(dataFeedList);
             double[,] logAssests = computeLogAssets(assetValues);
             double[,] covMatrix = computeCovarianceMatrix(logAssests);
-
-            //int size = dailyCovMatrix.GetLength(0);
-            //SimulatedDataFeedProvider truc = new SimulatedDataFeedProvider();
-            //double[,] covMatrix = new double[size, size];
-            //for (int i = 0; i < size; i++)
-            //{
-            //    for (int j = 0; j < size; j++)
-            //    {
-            //        covMatrix[i, j] = Math.Sqrt(dailyCovMatrix[i, j] * truc.NumberOfDaysPerYear);
-            //    }
-            //}
             return covMatrix;
         }
 
@@ -138,6 +88,76 @@ namespace ProjetNet.Models
         }
 
 
+
+        // Calcul WRE
+
+
+        // import WRE dlls -Log-
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
+
+        // declaration
+        public static extern int WREmodelingLogReturns(
+            ref int nbValues,
+            ref int nbAssets,
+            double[,] assetsValues,
+            ref int horizon,
+            double[,] assetsReturns,
+            ref int info
+        );
+        private double[,] computeLeurLogAssets(double[,] assetValues)
+        {
+
+            int nbValues = assetValues.GetLength(0);
+            int nbAssets = assetValues.GetLength(1);
+            int info = 0;
+            int res;
+            int horizon = 1;
+            double[,] assetReturns = new double[nbValues-1, nbAssets];
+            res = WREmodelingLogReturns(ref nbValues, ref nbAssets, assetValues, ref horizon, assetReturns, ref info);
+            if (res != 0)
+            {
+                if (res < 0)
+                    throw new Exception("ERROR: WREmodelingCov encountred a problem. See info parameter for more details");
+                else
+                    throw new Exception("WARNING: WREmodelingCov encountred a problem. See info parameter for more details");
+            }
+            return assetReturns;
+        }
+
+
+        // import WRE dlls -Cov-
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
+
+        // declaration
+        public static extern int WREmodelingCov(
+            ref int returnsSize,
+            ref int nbSec,
+            double[,] secReturns,
+            double[,] covMatrix,
+            ref int info
+        );
+
+        public double[,] computeLeurCovarianceMatrix(double[,] returns)
+        {
+            int dataSize = returns.GetLength(0);
+            int nbAssets = returns.GetLength(1);
+            double[,] covMatrix = new double[nbAssets, nbAssets];
+            int info = 0;
+            int res;
+            res = WREmodelingCov(ref dataSize, ref nbAssets, returns, covMatrix, ref info);
+            if (res != 0)
+            {
+                if (res < 0)
+                    throw new Exception("ERROR: WREmodelingCov encountred a problem. See info parameter for more details");
+                else
+                    throw new Exception("WARNING: WREmodelingCov encountred a problem. See info parameter for more details");
+            }
+            return covMatrix;
+        }
+
+        
+
+
         // import WRE dlls -Corr-
         [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
 
@@ -150,7 +170,7 @@ namespace ProjetNet.Models
             ref int info
         );
 
-        public double[,] computeCorrelationMatrix(double[,] returns)
+        public double[,] computeLeurCorrelationMatrix(double[,] returns)
         {
             int dataSize = returns.GetLength(0);
             int nbAssets = returns.GetLength(1);
@@ -171,23 +191,17 @@ namespace ProjetNet.Models
         public double[,] constructLeurCorrelationMatrix(List<DataFeed> dataFeedList, int horizon)
         {
             double[,] assetValues = getAssetValues(dataFeedList);
-            double[,] logAssests = computeLogAssets(assetValues);
-            double[,] corrMatrix = computeCorrelationMatrix(logAssests);
+            double[,] logAssests = computeLeurLogAssets(assetValues);
+            double[,] corrMatrix = computeLeurCorrelationMatrix(logAssests);
             return corrMatrix;
         }
+        
 
 
-
-
-
-
-
-
-
+        //test
 
         public static void Main(string[] args)
         {
-            // header
             var simulatedData = new SimulatedDataProvider();
             var computingMatrix = new ComputingMatrix();
             DateTime from = new DateTime(2018, 09, 04);
@@ -199,10 +213,12 @@ namespace ProjetNet.Models
             double strikeBasket = 7000;
             Share[] sharesBasket = { share1, share2, share3, share4 };
             Double[] weights = { 0.2, 0.5, 0.2, 0.1 };
-            DateTime maturityBasket = new DateTime(2018, 09, 10);
+            DateTime maturityBasket = new DateTime(2150, 09, 10);
             IOption optionBasket = new BasketOption(nameBasket, sharesBasket, weights, maturityBasket, strikeBasket);
             List<DataFeed> simulationBasket = simulatedData.GetDataFeeds(optionBasket, from);
 
+
+            // Avec notre calcul
             var correlationMatrix = computingMatrix.constructCorrelationMatrix(simulationBasket);
             int size = correlationMatrix.GetLength(0);
             Console.WriteLine("notre matrice de correlation est : ");
@@ -215,6 +231,8 @@ namespace ProjetNet.Models
                 Console.Write("\n");
             }
 
+
+            // Avec WRE calcul
             var leurcorrelationMatrix = computingMatrix.constructLeurCorrelationMatrix(simulationBasket, 1);
             int leurSize = leurcorrelationMatrix.GetLength(0);
             Console.WriteLine("\n \n \n WRE matrice de correlation est : \n ");
