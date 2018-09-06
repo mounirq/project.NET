@@ -43,7 +43,7 @@ namespace ProjetNet.Models
             Console.WriteLine("***********************");
             Console.WriteLine("*    Test Load Data   *");
             Console.WriteLine("***********************");
-            var HistoricalData = new HistoricalData();
+            var HistoricalData = new HistoricalDataProvider();
             DateTime from = new DateTime(2010, 01, 01);
             DateTime maturity = new DateTime(2010, 01, 12);
             Share share1 = new Share("ACCOR SA", "AC FP");
