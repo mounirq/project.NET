@@ -175,15 +175,7 @@ namespace ProjetNet.Models
             double[,] corrMatrix = computeCorrelationMatrix(logAssests);
             return corrMatrix;
         }
-
-
-
-
-
-
-
-
-
+        
 
         public static void Main(string[] args)
         {
