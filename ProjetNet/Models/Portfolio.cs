@@ -38,7 +38,7 @@ namespace ProjetNet.Models
 
         public static void Main(string[] args)
         {
-            int strike = 7;
+            int strike = 9;
             double volatility = 0.4;
             DateTime maturity = new DateTime(2019, 09, 04);
             DateTime beginDate = new DateTime(2018, 09, 04);
@@ -59,6 +59,9 @@ namespace ProjetNet.Models
                 portfolio.portfolioComposition = new Dictionary<String, double>();
 
                 Pricer pricer = new Pricer();
+
+
+
                 double spot = (double)dataFeeds[0].PriceList[share[0].Id];
                 PricingResults pricingResults = pricer.PriceCall(callOption, beginDate, totalDays, spot, volatility);
                 double callPrice = pricingResults.Price;
@@ -79,14 +82,15 @@ namespace ProjetNet.Models
                 /* Skip the first day : because it's already initialized*/
                 foreach (DataFeed data in dataFeeds.Skip(1))
                 {
-                    if(data != dataFeeds.Last())
+                    if (data != dataFeeds.Last())
                     {
                         portfolio.updateValue(spot, data, pricer, callOption, volatility, numberOfDaysPerYear);
                         spot = updateSpot(data, share[0]);
 
                         double pricing = getPricingResult(data, callOption, pricer, volatility, numberOfDaysPerYear);
-                        
+
                         /* Fill arrays of optionValue and portfolioValue */
+
                         optionValue[indexArrays] = pricing;
                         portfolioValue[indexArrays] = portfolio.currentPortfolioValue;
 
@@ -104,8 +108,21 @@ namespace ProjetNet.Models
                     indexArrays++;
                 }
 
-                double valuePortfolio = (portfolio.currentPortfolioValue - payoff) / portfolio.firstPortfolioValue;
-                Console.WriteLine("Valeur = " + valuePortfolio);
+                /* Partie traçage de courbes */
+                using (System.IO.StreamWriter file =
+               new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\WriteLines.txt"))
+                {
+                    for (int index = 0; index < totalDays; index++)
+                    {
+                        // If the line doesn't contain the word 'Second', write the line to the file.
+                        file.WriteLine(optionValue[index]);
+                        file.WriteLine(portfolioValue[index]);
+                    }
+                }
+
+
+                //double valuePortfolio = (portfolio.currentPortfolioValue - payoff) / portfolio.firstPortfolioValue;
+                //Console.WriteLine("Valeur = " + valuePortfolio);
 
                 Portfolio portefolioTest = new Portfolio();
                 double finalportfolioValue = portfolio.updatePortfolioValue(pricer, callOption, dataFeeds, numberOfDaysPerYear, share[0], totalDays, volatility, beginDate);
@@ -197,9 +214,9 @@ namespace ProjetNet.Models
                 i++;
             }
 
-            /* Partie traçage de courbes
+            /* Partie traçage de courbes*/
             using (System.IO.StreamWriter file =
-           new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\WriteLines.txt"))
+           new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\WriteLinesVanille.txt"))
             {
                 for (int index= 0; index < totalDays; index++)
                 {
@@ -208,7 +225,7 @@ namespace ProjetNet.Models
                     file.WriteLine(portfolioValue[index]);
                 }
             }
-            */
+            
             return (this.currentPortfolioValue - payoff) / this.firstPortfolioValue;
 
         }
