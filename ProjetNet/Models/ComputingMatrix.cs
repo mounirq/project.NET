@@ -29,33 +29,33 @@ namespace ProjetNet.Models
 
 
 
-        // notre calcul
-        //private double[,] computeLogAssets(double[,] assetValues)
-        //{
-        //    int nbValues = assetValues.GetLength(0);
-        //    int nbAssets = assetValues.GetLength(1);
-        //    double[,] assetReturns = new double[nbValues - 1, nbAssets];
-        //    for (int i = 0; i < nbValues - 1; i++)
-        //    {
-        //        for (int j = 0; j < nbAssets; j++)
-        //        {
-        //            assetReturns[i, j] = (double)Math.Log(assetValues[i+1,j]/ assetValues[i,j]);
-        //        }
-        //    }
-        //    return assetReturns;
-        //}
+        //notre calcul
+        private double[,] computeLogAssets(double[,] assetValues)
+        {
+            int nbValues = assetValues.GetLength(0);
+            int nbAssets = assetValues.GetLength(1);
+            double[,] assetReturns = new double[nbValues - 1, nbAssets];
+            for (int i = 0; i < nbValues - 1; i++)
+            {
+                for (int j = 0; j < nbAssets; j++)
+                {
+                    assetReturns[i, j] = (double)Math.Log(assetValues[i + 1, j] / assetValues[i, j]);
+                }
+            }
+            return assetReturns;
+        }
 
-        //public double[,] computeCovarianceMatrix(double[,] returns)
-        //{
-        //    return Accord.Statistics.Measures.Covariance(returns);
-        //}
+        public double[,] computeCovarianceMatrix(double[,] returns)
+        {
+            return Accord.Statistics.Measures.Covariance(returns);
+        }
 
 
         public double[,] constructCovarianceMatrix(List<DataFeed> dataFeedList)
         {
             double[,] assetValues = getAssetValues(dataFeedList);
-            double[,] logAssests = computeWRELogAssets(assetValues);
-            double[,] covMatrix = computeWRECovarianceMatrix(logAssests);
+            double[,] logAssests = computeLogAssets(assetValues);
+            double[,] covMatrix = computeCovarianceMatrix(logAssests);
             return covMatrix;
         }
 
@@ -71,19 +71,6 @@ namespace ProjetNet.Models
             return varianceTable;
         }
 
-        public double[] constructVolatilityTable(List<DataFeed> dataFeedList)
-        {
-            SimulatedDataFeedProvider simulator = new SimulatedDataFeedProvider();
-            int numberOfDaysPerYear = simulator.NumberOfDaysPerYear;
-            var covarianceMatrix = constructCovarianceMatrix(dataFeedList);
-            int size = covarianceMatrix.GetLength(0);
-            double[] volatilityTable = new Double[size];
-            for (int i = 0; i < size; i++)
-            {
-                volatilityTable[i] = Math.Sqrt(covarianceMatrix[i, i] * numberOfDaysPerYear);
-            }
-            return volatilityTable;
-        }
 
         public double[,] constructCorrelationMatrix(List<DataFeed> dataFeedList)
         {
@@ -101,6 +88,21 @@ namespace ProjetNet.Models
             return correlationMatrix;
         }
 
+
+        //Volatility
+        public double[] constructVolatilityTable(List<DataFeed> dataFeedList)
+        {
+            SimulatedDataFeedProvider simulator = new SimulatedDataFeedProvider();
+            int numberOfDaysPerYear = simulator.NumberOfDaysPerYear;
+            var covarianceMatrix = constructCovarianceMatrix(dataFeedList);
+            int size = covarianceMatrix.GetLength(0);
+            double[] volatilityTable = new Double[size];
+            for (int i = 0; i < size; i++)
+            {
+                volatilityTable[i] = Math.Sqrt(covarianceMatrix[i, i] * numberOfDaysPerYear);
+            }
+            return volatilityTable;
+        }
 
 
         // Calcul WRE
@@ -227,7 +229,7 @@ namespace ProjetNet.Models
             double strikeBasket = 7000;
             Share[] sharesBasket = { share1, share2, share3, share4 };
             Double[] weights = { 0.2, 0.5, 0.2, 0.1 };
-            DateTime maturityBasket = new DateTime(2050, 09, 10);
+            DateTime maturityBasket = new DateTime(2500, 09, 10);
             IOption optionBasket = new BasketOption(nameBasket, sharesBasket, weights, maturityBasket, strikeBasket);
             List<DataFeed> simulationBasket = simulatedData.GetDataFeeds(optionBasket, from);
 
