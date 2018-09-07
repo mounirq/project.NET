@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using PricingLibrary.Utilities.MarketDataFeed;
 using System.Runtime.InteropServices;
-using PricingLibrary.FinancialProducts;
 
 
 namespace ProjetNet.Models
@@ -29,33 +28,33 @@ namespace ProjetNet.Models
 
 
 
-        // notre calcul
-        //private double[,] computeLogAssets(double[,] assetValues)
-        //{
-        //    int nbValues = assetValues.GetLength(0);
-        //    int nbAssets = assetValues.GetLength(1);
-        //    double[,] assetReturns = new double[nbValues - 1, nbAssets];
-        //    for (int i = 0; i < nbValues - 1; i++)
-        //    {
-        //        for (int j = 0; j < nbAssets; j++)
-        //        {
-        //            assetReturns[i, j] = (double)Math.Log(assetValues[i+1,j]/ assetValues[i,j]);
-        //        }
-        //    }
-        //    return assetReturns;
-        //}
+        //notre calcul
+        private double[,] computeLogAssets(double[,] assetValues)
+        {
+            int nbValues = assetValues.GetLength(0);
+            int nbAssets = assetValues.GetLength(1);
+            double[,] assetReturns = new double[nbValues - 1, nbAssets];
+            for (int i = 0; i < nbValues - 1; i++)
+            {
+                for (int j = 0; j < nbAssets; j++)
+                {
+                    assetReturns[i, j] = (double)Math.Log(assetValues[i + 1, j] / assetValues[i, j]);
+                }
+            }
+            return assetReturns;
+        }
 
-        //public double[,] computeCovarianceMatrix(double[,] returns)
-        //{
-        //    return Accord.Statistics.Measures.Covariance(returns);
-        //}
+        public double[,] computeCovarianceMatrix(double[,] returns)
+        {
+            return Accord.Statistics.Measures.Covariance(returns);
+        }
 
 
         public double[,] constructCovarianceMatrix(List<DataFeed> dataFeedList)
         {
             double[,] assetValues = getAssetValues(dataFeedList);
-            double[,] logAssests = computeWRELogAssets(assetValues);
-            double[,] covMatrix = computeWRECovarianceMatrix(logAssests);
+            double[,] logAssests = computeLogAssets(assetValues);
+            double[,] covMatrix = computeCovarianceMatrix(logAssests);
             return covMatrix;
         }
 
@@ -71,19 +70,6 @@ namespace ProjetNet.Models
             return varianceTable;
         }
 
-        public double[] constructVolatilityTable(List<DataFeed> dataFeedList)
-        {
-            SimulatedDataFeedProvider simulator = new SimulatedDataFeedProvider();
-            int numberOfDaysPerYear = simulator.NumberOfDaysPerYear;
-            var covarianceMatrix = constructCovarianceMatrix(dataFeedList);
-            int size = covarianceMatrix.GetLength(0);
-            double[] volatilityTable = new Double[size];
-            for (int i = 0; i < size; i++)
-            {
-                volatilityTable[i] = Math.Sqrt(covarianceMatrix[i, i] * numberOfDaysPerYear);
-            }
-            return volatilityTable;
-        }
 
         public double[,] constructCorrelationMatrix(List<DataFeed> dataFeedList)
         {
@@ -101,6 +87,21 @@ namespace ProjetNet.Models
             return correlationMatrix;
         }
 
+
+        //Volatility
+        public double[] constructVolatilityTable(List<DataFeed> dataFeedList)
+        {
+            SimulatedDataFeedProvider simulator = new SimulatedDataFeedProvider();
+            int numberOfDaysPerYear = simulator.NumberOfDaysPerYear;
+            var covarianceMatrix = constructCovarianceMatrix(dataFeedList);
+            int size = covarianceMatrix.GetLength(0);
+            double[] volatilityTable = new Double[size];
+            for (int i = 0; i < size; i++)
+            {
+                volatilityTable[i] = Math.Sqrt(covarianceMatrix[i, i] * numberOfDaysPerYear);
+            }
+            return volatilityTable;
+        }
 
 
         // Calcul WRE
@@ -211,62 +212,5 @@ namespace ProjetNet.Models
         }
         
 
-
-        //test
-
-        public static void Main(string[] args)
-        {
-            var simulatedData = new SimulatedDataProvider();
-            var computingMatrix = new ComputingMatrix();
-            DateTime from = new DateTime(2018, 09, 04);
-            Share share1 = new Share("vod.l", "vod.l");
-            Share share2 = new Share("ftse", "ftse");
-            Share share3 = new Share("sfr", "sfr");
-            Share share4 = new Share("sx5e", "sx5e");
-            string nameBasket = "Basket";
-            double strikeBasket = 7000;
-            Share[] sharesBasket = { share1, share2, share3, share4 };
-            Double[] weights = { 0.2, 0.5, 0.2, 0.1 };
-            DateTime maturityBasket = new DateTime(2050, 09, 10);
-            IOption optionBasket = new BasketOption(nameBasket, sharesBasket, weights, maturityBasket, strikeBasket);
-            List<DataFeed> simulationBasket = simulatedData.GetDataFeeds(optionBasket, from);
-
-
-            // Avec notre calcul
-            var correlationMatrix = computingMatrix.constructCorrelationMatrix(simulationBasket);
-            int size = correlationMatrix.GetLength(0);
-            Console.WriteLine("notre matrice de correlation est : ");
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                {
-                    Console.Write(correlationMatrix[i, j] + new string(' ', 30 - correlationMatrix[i, j].ToString().Length));
-                }
-                Console.Write("\n");
-            }
-
-
-            // Avec WRE calcul
-            var leurcorrelationMatrix = computingMatrix.constructWRECorrelationMatrix(simulationBasket, 1);
-            int leurSize = leurcorrelationMatrix.GetLength(0);
-            Console.WriteLine("\n \n \n WRE matrice de correlation est : \n ");
-            for (int i = 0; i < leurSize; i++)
-            {
-                for (int j = 0; j < leurSize; j++)
-                {
-                    Console.Write(leurcorrelationMatrix[i, j] + new string(' ', 30 - leurcorrelationMatrix[i, j].ToString().Length));
-                }
-                Console.Write("\n");
-            }
-
-            var volatilityTable = computingMatrix.constructVolatilityTable(simulationBasket);
-            int sizevariance = volatilityTable.GetLength(0);
-            Console.WriteLine("\n \n \n la volatilite est : \n ");
-            for (int i = 0; i < leurSize; i++)
-            {
-                Console.WriteLine(volatilityTable[i]);
-            }
-            Console.ReadKey(true);
-        }
     }
 }
