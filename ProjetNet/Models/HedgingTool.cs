@@ -95,9 +95,27 @@ namespace ProjetNet.Models
         }
         #endregion Public Constructors
 
-        #region Public Methods
+        public static void Main(string[] args)
+        {
+            UserInput userInput = new UserInput("VanillaCall", new DateTime(2018, 09, 04), new DateTime(2019, 09, 04), 9, new string[] { "12341" }, new double[] { 1 }, new SimulatedDataProvider(), 30, 60);
+            HedgingTool hedging = new HedgingTool(userInput);
 
-        public IOption constructOption()
+            int size = hedging.OptionValue.Length;
+            using (System.IO.StreamWriter file =
+               new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\WriteLines.txt"))
+            {
+                for (int index = 0; index < size; index++)
+                {
+                    // If the line doesn't contain the word 'Second', write the line to the file.
+                    file.WriteLine(hedging.OptionValue[index]);
+                    file.WriteLine(hedging.PortfolioValue[index]);
+                }
+            }
+        }
+
+            #region Public Methods
+
+            public IOption constructOption()
         {
             IOption option = null;
 
