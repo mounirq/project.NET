@@ -20,6 +20,11 @@ namespace ProjetNet.Models
         private double currentPortfolioValue;
         private DateTime currentDate;
 
+        public double FirstPortfolioValue { get => firstPortfolioValue; set => firstPortfolioValue = value; }
+        public Dictionary<string, double> PortfolioComposition { get => portfolioComposition; set => portfolioComposition = value; }
+        public double CurrentPortfolioValue { get => currentPortfolioValue; set => currentPortfolioValue = value; }
+        public DateTime CurrentDate { get => currentDate; set => currentDate = value; }
+
         #endregion Private Fields
 
         #region Public Constructors

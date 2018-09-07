@@ -11,14 +11,15 @@ namespace ProjetNet.Models
     {
         #region Private Fields
 
-        private String _optionType;
-        private DateTime _maturity;
-        private double _strike;
-        private String[] _undelyingsIds;
-        private Double[] _weights;
-        private DateTime _startDateTest;
-        private IDataProvider _dataType;
-        private int _estimationStep;
+        private String optionType;
+        private DateTime startDate;
+        private DateTime maturity;
+        private double strike;
+        private String[] undelyingsIds;
+        private Double[] weights;
+        private IDataProvider dataType;
+        private int estimationWindow;
+        private int rebalancementFrequency;
 
         #endregion Private Fields
 
@@ -26,16 +27,16 @@ namespace ProjetNet.Models
 
         public UserInput(){ }
 
-        public UserInput(string optionType, DateTime maturity, double strike, string[] undelyingsIds, double[] weights, DateTime startDateTest, IDataProvider dataType, int estimationStep)
+        public UserInput(string optionType, DateTime maturity, double strike, string[] undelyingsIds, double[] weights, DateTime startDate, IDataProvider dataType, int estimationWindow)
         {
-            _optionType = optionType;
-            _maturity = maturity;
-            _strike = strike;
-            _undelyingsIds = undelyingsIds;
-            _weights = weights;
-            _startDateTest = startDateTest;
-            _dataType = dataType;
-            _estimationStep = estimationStep;
+            this.optionType = optionType;
+            this.maturity = maturity;
+            this.strike = strike;
+            this.undelyingsIds = undelyingsIds;
+            this.weights = weights;
+            this.startDate = startDate;
+            this.dataType = dataType;
+            this.estimationWindow = estimationWindow;
         }
 
         #endregion Public Constructors
@@ -44,88 +45,56 @@ namespace ProjetNet.Models
 
         public String OptionType
         {
-            get { return _optionType; }
-            set { _optionType = value; }
+            get { return this.optionType; }
+            set { this.optionType = value; }
         }
 
         public DateTime Maturity
         {
-            get { return _maturity; }
-            set { _maturity = value; }
+            get { return this.maturity; }
+            set { this.maturity = value; }
         }
 
         public Double Strike
         {
-            get { return _strike; }
-            set { _strike = value; }
+            get { return this.strike; }
+            set { this.strike = value; }
         }
 
         public String[] UnderlyingsIds
         {
-            get { return _undelyingsIds; }
-            set { _undelyingsIds = value; }
+            get { return this.undelyingsIds; }
+            set { this.undelyingsIds = value; }
         }
 
         public Double[] Weights
         {
-            get { return _weights; }
-            set { _weights = value; }
+            get { return this.weights; }
+            set { this.weights = value; }
         }
 
-        public DateTime StartDateTest
+        public DateTime StartDate
         {
-            get { return _startDateTest; }
-            set { _startDateTest = value; }
+            get { return this.startDate; }
+            set { this.startDate = value; }
         }
 
         public IDataProvider DataType
         {
-            get { return _dataType; }
-            set { _dataType = value; }
+            get { return this.dataType; }
+            set { this.dataType = value; }
         }
 
-        public int EstimationStep
+        public int EstimationWindow
         {
-            get { return _estimationStep; }
+            get { return this.estimationWindow; }
             set {
-                _estimationStep = value;
+                this.estimationWindow = value;
             }
         }
+
+        public int RebalancementFrequency { get => rebalancementFrequency; set => rebalancementFrequency = value; }
 
         #endregion Public Properties
-
-        #region Public Methods
-
-        public IOption constructOption() 
-        {
-            IOption option = null;
-
-            if (!(Weights==null) && Weights.Sum() != 1)
-            {
-                throw new ArgumentException("The sum of the weights must equal");
-            }
-            List<Share> underlyingsShares = new List<Share>();
-            foreach (string underlyingId in UnderlyingsIds)
-            {
-                String underlyingName = ShareName.GetShareName(underlyingId);
-                underlyingsShares.Add(new Share(underlyingName, underlyingId));
-            }
-            if (OptionType.Equals("VanillaCall"))
-            {
-                option = new VanillaCall(OptionType, underlyingsShares[0], Maturity, Strike);
-            }
-            else if (OptionType.Equals("BasketOption"))
-            {
-                option = new BasketOption(OptionType, underlyingsShares.ToArray(), Weights,  Maturity, Strike);
-            }
-            else
-            {
-                throw new ArgumentException("Unkown OptionType " + OptionType);
-            }
-            return option;
-        }
-
-        #endregion Public Methods
-
     }
 }
