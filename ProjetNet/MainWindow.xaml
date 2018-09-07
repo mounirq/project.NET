@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:ProjetNet"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="855.557" Width="880.888">
-    <Grid Margin="10,4,16,382">
-        <TextBlock Margin="360,12,359,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Text="Welcome to TesterApp" RenderTransformOrigin="0.5,0.5">
+        Title="MainWindow" Height="976.557" Width="880.888">
+    <Grid Margin="10,4,16,418">
+        <TextBlock Margin="360,12,306,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="37" Text="Welcome to TesterApp" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -19,26 +19,16 @@
             </TextBlock.RenderTransform>
         </TextBlock>
 
-        <lvc:CartesianChart Series="{Binding WindowPlotVM.SeriesCollection}" LegendLocation="Right" Margin="-23,486,-2,-376" >
+        <lvc:CartesianChart Series="{Binding WindowPlotVM.SeriesCollection}" LegendLocation="Right" Margin="-9,551,-16,-424" >
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Sales" LabelFormatter="{Binding WindowPlotVM.YFormatter}"></lvc:Axis>
+                <lvc:Axis Title="Values" LabelFormatter="{Binding WindowPlotVM.YFormatter}"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Month" Labels="{Binding WindowPlotVM.Labels}"></lvc:Axis>
+                <lvc:Axis Title="Time" Labels="{Binding WindowPlotVM.Labels}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="87,92,0,0" TextWrapping="Wrap" Text="Strike" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged_1"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="91,135,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="24"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="136,135,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="24"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="177,135,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="24"/>
-        <TextBlock HorizontalAlignment="Left" Margin="124,136,0,0" TextWrapping="Wrap" Text="/" VerticalAlignment="Top" Width="12" Height="22" RenderTransformOrigin="-14.633,-1.954"/>
-        <TextBlock HorizontalAlignment="Left" Margin="165,136,0,0" TextWrapping="Wrap" Text="/" VerticalAlignment="Top" Width="12" Height="22" RenderTransformOrigin="-14.633,-1.954"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="91,237,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="24"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="136,237,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="24"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="177,237,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="24"/>
-        <TextBlock HorizontalAlignment="Left" Margin="124,238,0,0" TextWrapping="Wrap" Text="/" VerticalAlignment="Top" Width="12" Height="22" RenderTransformOrigin="-14.633,-1.954"/>
-        <TextBlock HorizontalAlignment="Left" Margin="165,238,0,0" TextWrapping="Wrap" Text="/" VerticalAlignment="Top" Width="12" Height="22" RenderTransformOrigin="-14.633,-1.954"/>
-        <TextBlock Margin="3,53,770,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="95,310,0,0" TextWrapping="Wrap" Text="Strike" VerticalAlignment="Top" Width="138" TextChanged="TextBox_TextChanged_1"/>
+        <TextBlock Margin="11,271,762,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -47,7 +37,7 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform><Run Text="TypeOption"/><Run Text=" :"/><Run Text=" "/><Run Text=" "/></TextBlock>
-        <TextBlock Margin="6,93,771,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Strike :" RenderTransformOrigin="0.5,0.5">
+        <TextBlock Margin="14,311,763,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Strike :" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -57,9 +47,9 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <CheckBox Content="VanillaCall" HorizontalAlignment="Left" Margin="87,55,0,0" VerticalAlignment="Top"/>
-        <CheckBox Content="BasketOption" HorizontalAlignment="Left" Margin="165,55,0,0" VerticalAlignment="Top"/>
-        <TextBlock Margin="5,134,772,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Maturity :" RenderTransformOrigin="0.5,0.5">
+        <CheckBox Content="VanillaCall" HorizontalAlignment="Left" Margin="95,273,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="BasketOption" HorizontalAlignment="Left" Margin="173,273,0,0" VerticalAlignment="Top"/>
+        <TextBlock Margin="13,352,764,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Maturity :" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -69,7 +59,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock Margin="4,179,773,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Underlying :" RenderTransformOrigin="0.5,0.5">
+        <TextBlock Margin="12,397,765,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Underlying :" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -79,12 +69,70 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <ComboBox ItemsSource="{Binding ComponentInfoList}" SelectedItem="{Binding UniverseVM.TopologyVM}" Margin="86,178,641,239" Text="Underlying">
+        <ComboBox ItemsSource="{Binding ComponentExistingSharesIds}" Margin="94,396,633,100" Text="Underlying">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
+        <TextBlock Margin="12,70,761,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform><Run Text="Test Type"/><Run Text=" :"/><Run Text=" "/><Run Text=" "/></TextBlock>
+
+        <Button Command="{Binding PlotCommand}" VerticalAlignment="Center" Margin="371,398,339,72" Padding="5,2,5,2" Height="34">Compute Test</Button>
+        <TextBlock Margin="13,115,764,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Start Date :" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <TextBox HorizontalAlignment="Left" Height="29" Margin="94,155,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="139" TextChanged="TextBox_TextChanged_1"/>
+        <TextBlock Margin="13,151,758,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform><Run Text="Rebalancing "/><Run Text="In"/><Run Text="terval"/><Run Text=" :"/></TextBlock>
+        <TextBox HorizontalAlignment="Left" Height="29" Margin="94,198,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="139" TextChanged="TextBox_TextChanged_1"/>
+        <TextBlock Margin="13,194,764,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" RenderTransformOrigin="0.5,0.5" Text="Estimation Window :">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform></TextBlock>
+        <DatePicker SelectedDate ="{Binding start}" HorizontalAlignment="Left" Margin="94,113,0,0" VerticalAlignment="Top"/>
+        <DatePicker HorizontalAlignment="Left" Margin="94,113,0,0" VerticalAlignment="Top"/>
+        <DatePicker HorizontalAlignment="Left" Margin="94,113,0,0" VerticalAlignment="Top"/>
+        <!--<ComboBox VerticalAlignment="Center" Margin="10,5,10,5" Padding="5,2,5,2" Width="96" SelectionChanged="ComboBox_SelectionChanged" >-->
+        <ListBox ItemsSource="{Binding ComponentDatatypeList}" SelectedItem="{Binding UserInputVM.DataType}" Margin="85,63,586,417" IsSynchronizedWithCurrentItem="True" Background="{x:Null}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton Content="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!--<StackPanel  Name="rbHolder1" Orientation="Horizontal">
+            <RadioButton GroupName="UserType" >Retail</RadioButton>
+            <RadioButton GroupName="UserType" IsChecked="True">Wholesale</RadioButton>
+        </StackPanel>-->
+        <!--</ComboBox>-->
     </Grid>
 </Window>

@@ -20,12 +20,12 @@ namespace ProjetNet.Test
             double strikeBasket = 7000;
             Share[] sharesBasket = { share1, share2, share3, share4 };
             Double[] weights = { 0.2, 0.5, 0.2, 0.1 };
-            DateTime maturityBasket = new DateTime(2015, 01, 20);
+            DateTime maturityBasket = new DateTime(2151, 01, 20);
             IOption optionBasket = new BasketOption(nameBasket, sharesBasket, weights, maturityBasket, strikeBasket);
             List<DataFeed> simulationBasket = simulatedData.GetDataFeeds(optionBasket, from);
 
 
-            ParametersEstimation parameters = new ParametersEstimation(simulationBasket, new DateTime(2011, 01, 20),200);
+            ParametersEstimation parameters = new ParametersEstimation(simulationBasket, new DateTime(2150, 01, 20),15000);
             var correlationMatrix = parameters.Correlation;
             int Size = correlationMatrix.GetLength(0);
             Console.WriteLine("\n \n \n La matrice de correlation est : \n ");

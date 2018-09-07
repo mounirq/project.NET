@@ -31,7 +31,7 @@ namespace ProjetNet
         {
             WindowPlotVM = new PlotViewModel();
             UserInputVM = new UserInputViewModel();
-            HedgingToolVM = new HedgingToolViewModel(UserInputVM);
+            //HedgingToolVM = new HedgingToolViewModel(UserInputVM);
 
             ComponentDatatypeList = new ObservableCollection<AbstractDataProviderViewModel>()
             {
