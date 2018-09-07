@@ -23,18 +23,16 @@ namespace ProjetNet.Models
 
         #region Public Constructors
 
-        public HedgingTool(UserInput userInput)
+        public void update()
         {
-            this.userInput = userInput;
-
             this.optionValue = new List<double>();
             this.portfolioValue = new List<double>();
 
             IOption option = constructOption();
 
             List<DataFeed> dataFeeds;
-            
-            DateTime startDateOfEstimation = userInput.StartDate.AddDays(-2*userInput.EstimationWindow);
+
+            DateTime startDateOfEstimation = userInput.StartDate.AddDays(-2 * userInput.EstimationWindow);
 
             if (userInput.DataType.GetType() == typeof(HistoricalDataProvider))
             {
@@ -70,15 +68,15 @@ namespace ProjetNet.Models
             portfolioValue.Add(returnedValue[1]);
 
             List<DataFeed> dataFeedSkipped = new List<DataFeed>(); ;
-            for(int j = userInput.EstimationWindow; j<dataFeeds.Count; j++)
+            for (int j = userInput.EstimationWindow; j < dataFeeds.Count; j++)
             {
                 dataFeedSkipped.Add(dataFeeds[j]);
             }
 
             int i = 1;
-            foreach(DataFeed data in dataFeedSkipped.Skip(1))
+            foreach (DataFeed data in dataFeedSkipped.Skip(1))
             {
-                if(i % userInput.RebalancementFrequency == 0 && !data.Date.Equals(dataFeedSkipped.Last().Date) )
+                if (i % userInput.RebalancementFrequency == 0 && !data.Date.Equals(dataFeedSkipped.Last().Date))
                 {
                     currentDay = data.Date;
                     //parameters = parametersEstimation(dataFeeds, currentDay, userInput.EstimationWindow);
@@ -88,14 +86,22 @@ namespace ProjetNet.Models
                 }
                 i++;
             }
+        }
 
+        public HedgingTool(UserInput userInput)
+        {
+            this.userInput = userInput;
         }
         #endregion Public Constructors
 
         public static void Main(string[] args)
         {
-            UserInput userInput = new UserInput("VanillaCall", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "12341" }, new double[] { 1 }, new SimulatedDataProvider(), 10, 20);
+            //UserInput userInput = new UserInput("VanillaCall", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "12341" }, new double[] { 1 }, new SimulatedDataProvider(), 10, 20);
+
+            UserInput userInput = new UserInput("BasketOption", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "12341", "45875 " }, new double[] { 0.7, 0.3 }, new SimulatedDataProvider(), 10, 20);
+
             HedgingTool hedging = new HedgingTool(userInput);
+            hedging.update();
 
             int size = hedging.OptionValue.Count;
             using (System.IO.StreamWriter file =
