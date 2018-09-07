@@ -29,7 +29,7 @@ namespace ProjetNet
 
         public MainWindowViewModel()
         {
-            this.WindowPlotVM = new PlotViewModel();
+            //this.WindowPlotVM = new PlotViewModel();
             ComponentDatatypeList = new ObservableCollection<AbstractDataProviderViewModel>()
             {
                 new SimulatedDataProviderViewModel(),
