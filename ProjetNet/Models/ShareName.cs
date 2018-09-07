@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace ProjetNet.Models
 {
-    class ShareName
+    internal class ShareName
     {
-        public String GetShareName(String id)
+        public static String GetShareName(String id)
         {
             using (DataBaseAccessDataContext asdc = new DataBaseAccessDataContext())
             {

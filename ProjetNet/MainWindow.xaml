@@ -4,12 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjetNet"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="54,54,181,149">
-        <TextBlock HorizontalAlignment="Left" Margin="31,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Width="308">
-        <Run Text="This is the welcome message : " />
-        <Run Text="{Binding HelloMessage.HelloWorldMessage,Mode=OneWay}" />
-        </TextBlock>    
+    <Grid Margin="270,4,313,382">
+        <TextBlock Margin="48,6,19,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Text="Welcome to TesterApp" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+
+        <lvc:CartesianChart Series="{Binding windowPlotVM.SeriesCollection}" LegendLocation="Right" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Sales" LabelFormatter="{Binding windowPlotVM.YFormatter}"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Month" Labels="{Binding windowPlotVM.Labels}"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
     </Grid>
 </Window>

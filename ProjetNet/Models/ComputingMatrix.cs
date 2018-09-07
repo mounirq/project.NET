@@ -26,7 +26,88 @@ namespace ProjetNet.Models
             }
             return assets;
         }
-        
+
+
+
+        //notre calcul
+        private double[,] computeLogAssets(double[,] assetValues)
+        {
+            int nbValues = assetValues.GetLength(0);
+            int nbAssets = assetValues.GetLength(1);
+            double[,] assetReturns = new double[nbValues - 1, nbAssets];
+            for (int i = 0; i < nbValues - 1; i++)
+            {
+                for (int j = 0; j < nbAssets; j++)
+                {
+                    assetReturns[i, j] = (double)Math.Log(assetValues[i + 1, j] / assetValues[i, j]);
+                }
+            }
+            return assetReturns;
+        }
+
+        public double[,] computeCovarianceMatrix(double[,] returns)
+        {
+            return Accord.Statistics.Measures.Covariance(returns);
+        }
+
+
+        public double[,] constructCovarianceMatrix(List<DataFeed> dataFeedList)
+        {
+            double[,] assetValues = getAssetValues(dataFeedList);
+            double[,] logAssests = computeLogAssets(assetValues);
+            double[,] covMatrix = computeCovarianceMatrix(logAssests);
+            return covMatrix;
+        }
+
+        public double[] constructVarianceTable(List<DataFeed> dataFeedList)
+        {
+            var covarianceMatrix = constructCovarianceMatrix(dataFeedList);
+            int size = covarianceMatrix.GetLength(0);
+            double[] varianceTable = new Double[size];
+            for (int i = 0; i < size; i++)
+            {
+                varianceTable[i] = covarianceMatrix[i, i];
+            }
+            return varianceTable;
+        }
+
+
+        public double[,] constructCorrelationMatrix(List<DataFeed> dataFeedList)
+        {
+            var covarianceMatrix = constructCovarianceMatrix(dataFeedList);
+            double[] varianceTable = constructVarianceTable(dataFeedList);
+            int size = covarianceMatrix.GetLength(0);
+            double[,] correlationMatrix = new Double[size, size];
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    correlationMatrix[i, j] = covarianceMatrix[i, j] / (Math.Sqrt(varianceTable[i]) * Math.Sqrt(varianceTable[j]));
+                }
+            }
+            return correlationMatrix;
+        }
+
+
+        //Volatility
+        public double[] constructVolatilityTable(List<DataFeed> dataFeedList)
+        {
+            SimulatedDataFeedProvider simulator = new SimulatedDataFeedProvider();
+            int numberOfDaysPerYear = simulator.NumberOfDaysPerYear;
+            var covarianceMatrix = constructCovarianceMatrix(dataFeedList);
+            int size = covarianceMatrix.GetLength(0);
+            double[] volatilityTable = new Double[size];
+            for (int i = 0; i < size; i++)
+            {
+                volatilityTable[i] = Math.Sqrt(covarianceMatrix[i, i] * numberOfDaysPerYear);
+            }
+            return volatilityTable;
+        }
+
+
+        // Calcul WRE
+
+
         // import WRE dlls -Log-
         [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
 
@@ -39,7 +120,7 @@ namespace ProjetNet.Models
             double[,] assetsReturns,
             ref int info
         );
-        private double[,] computeLogAssets(double[,] assetValues)
+        private double[,] computeWRELogAssets(double[,] assetValues)
         {
 
             int nbValues = assetValues.GetLength(0);
@@ -72,7 +153,7 @@ namespace ProjetNet.Models
             ref int info
         );
 
-        public double[,] computeCovarianceMatrix(double[,] returns)
+        public double[,] computeWRECovarianceMatrix(double[,] returns)
         {
             int dataSize = returns.GetLength(0);
             int nbAssets = returns.GetLength(1);
@@ -90,52 +171,7 @@ namespace ProjetNet.Models
             return covMatrix;
         }
 
-        public double[,] constructCovarianceMatrix(List<DataFeed> dataFeedList)
-        {
-            double[,] assetValues = getAssetValues(dataFeedList);
-            double[,] logAssests = computeLogAssets(assetValues);
-            double[,] covMatrix = computeCovarianceMatrix(logAssests);
-
-            //int size = dailyCovMatrix.GetLength(0);
-            //SimulatedDataFeedProvider truc = new SimulatedDataFeedProvider();
-            //double[,] covMatrix = new double[size, size];
-            //for (int i = 0; i < size; i++)
-            //{
-            //    for (int j = 0; j < size; j++)
-            //    {
-            //        covMatrix[i, j] = Math.Sqrt(dailyCovMatrix[i, j] * truc.NumberOfDaysPerYear);
-            //    }
-            //}
-            return covMatrix;
-        }
-
-        public double[] constructVarianceTable(List<DataFeed> dataFeedList)
-        {
-            var covarianceMatrix = constructCovarianceMatrix(dataFeedList);
-            int size = covarianceMatrix.GetLength(0);
-            double[] varianceTable = new Double[size];
-            for (int i = 0; i < size; i++)
-            {
-                varianceTable[i] = covarianceMatrix[i, i];
-            }
-            return varianceTable;
-        }
-
-        public double[,] constructCorrelationMatrix(List<DataFeed> dataFeedList)
-        {
-            var covarianceMatrix = constructCovarianceMatrix(dataFeedList);
-            double[] varianceTable = constructVarianceTable(dataFeedList);
-            int size = covarianceMatrix.GetLength(0);
-            double[,] correlationMatrix = new Double[size, size];
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                {
-                    correlationMatrix[i, j] = covarianceMatrix[i, j] / (Math.Sqrt(varianceTable[i]) * Math.Sqrt(varianceTable[j]));
-                }
-            }
-            return correlationMatrix;
-        }
+        
 
 
         // import WRE dlls -Corr-
@@ -150,7 +186,7 @@ namespace ProjetNet.Models
             ref int info
         );
 
-        public double[,] computeCorrelationMatrix(double[,] returns)
+        public double[,] computeWRECorrelationMatrix(double[,] returns)
         {
             int dataSize = returns.GetLength(0);
             int nbAssets = returns.GetLength(1);
@@ -168,18 +204,20 @@ namespace ProjetNet.Models
             return corrMatrix;
         }
 
-        public double[,] constructLeurCorrelationMatrix(List<DataFeed> dataFeedList, int horizon)
+        public double[,] constructWRECorrelationMatrix(List<DataFeed> dataFeedList, int horizon)
         {
             double[,] assetValues = getAssetValues(dataFeedList);
-            double[,] logAssests = computeLogAssets(assetValues);
-            double[,] corrMatrix = computeCorrelationMatrix(logAssests);
+            double[,] logAssests = computeWRELogAssets(assetValues);
+            double[,] corrMatrix = computeWRECorrelationMatrix(logAssests);
             return corrMatrix;
         }
         
 
+
+        //test
+
         public static void Main(string[] args)
         {
-            // header
             var simulatedData = new SimulatedDataProvider();
             var computingMatrix = new ComputingMatrix();
             DateTime from = new DateTime(2018, 09, 04);
@@ -191,10 +229,12 @@ namespace ProjetNet.Models
             double strikeBasket = 7000;
             Share[] sharesBasket = { share1, share2, share3, share4 };
             Double[] weights = { 0.2, 0.5, 0.2, 0.1 };
-            DateTime maturityBasket = new DateTime(2018, 09, 10);
+            DateTime maturityBasket = new DateTime(2500, 09, 10);
             IOption optionBasket = new BasketOption(nameBasket, sharesBasket, weights, maturityBasket, strikeBasket);
             List<DataFeed> simulationBasket = simulatedData.GetDataFeeds(optionBasket, from);
 
+
+            // Avec notre calcul
             var correlationMatrix = computingMatrix.constructCorrelationMatrix(simulationBasket);
             int size = correlationMatrix.GetLength(0);
             Console.WriteLine("notre matrice de correlation est : ");
@@ -207,7 +247,9 @@ namespace ProjetNet.Models
                 Console.Write("\n");
             }
 
-            var leurcorrelationMatrix = computingMatrix.constructLeurCorrelationMatrix(simulationBasket, 1);
+
+            // Avec WRE calcul
+            var leurcorrelationMatrix = computingMatrix.constructWRECorrelationMatrix(simulationBasket, 1);
             int leurSize = leurcorrelationMatrix.GetLength(0);
             Console.WriteLine("\n \n \n WRE matrice de correlation est : \n ");
             for (int i = 0; i < leurSize; i++)
@@ -219,12 +261,12 @@ namespace ProjetNet.Models
                 Console.Write("\n");
             }
 
-            var varianceTable = computingMatrix.constructVarianceTable(simulationBasket);
-            int sizevariance = varianceTable.GetLength(0);
-            Console.WriteLine("\n \n \n la variance est : \n ");
+            var volatilityTable = computingMatrix.constructVolatilityTable(simulationBasket);
+            int sizevariance = volatilityTable.GetLength(0);
+            Console.WriteLine("\n \n \n la volatilite est : \n ");
             for (int i = 0; i < leurSize; i++)
             {
-                Console.WriteLine(Math.Sqrt(varianceTable[i]*365));
+                Console.WriteLine(volatilityTable[i]);
             }
             Console.ReadKey(true);
         }
