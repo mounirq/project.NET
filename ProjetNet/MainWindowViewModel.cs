@@ -5,15 +5,16 @@ using System.Configuration;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using System.Collections.Generic;
+using ProjetNet.ViewModels;
 
 namespace ProjetNet
 {
     internal class MainWindowViewModel : BindableBase
     {
         #region Private Fields
-        private Message helloMessage;
-        public ObservableCollection<Message> Messages{ get; private set; }
-        //public ObservableCollection<AbstractDataViewModel> ComponentInfoList { get; private set; }
+
+        private UserInputViewModel userInputVM;
+        public ObservableCollection<AbstractDataProviderViewModel> ComponentDatatypeList { get; private set; }
 
         #endregion Private Fields
 
@@ -21,17 +22,17 @@ namespace ProjetNet
 
         public MainWindowViewModel()
         {
-             helloMessage = new Message() { Number = 1};
-            //Message helloMessage2 = new Message() { Number = 2 };
-            //List<Message> myList = new List<Message>() { helloMessage1, helloMessage2 };
-            //Messages = new ObservableCollection<Message>(myList);
+            ComponentDatatypeList = new ObservableCollection<AbstractDataProviderViewModel>()
+            {
+                new SimulatedDataProviderViewModel(),
+                new Histo()
+            };
         }
 
         #endregion Public Constructors
 
         #region Public Properties
 
-        public Message HelloMessage { get { return helloMessage; } }
 
         #endregion Public Properties
     }

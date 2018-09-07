@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:ProjetNet"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="54,54,557,316">
-        <TextBlock Margin="10,6,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Text="Welcome to TesterApp" RenderTransformOrigin="0.5,0.5">
+    <Grid Margin="270,4,313,382">
+        <TextBlock Margin="48,6,19,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Text="Welcome to TesterApp" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

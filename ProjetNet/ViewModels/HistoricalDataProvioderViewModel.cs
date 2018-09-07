@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ProjetNet.ViewModels
 {
-    internal class SimulatedDataProviderViewModel : AbstractDataProviderViewModel
+    internal class HistoricalDataProvioderViewModel : AbstractDataProviderViewModel
     {
         #region Public Constructors
 
-        public SimulatedDataProviderViewModel() : base(new SimulatedDataProvider()) { }
+        public HistoricalDataProvioderViewModel() : base(new HistoricalDataProvider()) { }
 
         #endregion Public Constructors
 
@@ -21,7 +21,7 @@ namespace ProjetNet.ViewModels
         {
             get
             {
-                return "ForwardTest";
+                return "BackTest";
             }
         }
 
