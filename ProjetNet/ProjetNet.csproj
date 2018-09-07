@@ -40,8 +40,10 @@
     <StartupObject>ProjetNet.Models.Portfolio</StartupObject>
     <StartupObject>ProjetNet.Models.HistoricalData</StartupObject>
     <StartupObject>ProjetNet.Models.ComputingMatrix</StartupObject>
+    <StartupObject>ProjetNet.Test.SimulatedDataTest</StartupObject>
     <StartupObject>ProjetNet.App</StartupObject>
     <StartupObject>ProjetNet.App</StartupObject>
+    <StartupObject>ProjetNet.Models.HedgingTool</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
