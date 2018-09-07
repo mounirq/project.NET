@@ -27,7 +27,7 @@ namespace ProjetNet.Models
 
         public UserInput(){ }
 
-        public UserInput(string optionType, DateTime maturity, DateTime startDate, double strike, string[] undelyingsIds, double[] weights, IDataProvider dataType, int estimationWindow, int rebalancementFrequency)
+        public UserInput(string optionType, DateTime startDate, DateTime maturity, double strike, string[] undelyingsIds, double[] weights, IDataProvider dataType, int estimationWindow, int rebalancementFrequency)
         {
             this.optionType = optionType;
             this.maturity = maturity;
