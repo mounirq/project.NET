@@ -27,6 +27,5 @@
                 <lvc:Axis Title="Month" Labels="{Binding windowPlotVM.Labels}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
-      
-        </Grid>
+    </Grid>
 </Window>
