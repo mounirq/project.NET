@@ -198,6 +198,19 @@ namespace ProjetNet.Models
                         portfolio.currentDate = currentDay;
                         payoff = basketOption.GetPayoff(data.PriceList);
                     }
+                    indexArrays++;
+                }
+
+                /* Partie traçage de courbes */
+                using (System.IO.StreamWriter file =
+               new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\PortfolioBasketOption.txt"))
+                {
+                    for (int index = 0; index < totalDays; index++)
+                    {
+                        // If the line doesn't contain the word 'Second', write the line to the file.
+                        file.WriteLine(optionValue[index]);
+                        file.WriteLine(portfolioValue[index]);
+                    }
                 }
 
                 double valuePortfolio = (portfolio.currentPortfolioValue - payoff) / portfolio.firstPortfolioValue;

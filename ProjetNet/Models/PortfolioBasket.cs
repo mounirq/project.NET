@@ -113,7 +113,7 @@ namespace ProjetNet.Models
 
             /* Partie traçage de courbes */
             using (System.IO.StreamWriter file =
-           new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\WriteLinesBasket.txt"))
+           new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\PortfolioBasketOption.txt"))
             {
                 for (int i = 0; i < totalDays; i++)
                 {
