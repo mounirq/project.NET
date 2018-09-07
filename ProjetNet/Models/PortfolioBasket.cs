@@ -48,7 +48,7 @@ namespace ProjetNet.Models
             deltaPrev = pricesResults.Deltas;
             double cashRiskFreePrev = priceBasket - dotArrays(deltaPrev, spotsPrev, size);
 
-            this.portfolioValue = priceBasket; 
+            this.portfolioValue = priceBasket;
             this.basketPriceInit = priceBasket;
 
             int index = 0;
@@ -126,13 +126,13 @@ namespace ProjetNet.Models
             return (this.portfolioValue - payoff) / this.basketPriceInit;
         }
 
-        /* Returns the spots array from a DataFeed and an array of shares */ 
+        /* Returns the spots array from a DataFeed and an array of shares */
         public static double[] fillSpots(DataFeed data, Share[] shares, int size)
         {
             double[] spots = new double[size];
-            for (int i=0; i<size; i++)
+            for (int i = 0; i < size; i++)
             {
-                spots[i] = (double) data.PriceList[shares[i].Name];
+                spots[i] = (double)data.PriceList[shares[i].Name];
             }
 
             return spots;
@@ -142,9 +142,9 @@ namespace ProjetNet.Models
         public static double dotArrays(double[] firstArray, double[] secondArray, int size)
         {
             double value = 0;
-            for (int i=0; i<size; i++)
+            for (int i = 0; i < size; i++)
             {
-                value +=  firstArray[i] * secondArray[i];
+                value += firstArray[i] * secondArray[i];
             }
             return value;
         }
@@ -160,7 +160,7 @@ namespace ProjetNet.Models
             return newArray;
         }
 
-        
+
 
         public static void Main(string[] args)
         {
@@ -188,11 +188,11 @@ namespace ProjetNet.Models
             Console.WriteLine("Valeur Gain normalisée = " + valeur);
         }
 
-        
+
 
     }
 
-    
+
 
 
 
