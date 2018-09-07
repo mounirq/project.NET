@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using LiveCharts;
 using LiveCharts.Wpf;
+using Prism.Mvvm;
 
 namespace ProjetNet.ViewModels
 {
-    public partial class PlotViewModel 
+    public partial class PlotViewModel : BindableBase
     {
         //public SeriesCollection SeriesCollection;
         //public String[] Labels;
         //public YFormatter
-        public PlotViewModel()
+        public PlotViewModel(double[] option, double[] portefeuille)
         {
             SeriesCollection = new SeriesCollection
             {

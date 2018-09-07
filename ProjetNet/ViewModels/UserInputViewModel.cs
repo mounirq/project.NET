@@ -19,7 +19,8 @@ namespace ProjetNet.ViewModels
         private Double[] _weights;
         private DateTime _startDateTest;
         private AbstractDataProviderViewModel _dataType;
-        private int _estimationStep;
+        //private int _estimationStep;
+        private int _estimationWindow;
 
         #endregion Private Fields
 
@@ -27,7 +28,7 @@ namespace ProjetNet.ViewModels
 
         public UserInputViewModel() { }
 
-        public UserInputViewModel(string optionType, DateTime maturity, double strike, string[] undelyingsIds, double[] weights, DateTime startDateTest, AbstractDataProviderViewModel dataType, int estimationStep)
+        public UserInputViewModel(string optionType, DateTime maturity, double strike, string[] undelyingsIds, double[] weights, DateTime startDateTest, AbstractDataProviderViewModel dataType, int estimationWindow)
         {
             _optionType = optionType;
             _maturity = maturity;
@@ -36,7 +37,7 @@ namespace ProjetNet.ViewModels
             _weights = weights;
             _startDateTest = startDateTest;
             _dataType = dataType;
-            _estimationStep = estimationStep;
+            _estimationWindow = estimationWindow;
         }
 
         #endregion Public Constructors
@@ -85,12 +86,12 @@ namespace ProjetNet.ViewModels
             set { _dataType = value; }
         }
 
-        public int EstimationStep
+        public int EstimationWindow
         {
-            get { return _estimationStep; }
+            get { return _estimationWindow; }
             set
             {
-                _estimationStep = value;
+                _estimationWindow = value;
             }
         }
 

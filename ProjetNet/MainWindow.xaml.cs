@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using ProjetNet.ViewModels;
+using System.Windows;
 
 
 namespace ProjetNet
@@ -12,6 +13,17 @@ namespace ProjetNet
         {
             InitializeComponent();
             this.DataContext = new MainWindowViewModel();
+            //((MainWindowViewModel)this.DataContext).WindowPlotVM = new PlotViewModel();
+        }
+
+        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged_1(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
         }
     }
 }

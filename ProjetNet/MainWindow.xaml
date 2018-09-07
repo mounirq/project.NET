@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:ProjetNet"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="270,4,313,382">
-        <TextBlock Margin="48,6,19,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Text="Welcome to TesterApp" RenderTransformOrigin="0.5,0.5">
+        Title="MainWindow" Height="855.557" Width="880.888">
+    <Grid Margin="10,4,16,382">
+        <TextBlock Margin="329,9,366,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Text="Welcome to TesterApp" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -19,13 +19,31 @@
             </TextBlock.RenderTransform>
         </TextBlock>
 
-        <lvc:CartesianChart Series="{Binding windowPlotVM.SeriesCollection}" LegendLocation="Right" >
+        <lvc:CartesianChart Series="{Binding WindowPlotVM.SeriesCollection}" LegendLocation="Right" Margin="-23,486,-2,-376" >
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Sales" LabelFormatter="{Binding windowPlotVM.YFormatter}"></lvc:Axis>
+                <lvc:Axis Title="Sales" LabelFormatter="{Binding WindowPlotVM.YFormatter}"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Month" Labels="{Binding windowPlotVM.Labels}"></lvc:Axis>
+                <lvc:Axis Title="Month" Labels="{Binding WindowPlotVM.Labels}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="275,76,0,0" TextWrapping="Wrap" Text="Maturité" VerticalAlignment="Top" Width="119" TextChanged="TextBox_TextChanged"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="77,92,0,0" TextWrapping="Wrap" Text="Strike" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged_1"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="81,135,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="24"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="77,175,0,0" TextWrapping="Wrap" Text="Type Option" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="126,135,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="24"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="167,135,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="24"/>
+        <TextBlock HorizontalAlignment="Left" Margin="114,136,0,0" TextWrapping="Wrap" Text="/" VerticalAlignment="Top" Width="12" Height="22" RenderTransformOrigin="-14.633,-1.954"/>
+        <TextBlock HorizontalAlignment="Left" Margin="155,136,0,0" TextWrapping="Wrap" Text="/" VerticalAlignment="Top" Width="12" Height="22" RenderTransformOrigin="-14.633,-1.954"/>
+        <TextBlock Margin="11,53,787,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Text="Maturite" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
     </Grid>
 </Window>
