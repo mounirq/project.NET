@@ -1,4 +1,5 @@
 ﻿using PricingLibrary.FinancialProducts;
+using Prism.Mvvm;
 using ProjetNet.Models;
 using System;
 using System.Collections.Generic;
@@ -8,134 +9,134 @@ using System.Threading.Tasks;
 
 namespace ProjetNet.ViewModels
 {
-    internal class UserInputViewModel
+    internal class UserInputViewModel : BindableBase
     {
         #region Private Fields
 
-        private String _optionType;
-        private DateTime _maturity;
-        private double _strike;
-        private String[] _undelyingsIds;
-        private Double[] _weights;
-        private DateTime _startDateTest;
-        private AbstractDataProviderViewModel _dataType;
-        //private int _estimationStep;
-        private int _estimationWindow;
+        private UserInput underlyingUserInput;
+
+        private String optionType;
+        private DateTime startDate;
+        private DateTime maturity;
+        private double strike;
+        private String[] underlyingsIds;
+        private Double[] weights;
+        private AbstractDataProviderViewModel dataType;
+        private int estimationWindow;
+        private int rebalancementFrequency;
 
         #endregion Private Fields
 
         #region Public Constructors
 
-        public UserInputViewModel() { }
-
-        public UserInputViewModel(string optionType, DateTime maturity, double strike, string[] undelyingsIds, double[] weights, DateTime startDateTest, AbstractDataProviderViewModel dataType, int estimationWindow)
+        public UserInputViewModel()
         {
-            _optionType = optionType;
-            _maturity = maturity;
-            _strike = strike;
-            _undelyingsIds = undelyingsIds;
-            _weights = weights;
-            _startDateTest = startDateTest;
-            _dataType = dataType;
-            _estimationWindow = estimationWindow;
+            //this.underlyingUserInput = new UserInput(OptionType, Maturity, Strike, UnderlyingsIds, Weights, StartDate, dataType.Data, EstimationWindow);
+            this.underlyingUserInput = new UserInput();
         }
 
         #endregion Public Constructors
 
         #region Public Properties
 
+        public UserInput UnderlyingUserInput
+        {
+            get { return this.underlyingUserInput; }
+            set { SetProperty(ref this.underlyingUserInput, value); }
+
+        }
+
         public String OptionType
         {
-            get { return _optionType; }
-            set { _optionType = value; }
+            get { return this.optionType; }
+            set
+            {
+                SetProperty(ref this.optionType, value);
+                UnderlyingUserInput.OptionType = value;
+            }
         }
 
         public DateTime Maturity
         {
-            get { return _maturity; }
-            set { _maturity = value; }
+            get { return this.maturity; }
+            set
+            {
+                SetProperty(ref this.maturity, value);
+                UnderlyingUserInput.Maturity = value;
+            }
         }
 
         public Double Strike
         {
-            get { return _strike; }
-            set { _strike = value; }
+            get { return this.strike; }
+            set
+            {
+                SetProperty(ref this.strike, value);
+                UnderlyingUserInput.Strike = value;
+            }
         }
 
         public String[] UnderlyingsIds
         {
-            get { return _undelyingsIds; }
-            set { _undelyingsIds = value; }
+            get { return this.underlyingsIds; }
+            set
+            {
+                SetProperty(ref this.underlyingsIds, value);
+                UnderlyingUserInput.UnderlyingsIds = value;
+            }
         }
 
         public Double[] Weights
         {
-            get { return _weights; }
-            set { _weights = value; }
+            get { return this.weights; }
+            set
+            {
+                SetProperty(ref this.weights, value);
+                UnderlyingUserInput.Weights = value;
+            }
         }
 
-        public DateTime StartDateTest
+        public DateTime StartDate
         {
-            get { return _startDateTest; }
-            set { _startDateTest = value; }
+            get { return this.startDate; }
+            set
+            {
+                SetProperty(ref this.startDate, value);
+                UnderlyingUserInput.StartDate = value;
+            }
         }
 
         public AbstractDataProviderViewModel DataType
         {
-            get { return _dataType; }
-            set { _dataType = value; }
+            get { return this.dataType; }
+            set
+            {
+                SetProperty(ref this.dataType, value);
+                UnderlyingUserInput.DataType = value.Data;
+            }
         }
 
         public int EstimationWindow
         {
-            get { return _estimationWindow; }
+            get { return this.underlyingUserInput.EstimationWindow; }
             set
             {
-                _estimationWindow = value;
+                SetProperty(ref this.estimationWindow, value);
+                UnderlyingUserInput.EstimationWindow = value;
+            }
+        }
+
+        public int RebalancementFrequency
+        {
+            get { return this.underlyingUserInput.RebalancementFrequency; }
+            set
+            {
+                SetProperty(ref this.rebalancementFrequency, value);
+                UnderlyingUserInput.RebalancementFrequency = value;
             }
         }
 
         #endregion Public Properties
-
-        #region Public Methods
-
-        public IOption constructOption()
-        {
-            IOption option = null;
-
-            if (!(Weights == null) && Weights.Sum() != 1)
-            {
-                throw new ArgumentException("The sum of the weights must equal");
-            }
-            List<Share> underlyingsShares = new List<Share>();
-            foreach (string underlyingId in UnderlyingsIds)
-            {
-                if (DataType.Name == "Historical")
-                {
-                    String underlyingName = ShareName.GetShareName(underlyingId);
-                    underlyingsShares.Add(new Share(underlyingName, underlyingId));
-                }                    
-                else
-                {
-                    underlyingsShares.Add(new Share(underlyingId, underlyingId));
-                }
-            }
-            if (OptionType.Equals("VanillaCall"))
-            {
-                option = new VanillaCall(OptionType, underlyingsShares[0], Maturity, Strike);
-            }
-            else if (OptionType.Equals("BasketOption"))
-            {
-                option = new BasketOption(OptionType, underlyingsShares.ToArray(), Weights, Maturity, Strike);
-            }
-            else
-            {
-                throw new ArgumentException("Unkown OptionType " + OptionType);
-            }
-            return option;
-        }
-
-        #endregion Public Methods
-
+                
     }
 }

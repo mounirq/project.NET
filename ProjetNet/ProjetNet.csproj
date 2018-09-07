@@ -41,6 +41,8 @@
     <StartupObject>ProjetNet.Models.HistoricalData</StartupObject>
     <StartupObject>ProjetNet.Models.ComputingMatrix</StartupObject>
     <StartupObject>ProjetNet.Test.SimulatedDataTest</StartupObject>
+    <StartupObject>ProjetNet.App</StartupObject>
+    <StartupObject>ProjetNet.Test.ParametersEstimationTest</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -119,6 +121,7 @@
     <Compile Include="Test\ShareNameTest.cs" />
     <Compile Include="Test\SimulatedDataTest.cs" />
     <Compile Include="ViewModels\AbstractDataProviderViewModel.cs" />
+    <Compile Include="ViewModels\HedgingToolViewModel.cs" />
     <Compile Include="ViewModels\HistoricalDataProvioderViewModel.cs" />
     <Compile Include="ViewModels\PlotViewModel.cs" />
     <Compile Include="ViewModels\SimulatedDataProviderViewModel.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ProjetNet.Models
@@ -11,6 +12,15 @@ namespace ProjetNet.Models
             {
                 string name = asdc.ShareNames.First(el => (el.id.Trim() == id.Trim())).name.ToString();
                 return name;
+            }
+        }
+
+        public static List<String> GetAllShareIds()
+        {
+            
+            using (DataBaseAccessDataContext asdc = new DataBaseAccessDataContext())
+            {
+                return asdc.ShareNames.Select(ligne => ligne.id).ToList();
             }
         }
 
