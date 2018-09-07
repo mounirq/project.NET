@@ -1,5 +1,7 @@
-﻿using PricingLibrary.FinancialProducts;
+﻿using PricingLibrary.Computations;
+using PricingLibrary.FinancialProducts;
 using PricingLibrary.Utilities;
+using PricingLibrary.Utilities.MarketDataFeed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +30,68 @@ namespace ProjetNet.Models
 
             this.optionValue = new double[numberOfRebalancing];
             this.portfolioValue = new double[numberOfRebalancing];
+
+            IOption option = constructOption();
+
+            List<DataFeed> dataFeeds;
+            
+            DateTime startDateOfEstimation = userInput.StartDate.AddDays(-userInput.EstimationWindow);
+
+            if (userInput.DataType.GetType() == typeof(HistoricalDataProvider))
+            {
+                HistoricalDataProvider historicalData = new HistoricalDataProvider();
+                dataFeeds = historicalData.GetDataFeeds(option, startDateOfEstimation);
+            }
+            else
+            {
+                SimulatedDataProvider simulatedData = new SimulatedDataProvider();
+                dataFeeds = simulatedData.GetDataFeeds(option, startDateOfEstimation);
+            }
+
+            /* First step */
+            ParametersEstimation parameters = new ParametersEstimation(dataFeeds, userInput.StartDate, userInput.EstimationWindow);
+
+            DateTime currentDay = userInput.StartDate;
+            Portfolio portfolio = new Portfolio();
+
+            Pricer pricer = new Pricer();
+
+            Share[] underlyingsShares = new Share[option.UnderlyingShareIds.Length];
+            int k = 0;
+            foreach (string underlyingId in userInput.UnderlyingsIds)
+            {
+                String underlyingName = ShareName.GetShareName(underlyingId);
+                underlyingsShares[k] = new Share(underlyingName, underlyingId);
+                k++;
+            }
+
+            double[] returnedValue = portfolio.estimatePortfolioFirstDay(parameters, underlyingsShares, option, currentDay, dataFeeds[userInput.EstimationWindow], pricer);
+            optionValue[0] = returnedValue[0];
+            portfolioValue[0] = returnedValue[1];
+
+            List<DataFeed> dataFeedSkipped = new List<DataFeed>(); ;
+            for(int j = userInput.EstimationWindow; j<dataFeeds.Count; j++)
+            {
+                dataFeedSkipped.Add(dataFeeds[j]);
+            }
+
+            int index = 1;
+            int i = 1;
+            foreach(DataFeed data in dataFeedSkipped.Skip(1))
+            {
+                if(i % userInput.RebalancementFrequency == 0 && ! data.Date.Equals(dataFeeds.Last().Date) )
+                {
+                    currentDay = data.Date;
+                    //parameters = parametersEstimation(dataFeeds, currentDay, userInput.EstimationWindow);
+                    returnedValue = portfolio.updatePortfolio(userInput.RebalancementFrequency, parameters, underlyingsShares, option, currentDay, dataFeeds[userInput.EstimationWindow], pricer);
+                    optionValue[index] = returnedValue[0];
+                    PortfolioValue[index] = returnedValue[1];
+
+                    index++;
+                }
+                i++;
+            }
+
         }
         #endregion Public Constructors
 
