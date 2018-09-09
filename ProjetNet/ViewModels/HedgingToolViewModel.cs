@@ -18,5 +18,24 @@ namespace ProjetNet.ViewModels
             this.hedgTool = new HedgingTool(userInputVM.UnderlyingUserInput);
         }
 
+
+        public HedgingTool HedgTool
+        {
+            get { return this.hedgTool; }
+            set
+            {
+                SetProperty(ref this.hedgTool, value);
+            }
+        }
+
+        public List<double> OptionValue { get => HedgTool.OptionValue; }
+
+        public List<double> PortfolioValue { get => HedgTool.PortfolioValue; }
+
+        public void ComputeTest()
+        {
+            HedgTool.update();
+        }
+
     }
 }

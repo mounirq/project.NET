@@ -52,6 +52,8 @@ namespace ProjetNet.ViewModels
             set
             {
                 SetProperty(ref this.optionType, value);
+                //RaisePropertyChanged("OptionTypeAsV");
+                //RaisePropertyChanged("OptionTypeAsB");
                 UnderlyingUserInput.OptionType = value;
             }
         }

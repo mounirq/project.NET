@@ -47,6 +47,8 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
+<!--        <RadioButton Content="VanillaOption" isChecked="{Binding OptionTypeAsV, Mode TwoWay}" Margin="10,5,0,0" GroupName="OptionType" HorizontalAlignment="Left" Margin="95,273,0,0" VerticalAlignment="Top" />-->
+<!--        <RadioButton Content="BasketOption" isChecked="{Binding OptionTypeAsB, Mode TwoWay}" Margin="10,5,0,0" GroupName="OptionType" HorizontalAlignment="Left" Margin="173,273,0,0" VerticalAlignment="Top" />-->
         <CheckBox Content="VanillaCall" HorizontalAlignment="Left" Margin="95,273,0,0" VerticalAlignment="Top"/>
         <CheckBox Content="BasketOption" HorizontalAlignment="Left" Margin="173,273,0,0" VerticalAlignment="Top"/>
         <TextBlock Margin="13,352,764,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Maturity :" RenderTransformOrigin="0.5,0.5">
@@ -128,7 +130,33 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
+        
+       <!-- <ItemsControl ItemsSource="{Binding ComponentDatatypeList}" SelectedItem="{Binding UserInputVM.DataType}" Margin="85,63,586,417" IsSynchronizedWithCurrentItem="True" Background="{x:Null}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton Content="{Binding Name}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>-->
+        
+       <!-- <ItemsControl ItemsSource="{Binding Radio}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Content="{Binding Header}" IsChecked="{Binding CheckedProperty}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>-->
+        
         <!--<StackPanel  Name="rbHolder1" Orientation="Horizontal">
             <RadioButton GroupName="UserType" >Retail</RadioButton>
             <RadioButton GroupName="UserType" IsChecked="True">Wholesale</RadioButton>

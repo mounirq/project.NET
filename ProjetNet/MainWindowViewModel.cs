@@ -31,7 +31,7 @@ namespace ProjetNet
         {
             WindowPlotVM = new PlotViewModel();
             UserInputVM = new UserInputViewModel();
-            //HedgingToolVM = new HedgingToolViewModel(UserInputVM);
+            HedgingToolVM = new HedgingToolViewModel(UserInputVM);
 
             ComponentDatatypeList = new ObservableCollection<AbstractDataProviderViewModel>()
             {
@@ -76,6 +76,18 @@ namespace ProjetNet
 
         public DelegateCommand PlotCommand { get; private set; }
 
+        //public bool OptionTypeAsV
+        //{
+        //    get { return UserInputVM.OptionType.Equals("VanillaOption"); }
+        //    set { UserInputVM.OptionType = "VanillaOption"; }
+        //}
+
+        //public bool OptionTypeAsB
+        //{
+        //    get { return UserInputVM.OptionType.Equals("BasketOption"); }
+        //    set { UserInputVM.OptionType = "BasketOption"; }
+        //}
+
         #endregion Public Properties
 
         #region Public Methods
@@ -83,13 +95,20 @@ namespace ProjetNet
         private void CanPlot()
         {
             //this.WindowPlotVM = new PlotViewModel();
+
+            //HedgingToolVM.ComputeTest();
+            //double[] optionValues = HedgingToolVM.OptionValue.ToArray();
+            //double[] portfolioValues = HedgingToolVM.PortfolioValue.ToArray();
+
+            //WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(optionValues, portfolioValues);
+
             WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(new double[] { 4, 6, 5, 2, 7 }, new double[] { 6, 7, 3, 4, 6 });
 
             WindowPlotVM.Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
 
             WindowPlotVM.YFormatter = value => value.ToString("C");
 
-            Console.WriteLine("On est la");
+            //Console.WriteLine("On est la");
         }
 
         #endregion Public Methods
