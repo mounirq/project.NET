@@ -20,6 +20,7 @@ namespace ProjetNet.Models
         private double currentPortfolioValue;
         private DateTime currentDate;
         private double cashRiskFree;
+        private double finalProfit;
 
         #endregion Private Fields
 
@@ -28,6 +29,7 @@ namespace ProjetNet.Models
         public Dictionary<string, double> PortfolioComposition { get => portfolioComposition; set => portfolioComposition = value; }
         public double CurrentPortfolioValue { get => currentPortfolioValue; set => currentPortfolioValue = value; }
         public DateTime CurrentDate { get => currentDate; set => currentDate = value; }
+        public double FinalProfit { get => finalProfit; set => finalProfit = value; }
 
         #endregion Public Properties
 
@@ -108,6 +110,19 @@ namespace ProjetNet.Models
 
             return new double[2] { optionValue, portfolioValue };
 
+        }
+
+        internal double calculateGain(DataFeed maturityData, Share[] underlyingsShares, IOption option, Pricer pricer)
+        {
+            if (option.GetType() == typeof(VanillaCall))
+            {
+                double spot = (double)maturityData.PriceList[underlyingsShares[0].Id];
+
+            }
+            else
+            {
+
+            }
         }
 
         internal double[] estimatePortfolioFirstDay(ParametersEstimation parameters, Share[] shares, IOption option, DateTime currentDay, DataFeed dataFeed, Pricer pricer)

@@ -94,6 +94,10 @@ namespace ProjetNet.Models
                 }
                 i++;
             }
+
+            /* Last Step */
+            DataFeed maturityData = dataFeedSkipped.Last();
+            normalizedGain = portfolio.calculateGain(maturityData, underlyingsShares, option, pricer);
         }
 
         public HedgingTool(UserInput userInput)
