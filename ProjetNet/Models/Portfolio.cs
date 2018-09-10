@@ -177,7 +177,7 @@ namespace ProjetNet.Models
         public static double[] fillSpots(DataFeed data, Share[] shares)
         {
             int size = shares.Length;
-            double[] spots = new double[shares.Length];
+            double[] spots = new double[size];
             for (int i = 0; i < size; i++)
             {
                 spots[i] = (double)data.PriceList[shares[i].Id];

@@ -31,7 +31,7 @@ namespace ProjetNet.Test
 
                 /* Portfolio initialisation : */
                 Portfolio portfolio = new Portfolio();
-                portfolio.portfolioComposition = new Dictionary<String, double>();
+                portfolio.PortfolioComposition = new Dictionary<String, double>();
 
                 Pricer pricer = new Pricer();
 
@@ -40,18 +40,18 @@ namespace ProjetNet.Test
                 double spot = (double)dataFeeds[0].PriceList[share[0].Id];
                 PricingResults pricingResults = pricer.PriceCall(callOption, beginDate, totalDays, spot, volatility);
                 double callPrice = pricingResults.Price;
-                portfolio.firstPortfolioValue = callPrice;
-                portfolio.currentPortfolioValue = callPrice;
-                portfolio.currentDate = beginDate;
+                portfolio.FirstPortfolioValue = callPrice;
+                portfolio.CurrentPortfolioValue = callPrice;
+                portfolio.CurrentDate = beginDate;
                 double previousDelta = pricingResults.Deltas[0];
 
-                portfolio.portfolioComposition.Add(share[0].Id, previousDelta);
+                portfolio.PortfolioComposition.Add(share[0].Id, previousDelta);
 
                 double payoff = 0;
                 double[] optionValue = new Double[totalDays];
                 double[] portfolioValue = new Double[totalDays];
                 optionValue[0] = callPrice;
-                portfolioValue[0] = portfolio.currentPortfolioValue;
+                portfolioValue[0] = portfolio.CurrentPortfolioValue;
 
                 int indexArrays = 1;
                 /* Skip the first day : because it's already initialized*/
@@ -67,7 +67,7 @@ namespace ProjetNet.Test
                         /* Fill arrays of optionValue and portfolioValue */
 
                         optionValue[indexArrays] = pricing;
-                        portfolioValue[indexArrays] = portfolio.currentPortfolioValue;
+                        portfolioValue[indexArrays] = portfolio.CurrentPortfolioValue;
 
                         Console.WriteLine("Valeur option = " + optionValue[indexArrays]);
                         Console.WriteLine("Valeur portefeuille = " + portfolioValue[indexArrays]);
@@ -77,7 +77,7 @@ namespace ProjetNet.Test
                     /* For the last day : */
                     else
                     {
-                        portfolio.currentDate = data.Date;
+                        portfolio.CurrentDate = data.Date;
                         payoff = callOption.GetPayoff(data.PriceList);
                     }
                     indexArrays++;
@@ -100,7 +100,7 @@ namespace ProjetNet.Test
                 //Console.WriteLine("Valeur = " + valuePortfolio);
 
                 Portfolio portefolioTest = new Portfolio();
-                double finalportfolioValue = portfolio.updatePortfolioValue(pricer, callOption, dataFeeds, numberOfDaysPerYear, share[0], totalDays, volatility, beginDate);
+                double finalportfolioValue = portfolio.updatePortfolio(pricer, callOption, dataFeeds, numberOfDaysPerYear, share[0], totalDays, volatility, beginDate);
 
                 Console.WriteLine("Valeur = " + finalportfolioValue);
             }
