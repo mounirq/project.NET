@@ -12,10 +12,13 @@ namespace ProjetNet.ViewModels
     internal class HedgingToolViewModel : BindableBase
     {
         private HedgingTool hedgTool;
+        private UserInputViewModel userInputVM;
 
         public HedgingToolViewModel(UserInputViewModel userInputVM)
         {
-            this.hedgTool = new HedgingTool(userInputVM.UnderlyingUserInput);
+            UserInputVM = userInputVM;
+            HedgTool = new HedgingTool(UserInputVM.UnderlyingUserInput);
+
         }
 
 
@@ -28,9 +31,11 @@ namespace ProjetNet.ViewModels
             }
         }
 
+
         public List<double> OptionValue { get => HedgTool.OptionValue; }
 
         public List<double> PortfolioValue { get => HedgTool.PortfolioValue; }
+        internal UserInputViewModel UserInputVM { get => userInputVM; set => userInputVM = value; }
 
         public void ComputeTest()
         {

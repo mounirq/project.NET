@@ -87,28 +87,28 @@ namespace ProjetNet.Models
         {
             //UserInput userInput = new UserInput("VanillaCall", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP" }, new double[] { 1 }, new SimulatedDataProvider(), 10, 20);
 
-            UserInput userInput = new UserInput("BasketOption", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP", "ACA FP" }, new double[] { 0.7, 0.3 }, new SimulatedDataProvider(), 10, 20);
+            //UserInput userInput = new UserInput("BasketOption", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP", "ACA FP" }, new double[] { 0.7, 0.3 }, new SimulatedDataProvider(), 10, 20);
 
-            HedgingTool hedging = new HedgingTool(userInput);
-            hedging.update();
+        //    HedgingTool hedging = new HedgingTool(userInput);
+        //    hedging.update();
 
-            int size = hedging.OptionValue.Count;
-            using (System.IO.StreamWriter file =
-               new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\PortefeuilleVanille.txt"))
-            {
-                for (int index = 0; index < size; index++)
-                {
-                    // If the line doesn't contain the word 'Second', write the line to the file.
-                    file.WriteLine(hedging.OptionValue[index]);
-                    file.WriteLine(hedging.PortfolioValue[index]);
-                }
-            }
-            Console.WriteLine("C'est terminé");
-        }
+        //    int size = hedging.OptionValue.Count;
+        //    using (System.IO.StreamWriter file =
+        //       new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\PortefeuilleVanille.txt"))
+        //    {
+        //        for (int index = 0; index < size; index++)
+        //        {
+        //            // If the line doesn't contain the word 'Second', write the line to the file.
+        //            file.WriteLine(hedging.OptionValue[index]);
+        //            file.WriteLine(hedging.PortfolioValue[index]);
+        //        }
+        //    }
+        //    Console.WriteLine("C'est terminé");
+        //}
 
-            #region Public Methods
+        #region Public Methods
 
-            public IOption constructOption()
+        public IOption constructOption()
         {
             IOption option = null;
 
@@ -116,8 +116,7 @@ namespace ProjetNet.Models
             List<Share> underlyingsShares = new List<Share>();
             foreach (string underlyingId in userInput.UnderlyingsIds)
             {
-                String underlyingName = ShareTools.GetShareName(underlyingId);
-                //+String underlyingName = "sfr";
+                String underlyingName = ShareName.GetShareName(underlyingId);
                 underlyingsShares.Add(new Share(underlyingName, underlyingId));
             }
             if (userInput.OptionType.Equals("VanillaCall"))
