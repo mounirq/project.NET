@@ -85,9 +85,9 @@ namespace ProjetNet.Models
 
         //public static void Main(string[] args)
         //{
-            //UserInput userInput = new UserInput("VanillaCall", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP" }, new double[] { 1 }, new SimulatedDataProvider(), 10, 20);
+        //UserInput userInput = new UserInput("VanillaCall", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP" }, new double[] { 1 }, new SimulatedDataProvider(), 10, 20);
 
-            //UserInput userInput = new UserInput("BasketOption", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP", "ACA FP" }, new double[] { 0.7, 0.3 }, new SimulatedDataProvider(), 10, 20);
+        //UserInput userInput = new UserInput("BasketOption", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP", "ACA FP" }, new double[] { 0.7, 0.3 }, new SimulatedDataProvider(), 10, 20);
 
         //    HedgingTool hedging = new HedgingTool(userInput);
         //    hedging.update();
@@ -112,7 +112,7 @@ namespace ProjetNet.Models
         {
             IOption option = null;
 
-            if (!(userInput.Weights == null) && userInput.Weights.Sum() != 1){throw new ArgumentException("The sum of the weights must equal");}
+            if (!(userInput.Weights == null) && userInput.Weights.Sum() != 1) { throw new ArgumentException("The sum of the weights must equal"); }
             List<Share> underlyingsShares = new List<Share>();
             foreach (string underlyingId in userInput.UnderlyingsIds)
             {
@@ -121,7 +121,7 @@ namespace ProjetNet.Models
             }
             if (userInput.OptionType.Equals("VanillaCall"))
             {
-                if(underlyingsShares.Count > 1) { throw new ArgumentException("You have to choose only one option "); }
+                if (underlyingsShares.Count > 1) { throw new ArgumentException("You have to choose only one option "); }
                 option = new VanillaCall(userInput.OptionType, underlyingsShares[0], userInput.Maturity, userInput.Strike);
             }
             else if (userInput.OptionType.Equals("BasketOption"))

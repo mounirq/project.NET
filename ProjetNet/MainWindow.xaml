@@ -164,27 +164,43 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBox Text="{Binding SelectedWeight}" HorizontalAlignment="Left" Height="23" Margin="631,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" TextChanged="TextBox_TextChanged_1"/>
-        <Button Command="{Binding AddShareCommand}" Content="Add" HorizontalAlignment="Left" Margin="727,65,0,0" VerticalAlignment="Top" Width="75"/>
-
+        <TextBox Text="{Binding SelectedWeight}" HorizontalAlignment="Left" Height="23" Margin="631,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="43" TextChanged="TextBox_TextChanged_1"/>
+        <Button Command="{Binding AddShareCommand}" Content="Add" HorizontalAlignment="Left" Margin="689,67,0,0" VerticalAlignment="Top" Width="52"/>
+        <Button Command="{Binding DeleteUnderlyingsCommand}" Content="Delete All" HorizontalAlignment="Left" Margin="754,67,0,0" VerticalAlignment="Top" Width="69"/>
 
         <Button Command="{Binding PlotCommand}" VerticalAlignment="Center" Margin="371,398,339,72" Padding="5,2,5,2" Height="34">Compute Test</Button>
 
-        <ListView ItemsSource="{Binding ComponentSelectedShareIds}" HorizontalAlignment="Left" Height="158" Margin="437,132,0,0" VerticalAlignment="Top" Width="237" RenderTransformOrigin="0.5,0.5">
-            <ListView.RenderTransform>
+        <ListBox ItemsSource="{Binding ComponentSelectedShareIds}" Height="158" Margin="380,138,281,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" SelectionChanged="ListBox_SelectionChanged">
+            <ListBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
                     <RotateTransform Angle="-0.183"/>
                     <TranslateTransform/>
                 </TransformGroup>
-            </ListView.RenderTransform>
-            <ListView.ItemTemplate>
+            </ListBox.RenderTransform>
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" VerticalAlignment="Center" />
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox ItemsSource="{Binding ComponentSelectedWeights}" HorizontalAlignment="Left" Height="158" Margin="607,138,0,0" VerticalAlignment="Top" Width="186" RenderTransformOrigin="0.5,0.5">
+            <ListBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.183"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ListBox.RenderTransform>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <lvc:CartesianChart Series="{Binding WindowPlotVM.SeriesCollection}" LegendLocation="Right" Margin="-9,551,-16,-424" >
             <lvc:CartesianChart.AxisY>
@@ -194,6 +210,26 @@
                 <lvc:Axis Title="Time" Labels="{Binding WindowPlotVM.Labels}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
+        <TextBlock Margin="381,116,301,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform><Run Text="Selected Underlyings"/><Run Text=" :"/></TextBlock>
+        <TextBlock Margin="607,116,75,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform><Run Text="Selected "/><Run Text="Weights "/><Run Text=":"/></TextBlock>
+
+
 
 
 
