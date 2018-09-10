@@ -42,8 +42,7 @@
     <StartupObject>ProjetNet.Models.ComputingMatrix</StartupObject>
     <StartupObject>ProjetNet.Test.SimulatedDataTest</StartupObject>
     <StartupObject>ProjetNet.App</StartupObject>
-    <StartupObject>ProjetNet.App</StartupObject>
-    <StartupObject>ProjetNet.Models.HedgingTool</StartupObject>
+    <StartupObject>ProjetNet.Test.JsonHandlerTest</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -78,11 +77,17 @@
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
     </Reference>
+    <Reference Include="Json, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c6752e45808247c2, processorArchitecture=MSIL">
+      <HintPath>..\packages\JSON.1.0.1\lib\net40\Json.dll</HintPath>
+    </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
     </Reference>
     <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PricingLibrary, Version=1.0.1.2, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\PricingLibrary.1.0.1.3\lib\net45\PricingLibrary.dll</HintPath>
@@ -111,11 +116,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\JsonBasket.cs" />
     <Compile Include="Models\ParametersEstimation.cs" />
     <Compile Include="Models\HedgingTool.cs" />
     <Compile Include="Models\PortfolioBasket.cs" />
+    <Compile Include="Models\JsonHandler.cs" />
+    <Compile Include="Models\SaveOption.cs" />
     <Compile Include="Models\ShareName.cs" />
     <Compile Include="Models\UserInput.cs" />
+    <Compile Include="Test\JsonHandlerTest.cs" />
     <Compile Include="Test\ParametersEstimationTest.cs" />
     <Compile Include="Test\HistoricalDataTest.cs" />
     <Compile Include="Test\PortfolioBasketTest.cs" />
@@ -205,6 +214,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="OptionsSaved\test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Baseclass.Contrib.Nuget.Output.2.3.0\build\net40\Baseclass.Contrib.Nuget.Output.targets" Condition="Exists('..\packages\Baseclass.Contrib.Nuget.Output.2.3.0\build\net40\Baseclass.Contrib.Nuget.Output.targets')" />
