@@ -7,7 +7,6 @@ using ProjetNet.Models;
 using System.Windows.Input;
 using LiveCharts;
 using LiveCharts.Wpf;
-using System.Collections.Generic;
 
 namespace ProjetNet
 {
@@ -15,8 +14,11 @@ namespace ProjetNet
     {
         #region Private Fields
 
+
         private string selectedShare;
         private double selectedWeight;
+        public ObservableCollection<AbstractDataProviderViewModel> ComponentDatatypeList { get; private set; }
+        public ObservableCollection<String> ComponentExistingSharesIds { get; private set; }
 
         private UserInputViewModel userInputVM;
         private HedgingToolViewModel hedgingToolVM;
@@ -36,7 +38,7 @@ namespace ProjetNet
         public MainWindowViewModel()
         {
             WindowPlotVM = new PlotViewModel();
-            userInputVM = new UserInputViewModel();
+            UserInputVM = new UserInputViewModel();
             HedgingToolVM = new HedgingToolViewModel(UserInputVM);
 
             ComponentDatatypeList = new ObservableCollection<AbstractDataProviderViewModel>()
@@ -51,8 +53,8 @@ namespace ProjetNet
             };
             //ComponentOptionTypeList.ToString
             ComponentExistingSharesIds = new ObservableCollection<string>(ShareName.GetAllShareIds());
+			
             PlotCommand = new DelegateCommand(CanPlot);
-            AddShareCommand = new DelegateCommand(AddShare);
             //PlotCommand = new DelegateCommand(CanPlot);
         }
 
@@ -92,24 +94,25 @@ namespace ProjetNet
         }
 
         public DelegateCommand PlotCommand { get; private set; }
-        public DelegateCommand AddShareCommand { get; private set; }
-        
-        public string SelectedShare
-        {
-            get { return this.selectedShare; }
-            set { SetProperty(ref this.selectedShare, value); }
-        }
-        public double SelectedWeight
-        {
-            get { return this.selectedWeight; }
-            set { SetProperty(ref this.selectedWeight, value); }
-        }
+
+        //public bool OptionTypeAsV
+        //{
+        //    get { return UserInputVM.OptionType.Equals("VanillaOption"); }
+        //    set { UserInputVM.OptionType = "VanillaOption"; }
+        //}
+
+        //public bool OptionTypeAsB
+        //{
+        //    get { return UserInputVM.OptionType.Equals("BasketOption"); }
+        //    set { UserInputVM.OptionType = "BasketOption"; }
+        //}
 
         public ObservableCollection<string> ComponentSelectedShareIds { get => componentSelectedShareIds; set => componentSelectedShareIds = value; }
 
         #endregion Public Properties
 
         #region Public Methods
+
 
         private void AddShare()
         {
@@ -126,16 +129,16 @@ namespace ProjetNet
             double[] optionValues = HedgingToolVM.OptionValue.ToArray();
             double[] portfolioValues = HedgingToolVM.PortfolioValue.ToArray();
 
+
             WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(optionValues, portfolioValues);
 
-            //WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(new double[] { 4, 6, 5, 2, 7 }, new double[] { 6, 7, 3, 4, 6 });
+            WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(new double[] { 4, 6, 5, 2, 7 }, new double[] { 6, 7, 3, 4, 6 });
 
             WindowPlotVM.Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
 
             WindowPlotVM.YFormatter = value => value.ToString("C");
 
-            Console.WriteLine("la frequence  est : " + UserInputVM.RebalancementFrequency);
-            
+            //Console.WriteLine("On est la");
         }
 
         #endregion Public Methods
