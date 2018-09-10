@@ -133,18 +133,6 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <!--<ListBox ItemsSource="{Binding ComponentExistingSharesIds}" SelectedItem ="{Binding UserInputVM.UnderlyingsIds, Mode=OneWayToSource}" Margin="499,146,120,218" Background="{x:Null}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <CheckBox Content="{Binding}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ListBox>-->
         <ComboBox ItemsSource="{Binding ComponentExistingSharesIds}" SelectedItem="{Binding SelectedShare}" Margin="443,65,284,431" Text="Underlying">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
@@ -152,8 +140,6 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-
-
         <TextBlock Margin="579,68,219,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Weight :" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
@@ -202,7 +188,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <lvc:CartesianChart Series="{Binding WindowPlotVM.SeriesCollection}" LegendLocation="Right" Margin="-9,551,-16,-424" >
+        <lvc:CartesianChart Series="{Binding WindowPlotVM.SeriesCollection}" LegendLocation="Right" Margin="-9,551,-16,-424" Visibility="{Binding PlotVisibility}" >
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Values" LabelFormatter="{Binding WindowPlotVM.YFormatter}"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
@@ -228,72 +214,5 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform><Run Text="Selected "/><Run Text="Weights "/><Run Text=":"/></TextBlock>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!--<ComboBox VerticalAlignment="Center" Margin="10,5,10,5" Padding="5,2,5,2" Width="96" SelectionChanged="ComboBox_SelectionChanged" >-->
-        <!--<ListBox ItemsSource="{Binding ComponentDatatypeList}" SelectedItem="{Binding UserInputVM.DataType}" Margin="85,63,586,417" IsSynchronizedWithCurrentItem="True" Background="{x:Null}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <RadioButton Content="{Binding Name}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>-->
-
-        <!--<ItemsControl ItemsSource="{Binding ComponentDatatypeList}" Width="{Binding UserInputVM.DataType}" Margin="85,63,586,417" Background="{x:Null}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <RadioButton Content="{Binding Name}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>-->
-
-        <!--<ItemsControl ItemsSource="{Binding Radio}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <RadioButton Content="{Binding Header}" IsChecked="{Binding CheckedProperty}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>-->
-
-        <!--<StackPanel  Name="rbHolder1" Orientation="Horizontal">
-            <RadioButton GroupName="UserType" >Retail</RadioButton>
-            <RadioButton GroupName="UserType" IsChecked="True">Wholesale</RadioButton>
-        </StackPanel>-->
-        <!--</ComboBox>-->
     </Grid>
 </Window>
