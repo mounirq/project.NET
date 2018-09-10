@@ -153,6 +153,19 @@ namespace ProjetNet.ViewModels
             UnderlyingsIds.Add(underlyingId);
             UnderlyingUserInput.UnderlyingsIds = UnderlyingsIds.ToArray();
         }
+
+        public void ClearWeight()
+        {
+            Weights.Clear();
+            UnderlyingUserInput.Weights = Weights.ToArray();
+        }
+
+        public void ClearUnderlyings()
+        {
+            UnderlyingsIds.Clear();
+            UnderlyingUserInput.UnderlyingsIds = UnderlyingsIds.ToArray();
+        }
+
         #endregion Public Methods
 
     }

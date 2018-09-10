@@ -156,8 +156,9 @@ namespace ProjetNet
         private HedgingToolViewModel hedgingToolVM;
         private PlotViewModel windowPlotVM;
         private ObservableCollection<String> componentSelectedShareIds;
+        private ObservableCollection<double> componentSelectedWeights;
 
-        public ObservableCollection<String> ComponentExistingSharesIds { get; private set; }
+
 
 
 
@@ -183,10 +184,13 @@ namespace ProjetNet
                 "VanillaCall",
                 "BasketOption"
             };
-            //ComponentOptionTypeList.ToString
+
             ComponentExistingSharesIds = new ObservableCollection<string>(ShareTools.GetAllShareIds());
+            ComponentSelectedShareIds = new ObservableCollection<string>();
+            ComponentSelectedWeights = new ObservableCollection<double>();
             PlotCommand = new DelegateCommand(CanPlot);
             AddShareCommand = new DelegateCommand(AddShare);
+            DeleteUnderlyingsCommand = new DelegateCommand(DeleteUnderlyings);
             //PlotCommand = new DelegateCommand(CanPlot);
         }
 
@@ -199,6 +203,7 @@ namespace ProjetNet
         public ObservableCollection<AbstractDataProviderViewModel> ComponentDatatypeList { get; private set; }
         public ObservableCollection<String> ComponentOptionTypeList { get; private set; }
 
+        public ObservableCollection<String> ComponentExistingSharesIds { get; private set; }
 
         public PlotViewModel WindowPlotVM
         {
@@ -228,6 +233,8 @@ namespace ProjetNet
         public DelegateCommand PlotCommand { get; private set; }
         public DelegateCommand AddShareCommand { get; private set; }
 
+        public DelegateCommand DeleteUnderlyingsCommand { get; private set; }
+
         public string SelectedShare
         {
             get { return this.selectedShare; }
@@ -240,6 +247,7 @@ namespace ProjetNet
         }
 
         public ObservableCollection<string> ComponentSelectedShareIds { get => componentSelectedShareIds; set => componentSelectedShareIds = value; }
+        public ObservableCollection<double> ComponentSelectedWeights { get => componentSelectedWeights; set => componentSelectedWeights = value; }
 
         #endregion Public Properties
 
@@ -249,7 +257,16 @@ namespace ProjetNet
         {
             UserInputVM.AddUnderlying(SelectedShare);
             UserInputVM.AddWeight(SelectedWeight);
-            ComponentSelectedShareIds = new ObservableCollection<string>(UserInputVM.UnderlyingsIds);
+            ComponentSelectedShareIds.Add(SelectedShare);
+            ComponentSelectedWeights.Add(SelectedWeight);
+        }
+
+        private void DeleteUnderlyings()
+        {
+            UserInputVM.ClearWeight();
+            UserInputVM.ClearUnderlyings();
+            ComponentSelectedShareIds.Clear();
+            ComponentSelectedWeights.Clear();
         }
 
         private void CanPlot()
