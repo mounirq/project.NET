@@ -83,8 +83,8 @@ namespace ProjetNet.Models
         }
         #endregion Public Constructors
 
-        public static void Main(string[] args)
-        {
+        //public static void Main(string[] args)
+        //{
             //UserInput userInput = new UserInput("VanillaCall", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP" }, new double[] { 1 }, new SimulatedDataProvider(), 10, 20);
 
             //UserInput userInput = new UserInput("BasketOption", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP", "ACA FP" }, new double[] { 0.7, 0.3 }, new SimulatedDataProvider(), 10, 20);
@@ -116,7 +116,7 @@ namespace ProjetNet.Models
             List<Share> underlyingsShares = new List<Share>();
             foreach (string underlyingId in userInput.UnderlyingsIds)
             {
-                String underlyingName = ShareName.GetShareName(underlyingId);
+                String underlyingName = ShareTools.GetShareName(underlyingId);
                 underlyingsShares.Add(new Share(underlyingName, underlyingId));
             }
             if (userInput.OptionType.Equals("VanillaCall"))
