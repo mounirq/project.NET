@@ -147,6 +147,7 @@ namespace ProjetNet
             UserInputVM.ClearUnderlyings();
             ComponentSelectedShareIds.Clear();
             ComponentSelectedWeights.Clear();
+            SelectedUnderlyingAndWeights.Clear();
         }
 
         private void CanPlot()
