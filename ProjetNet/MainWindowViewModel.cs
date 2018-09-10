@@ -38,7 +38,7 @@ namespace ProjetNet
                 new SimulatedDataProviderViewModel(),
                 new HistoricalDataProvioderViewModel()
             };
-            ComponentExistingSharesIds = new ObservableCollection<string>(ShareName.GetAllShareIds());
+            ComponentExistingSharesIds = new ObservableCollection<string>(ShareTools.GetAllShareIds());
             PlotCommand = new DelegateCommand(CanPlot);
             //PlotCommand = new DelegateCommand(CanPlot);
         }
