@@ -9,7 +9,7 @@ using PricingLibrary.Utilities.MarketDataFeed;
 
 namespace ProjetNet.Test
 {
-    class JsonHandlerTest
+    internal class JsonHandlerTest
     {
         public static void Main(string[] args)
         {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNet.Models
 {
-    class JsonHandler
+    internal class JsonHandler
     {
         #region Private Fields
         private List<VanillaCall> listVanillaCalls;
@@ -66,21 +66,42 @@ namespace ProjetNet.Models
         }
         
 
-        public void SaveOptionBasket(BasketOption option)
+        //public void SaveOptionBasket(BasketOption option)
+        //{
+        //    this.listBasketOptions.Add(option);
+        //    this.listBasketOptions = listBasketOptions.Distinct().ToList();
+        //    string json = JsonConvert.SerializeObject(this.listBasketOptions.ToArray());
+        //    System.IO.File.WriteAllText("BasketOptions.json", json);
+        //}
+
+        public void SaveOption(IOption option)
         {
-            this.listBasketOptions.Add(option);
-            this.listBasketOptions = listBasketOptions.Distinct().ToList();
-            string json = JsonConvert.SerializeObject(this.listBasketOptions.ToArray());
-            System.IO.File.WriteAllText("BasketOptions.json", json);
+            if (option.GetType() == typeof(BasketOption))
+            {
+                BasketOption newOption = (BasketOption) option;
+                this.listBasketOptions.Add(newOption);
+                this.listBasketOptions = listBasketOptions.Distinct().ToList();
+                string json = JsonConvert.SerializeObject(this.listBasketOptions.ToArray());
+                System.IO.File.WriteAllText("BasketOptions.json", json);
+            }
+            if (option.GetType() == typeof(VanillaCall))
+            {
+                VanillaCall newOption = (VanillaCall)option;
+                this.listVanillaCalls.Add(newOption);
+                this.listVanillaCalls = this.listVanillaCalls.Distinct().ToList();
+                string json = JsonConvert.SerializeObject(this.listVanillaCalls.ToArray());
+                System.IO.File.WriteAllText("VanillaCalls.json", json);
+            }
+
         }
 
-        public void SaveOptionVanille(VanillaCall option)
-        {           
-            this.listVanillaCalls.Add(option);
-            this.listVanillaCalls = this.listVanillaCalls.Distinct().ToList();
-            string json = JsonConvert.SerializeObject(this.listVanillaCalls.ToArray());
-            System.IO.File.WriteAllText("VanillaCalls.json", json);
-        }
+        //public void SaveOptionVanille(VanillaCall option)
+        //{           
+        //    this.listVanillaCalls.Add(option);
+        //    this.listVanillaCalls = this.listVanillaCalls.Distinct().ToList();
+        //    string json = JsonConvert.SerializeObject(this.listVanillaCalls.ToArray());
+        //    System.IO.File.WriteAllText("VanillaCalls.json", json);
+        //}
 
         public void DeleteOption(VanillaCall option)
         {

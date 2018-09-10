@@ -24,6 +24,7 @@ namespace ProjetNet
         private UserInputViewModel userInputVM;
         private HedgingToolViewModel hedgingToolVM;
         private PlotViewModel windowPlotVM;
+        private IOption selectedOption;
         private ObservableCollection<String> componentSelectedShareIds;
         private ObservableCollection<double> componentSelectedWeights;
         private Dictionary<string, double> selectedUnderlyingAndWeights;
@@ -40,6 +41,7 @@ namespace ProjetNet
             WindowPlotVM = new PlotViewModel();
             userInputVM = new UserInputViewModel();
             HedgingToolVM = new HedgingToolViewModel(UserInputVM);
+            JsonHandlerVM = new JsonHandler();
 
             ComponentDatatypeList = new ObservableCollection<AbstractDataProviderViewModel>()
             {
@@ -57,6 +59,17 @@ namespace ProjetNet
             ComponentExistingSharesIds = new ObservableCollection<string>(ShareTools.GetAllShareIds());
             ComponentSelectedShareIds = new ObservableCollection<string>();
             ComponentSelectedWeights = new ObservableCollection<double>();
+            ComponentSavedOptions = new ObservableCollection<IOption>();
+            JsonHandlerVM.LoadOptions();
+            foreach (VanillaCall option in JsonHandlerVM.ListVanillaCalls)
+            {
+                ComponentSavedOptions.Add(option);
+            }
+            foreach (BasketOption option in JsonHandlerVM.ListBasketOptions)
+            {
+                ComponentSavedOptions.Add(option);
+            }
+
             PlotCommand = new DelegateCommand(CanPlot);
             //try
             //{
@@ -69,6 +82,7 @@ namespace ProjetNet
             //}
             DeleteUnderlyingsCommand = new DelegateCommand(DeleteUnderlyings);
             AddOptionCommand = new DelegateCommand(AddOption);
+            LoadOptionCommand = new DelegateCommand(LoadOption);
         }
 
 
@@ -81,6 +95,7 @@ namespace ProjetNet
         public ObservableCollection<String> ComponentOptionTypeList { get; private set; }
 
         public ObservableCollection<String> ComponentExistingSharesIds { get; private set; }
+        public ObservableCollection<IOption> ComponentSavedOptions { get; private set; }
 
         public PlotViewModel WindowPlotVM
         {
@@ -114,6 +129,8 @@ namespace ProjetNet
 
         public DelegateCommand AddOptionCommand { get; private set; }
 
+        public DelegateCommand LoadOptionCommand { get; private set; }
+
         public string SelectedShare
         {
             get { return this.selectedShare; }
@@ -129,6 +146,7 @@ namespace ProjetNet
         public ObservableCollection<double> ComponentSelectedWeights { get => componentSelectedWeights; set => componentSelectedWeights = value; }
         public Dictionary<string, double> SelectedUnderlyingAndWeights { get => selectedUnderlyingAndWeights; set => selectedUnderlyingAndWeights = value; }
         internal JsonHandler JsonHandlerVM { get => jsonHandlerVM; set => jsonHandlerVM = value; }
+        public IOption SelectedOption { get => selectedOption; set => selectedOption = value; }
 
         #endregion Public Properties
 
@@ -175,13 +193,18 @@ namespace ProjetNet
             {
                 IOption optionToAdd = HedgingToolVM.HedgTool.constructOption();
                 JsonHandlerVM.SaveOption(optionToAdd);
+                ComponentSavedOptions.Add(optionToAdd);
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message.ToString());
                 return;
             }
-            
+        }
+
+        private void LoadOption()
+        {
+            UserInputVM.NameOption = SelectedOption.Name;
         }
 
         private void CanPlot()

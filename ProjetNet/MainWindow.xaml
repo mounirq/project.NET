@@ -90,13 +90,13 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform><Run Text="Option saved"/><Run Text=" :"/><Run Text=" "/><Run Text=" "/></TextBlock>
-        <!--<ComboBox ItemsSource="{Binding ComponentOptionTypeList}" SelectedItem="{Binding UserInputVM.OptionType}" Margin="94,272,178,223">
+        <ComboBox ItemsSource="{Binding ComponentSavedOptions}" SelectedItem="{Binding SelectedOption}" Margin="94,272,178,223">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}"/>
+                    <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
-        </ComboBox>-->
+        </ComboBox>
 
         <TextBlock Margin="11,358,336,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
@@ -143,45 +143,45 @@
         <DatePicker SelectedDate="{Binding UserInputVM.Maturity, Mode=TwoWay}" HorizontalAlignment="Left" Margin="96,439,0,0" VerticalAlignment="Top" Width="148"/>
 
 
-        <TextBlock Margin="366,69,28,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Underlying :" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+        <TextBlock Margin="409,69,375,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Underlying :" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.015"/>
+                    <SkewTransform AngleY="-0.003"/>
+                    <RotateTransform Angle="-0.014"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <ComboBox ItemsSource="{Binding ComponentExistingSharesIds}" SelectedItem="{Binding SelectedShare}" Margin="22,65,284,431" Text="Underlying" Grid.ColumnSpan="2" Grid.Column="1">
+        <ComboBox ItemsSource="{Binding ComponentExistingSharesIds}" SelectedItem="{Binding SelectedShare}" Margin="15,65,260,431" Text="Underlying" Grid.Column="2">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBlock Margin="115,68,219,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Weight :" RenderTransformOrigin="0.5,0.5" Grid.Column="2">
+        <TextBlock Margin="138,68,201,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Weight :" RenderTransformOrigin="0.5,0.5" Grid.Column="2">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.015"/>
+                    <SkewTransform AngleY="-0.003"/>
+                    <RotateTransform Angle="-0.014"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBox Text="{Binding SelectedWeight}" HorizontalAlignment="Left" Height="23" Margin="167,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="43" TextChanged="TextBox_TextChanged_1" Grid.Column="2"/>
-        <Button Command="{Binding AddShareCommand}" Content="Add" HorizontalAlignment="Left" Margin="225,67,0,0" VerticalAlignment="Top" Width="52" Grid.Column="2"/>
-        <Button Command="{Binding DeleteUnderlyingsCommand}" Content="Delete All" HorizontalAlignment="Left" Margin="290,67,0,0" VerticalAlignment="Top" Width="69" Grid.Column="2"/>
+        <TextBox Text="{Binding SelectedWeight}" HorizontalAlignment="Left" Height="23" Margin="185,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39" TextChanged="TextBox_TextChanged_1" Grid.Column="2"/>
+        <Button Command="{Binding AddShareCommand}" Content="Add" HorizontalAlignment="Left" Margin="238,67,0,0" VerticalAlignment="Top" Width="47" Grid.Column="2"/>
+        <Button Command="{Binding DeleteUnderlyingsCommand}" Content="Delete All" HorizontalAlignment="Left" Margin="296,67,0,0" VerticalAlignment="Top" Width="63" Grid.Column="2"/>
 
         <Button Command="{Binding PlotCommand}" VerticalAlignment="Center" Margin="371,408,339,83" Padding="5,2,5,2" Height="34" Grid.ColumnSpan="3">Compute Test</Button>
 
-        <ListBox ItemsSource="{Binding ComponentSelectedShareIds}" Height="158" Margin="380,138,281,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" SelectionChanged="ListBox_SelectionChanged" Grid.ColumnSpan="3">
+        <ListBox ItemsSource="{Binding ComponentSelectedShareIds}" Height="158" Margin="1,138,257,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" SelectionChanged="ListBox_SelectionChanged" Grid.ColumnSpan="2" Grid.Column="1">
             <ListBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.183"/>
+                    <SkewTransform AngleY="-0.036"/>
+                    <RotateTransform Angle="-0.166"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </ListBox.RenderTransform>
@@ -192,12 +192,12 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ListBox ItemsSource="{Binding ComponentSelectedWeights}" HorizontalAlignment="Left" Height="158" Margin="143,138,0,0" VerticalAlignment="Top" Width="186" RenderTransformOrigin="0.5,0.5" Grid.Column="2">
+        <ListBox ItemsSource="{Binding ComponentSelectedWeights}" HorizontalAlignment="Left" Height="158" Margin="163,138,0,0" VerticalAlignment="Top" Width="169" RenderTransformOrigin="0.5,0.5" Grid.Column="2">
             <ListBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.183"/>
+                    <SkewTransform AngleY="-0.036"/>
+                    <RotateTransform Angle="-0.166"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </ListBox.RenderTransform>
@@ -216,21 +216,21 @@
                 <lvc:Axis Title="Time" Labels="{Binding WindowPlotVM.Labels}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
-        <TextBlock Margin="381,116,0,0" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3" HorizontalAlignment="Left" Width="165" Height="22" VerticalAlignment="Top">
+        <TextBlock Margin="2,116,0,0" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="149" Height="22" VerticalAlignment="Top" Grid.Column="1">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.015"/>
+                    <SkewTransform AngleY="-0.003"/>
+                    <RotateTransform Angle="-0.014"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform><Run Text="Selected Underlyings"/><Run Text=" :"/></TextBlock>
-        <TextBlock Margin="143,116,75,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5" Grid.Column="2">
+        <TextBlock Margin="163,116,70,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5" Grid.Column="2">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.015"/>
+                    <SkewTransform AngleY="-0.003"/>
+                    <RotateTransform Angle="-0.014"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform><Run Text="Selected "/><Run Text="Weights "/><Run Text=":"/></TextBlock>
@@ -246,6 +246,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform><Run Text="Option Name"/><Run Text=":"/></TextBlock>
         <TextBox Text="{Binding UserInputVM.NameOption}" HorizontalAlignment="Left" Height="23" Margin="95,314,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" TextChanged="TextBox_TextChanged_1"/>
+        <Button Command="{Binding LoadOptionCommand}" VerticalAlignment="Center" Margin="264,272,67,219" Padding="5,2,5,2" Height="34" Content="Load Option"/>
 
     </Grid>
 </Window>
