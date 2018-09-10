@@ -112,17 +112,34 @@ namespace ProjetNet.Models
 
         }
 
-        internal double calculateGain(DataFeed maturityData, Share[] underlyingsShares, IOption option, Pricer pricer)
+        internal double calculateGain(int numberOfDaysBetweenConvering, DataFeed maturityData, Share[] underlyingsShares, IOption option)
         {
+            SimulatedDataFeedProvider simulator = new SimulatedDataFeedProvider();
+            int totalDays = simulator.NumberOfDaysPerYear;
+            int numberOfUnderlyingShares = underlyingsShares.Length;
+            double payoff = option.GetPayoff(maturityData.PriceList);
+            double cashRiskFree;
+            double cashRisk;
+            double freeRate = RiskFreeRateProvider.GetRiskFreeRateAccruedValue(numberOfDaysBetweenConvering / totalDays);
             if (option.GetType() == typeof(VanillaCall))
             {
                 double spot = (double)maturityData.PriceList[underlyingsShares[0].Id];
-
+                cashRisk = spot * this.portfolioComposition[underlyingsShares[0].Id];
+                cashRiskFree = this.cashRiskFree * freeRate;
+                this.currentPortfolioValue = cashRisk + cashRiskFree;
             }
             else
             {
-
+                double[] spots = fillSpots(maturityData, underlyingsShares);
+                double[] previousDeltas = new double[numberOfUnderlyingShares];
+                for (int i = 0; i < numberOfUnderlyingShares; i++)
+                {
+                    previousDeltas[i] = this.portfolioComposition[underlyingsShares[i].Id];
+                }
+                cashRisk = Tools.productScalar(spots, previousDeltas);
+                cashRiskFree = this.cashRiskFree * freeRate;
             }
+            return (this.currentPortfolioValue - payoff) / this.firstPortfolioValue;
         }
 
         internal double[] estimatePortfolioFirstDay(ParametersEstimation parameters, Share[] shares, IOption option, DateTime currentDay, DataFeed dataFeed, Pricer pricer)

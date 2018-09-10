@@ -8,7 +8,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="MainWindow" Height="976.557" Width="880.888">
-    <Grid Margin="10,4,0,0" Height="525" VerticalAlignment="Top" HorizontalAlignment="Left" Width="847">
+    <Grid Margin="10,4,0,0" Height="487" VerticalAlignment="Top" HorizontalAlignment="Left" Width="847">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="421*"/>
             <ColumnDefinition Width="43*"/>
@@ -127,7 +127,7 @@
             </TextBlock.RenderTransform>
         </TextBlock>
 
-        <TextBox Text="{Binding UserInputVM.Strike}" HorizontalAlignment="Left" Height="23" Margin="96,397,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="137" TextChanged="TextBox_TextChanged_1"/>
+        <TextBox Text="{Binding UserInputVM.Strike, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="96,397,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="137" TextChanged="TextBox_TextChanged_1"/>
 
 
         <TextBlock Margin="13,439,338,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Maturity :" RenderTransformOrigin="0.5,0.5">
@@ -245,8 +245,19 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform><Run Text="Option Name"/><Run Text=":"/></TextBlock>
-        <TextBox Text="{Binding UserInputVM.NameOption}" HorizontalAlignment="Left" Height="23" Margin="95,314,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" TextChanged="TextBox_TextChanged_1"/>
+        <TextBox Text="{Binding UserInputVM.NameOption, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="95,314,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" TextChanged="TextBox_TextChanged_1"/>
         <Button Command="{Binding LoadOptionCommand}" VerticalAlignment="Center" Margin="264,272,67,219" Padding="5,2,5,2" Height="34" Content="Load Option"/>
+        <TextBlock Margin="248,495,20.8,-30" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Normalized Gain :" RenderTransformOrigin="0.5,0.5" Visibility="{Binding PlotVisibility}">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <TextBox Text="{Binding HedgingToolVM.NormalizedGain, Mode=OneWay}" HorizontalAlignment="Left" Height="23" Margin="412,494,0,-30" TextWrapping="Wrap" VerticalAlignment="Top" Width="137" TextChanged="TextBox_TextChanged_1" Grid.ColumnSpan="3" Visibility="{Binding PlotVisibility}"/>
 
     </Grid>
 </Window>

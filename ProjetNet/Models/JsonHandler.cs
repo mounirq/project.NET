@@ -64,15 +64,6 @@ namespace ProjetNet.Models
                 }
             }    
         }
-        
-
-        //public void SaveOptionBasket(BasketOption option)
-        //{
-        //    this.listBasketOptions.Add(option);
-        //    this.listBasketOptions = listBasketOptions.Distinct().ToList();
-        //    string json = JsonConvert.SerializeObject(this.listBasketOptions.ToArray());
-        //    System.IO.File.WriteAllText("BasketOptions.json", json);
-        //}
 
         public void SaveOption(IOption option)
         {
@@ -95,26 +86,22 @@ namespace ProjetNet.Models
 
         }
 
-        //public void SaveOptionVanille(VanillaCall option)
-        //{           
-        //    this.listVanillaCalls.Add(option);
-        //    this.listVanillaCalls = this.listVanillaCalls.Distinct().ToList();
-        //    string json = JsonConvert.SerializeObject(this.listVanillaCalls.ToArray());
-        //    System.IO.File.WriteAllText("VanillaCalls.json", json);
-        //}
-
-        public void DeleteOption(VanillaCall option)
+        public void DeleteOption(IOption option)
         {
-            bool deleted = this.listVanillaCalls.Remove(option);
-            string json = JsonConvert.SerializeObject(this.listVanillaCalls.ToArray());
-            System.IO.File.WriteAllText("VanillaCalls.json", json);
-        }
-
-        public void DeleteOption(BasketOption option)
-        {
-            bool deleted = this.listBasketOptions.Remove(option);
-            string json = JsonConvert.SerializeObject(this.listBasketOptions.ToArray());
-            System.IO.File.WriteAllText("BasketOptions.json", json);
+            if (option.GetType() == typeof(BasketOption))
+            {
+                BasketOption newOption = (BasketOption)option;
+                bool deleted = this.listBasketOptions.Remove(newOption);
+                string json = JsonConvert.SerializeObject(this.listBasketOptions.ToArray());
+                System.IO.File.WriteAllText("BasketOptions.json", json);
+            }
+            if (option.GetType() == typeof(VanillaCall))
+            {
+                VanillaCall newOption = (VanillaCall)option;
+                bool deleted = this.listVanillaCalls.Remove(newOption);
+                string json = JsonConvert.SerializeObject(this.listVanillaCalls.ToArray());
+                System.IO.File.WriteAllText("VanillaCalls.json", json);
+            }
         }
          
     }

@@ -71,17 +71,12 @@ namespace ProjetNet
             }
 
             PlotCommand = new DelegateCommand(CanPlot);
-            //try
-            //{
+
             AddShareCommand = new DelegateCommand(AddShare);
-            //}
-            //catch (Exception ex)
-            //{
-            //    System.Windows.MessageBox.Show(ex.Message.ToString());
-            //    return;
-            //}
+
             DeleteUnderlyingsCommand = new DelegateCommand(DeleteUnderlyings);
             AddOptionCommand = new DelegateCommand(AddOption);
+            RemoveOptionCommand = new DelegateCommand(RemoveOption);
             LoadOptionCommand = new DelegateCommand(LoadOption);
         }
 
@@ -128,6 +123,8 @@ namespace ProjetNet
         public DelegateCommand DeleteUnderlyingsCommand { get; private set; }
 
         public DelegateCommand AddOptionCommand { get; private set; }
+
+        public DelegateCommand RemoveOptionCommand { get; private set; }
 
         public DelegateCommand LoadOptionCommand { get; private set; }
 
@@ -191,7 +188,20 @@ namespace ProjetNet
                 IOption optionToAdd = HedgingToolVM.HedgTool.constructOption();
                 JsonHandlerVM.SaveOption(optionToAdd);
                 ComponentSavedOptions.Add(optionToAdd);
-                //JsonHandlerVM.SaveOption(optionToAdd);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message.ToString());
+                return;
+            }
+        }
+
+        private void RemoveOption()
+        {
+            try
+            {
+                JsonHandlerVM.DeleteOption(SelectedOption);
+                bool removed = ComponentSavedOptions.Remove(SelectedOption);
             }
             catch (Exception ex)
             {
@@ -203,6 +213,18 @@ namespace ProjetNet
         private void LoadOption()
         {
             UserInputVM.NameOption = SelectedOption.Name;
+            UserInputVM.Strike = SelectedOption.Strike;
+            UserInputVM.Maturity = SelectedOption.Maturity;
+            UserInputVM.UnderlyingsIds = SelectedOption.UnderlyingShareIds.ToList();
+            if (SelectedOption.GetType() == typeof(BasketOption))
+            {
+                UserInputVM.Weights = ((BasketOption)SelectedOption).Weights.ToList();
+            }
+            else if (SelectedOption.GetType() == typeof(VanillaCall))
+            {
+                UserInputVM.Weights = new List<double> { 1 };
+            }
+
         }
 
         private void CanPlot()

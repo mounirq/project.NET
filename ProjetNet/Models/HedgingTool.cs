@@ -52,8 +52,8 @@ namespace ProjetNet.Models
                 DateTime maxDate = historicalData.GetMaxDate();
                 if (startDateOfEstimation < minDate || userInput.Maturity > maxDate)
                 {
-                    throw new ArgumentException("Unavailable historical data for the selected dates and estimationWindow, they must be between : "+
-                        minDate.ToString("dd/MM/yyyy") + " and "+ maxDate.ToString("dd/MM/yyyy"));
+                    throw new ArgumentException("Unavailable historical data for the selected dates and estimationWindow, they must be between : " +
+                        minDate.ToString("dd/MM/yyyy") + " and " + maxDate.ToString("dd/MM/yyyy"));
                 }
                 dataFeeds = historicalData.GetDataFeeds(option, startDateOfEstimation);
             }
@@ -97,7 +97,7 @@ namespace ProjetNet.Models
 
             /* Last Step */
             DataFeed maturityData = dataFeedSkipped.Last();
-            normalizedGain = portfolio.calculateGain(maturityData, underlyingsShares, option, pricer);
+            normalizedGain = portfolio.calculateGain(userInput.RebalancementFrequency,maturityData, underlyingsShares, option);
         }
 
         public HedgingTool(UserInput userInput)
