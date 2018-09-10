@@ -96,14 +96,6 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <!--<StackPanel>
-            <RadioButton Content="VanillaOption" IsChecked="{Binding OptionTypeAsV, Mode=TwoWay}" Margin="10,5,0,0" GroupName="OptionType" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <RadioButton Content="BasketOption" IsChecked="{Binding OptionTypeAsB, Mode=TwoWay}" Margin="10,5,0,0" GroupName="OptionType" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        </StackPanel>-->
-        <!--<CheckBox Content="VanillaCall" HorizontalAlignment="Left" Margin="95,273,0,0" VerticalAlignment="Top"/>
-        <CheckBox Content="BasketOption" HorizontalAlignment="Left" Margin="173,273,0,0" VerticalAlignment="Top"/>-->
-
-
         <TextBlock Margin="14,311,763,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Strike :" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
@@ -141,7 +133,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <!--<ListBox ItemsSource="{Binding ComponentExistingSharesIds}" SelectedItem ="{Binding UserInputVM.UnderlyingsIds, Mode=OneWayToSource}" Margin="499,70,120,218" Background="{x:Null}">
+        <!--<ListBox ItemsSource="{Binding ComponentExistingSharesIds}" SelectedItem ="{Binding UserInputVM.UnderlyingsIds, Mode=OneWayToSource}" Margin="499,146,120,218" Background="{x:Null}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel/>
@@ -178,6 +170,21 @@
 
         <Button Command="{Binding PlotCommand}" VerticalAlignment="Center" Margin="371,398,339,72" Padding="5,2,5,2" Height="34">Compute Test</Button>
 
+        <ListView ItemsSource="{Binding ComponentSelectedShareIds}" HorizontalAlignment="Left" Height="158" Margin="437,132,0,0" VerticalAlignment="Top" Width="237" RenderTransformOrigin="0.5,0.5">
+            <ListView.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.183"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ListView.RenderTransform>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <lvc:CartesianChart Series="{Binding WindowPlotVM.SeriesCollection}" LegendLocation="Right" Margin="-9,551,-16,-424" >
             <lvc:CartesianChart.AxisY>
@@ -187,13 +194,7 @@
                 <lvc:Axis Title="Time" Labels="{Binding WindowPlotVM.Labels}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
-        <ListView ItemsSource="{Binding ComponentSelectedShareIds}" HorizontalAlignment="Left" Height="100" Margin="508,155,0,0" VerticalAlignment="Top" Width="100">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}" VerticalAlignment="Center" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+
 
 
 

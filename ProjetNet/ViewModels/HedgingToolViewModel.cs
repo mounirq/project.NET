@@ -36,7 +36,7 @@ namespace ProjetNet.ViewModels
 
         public List<double> PortfolioValue { get => HedgTool.PortfolioValue; }
         internal UserInputViewModel UserInputVM { get => userInputVM; set => userInputVM = value; }
-
+        
         public void ComputeTest()
         {
             HedgTool.update();

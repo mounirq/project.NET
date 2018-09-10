@@ -145,6 +145,13 @@ namespace ProjetNet.ViewModels
         public void AddWeight(double weight)
         {
             Weights.Add(weight);
+            UnderlyingUserInput.Weights = Weights.ToArray();
+        }
+
+        public void AddUnderlying(string underlyingId)
+        {
+            UnderlyingsIds.Add(underlyingId);
+            UnderlyingUserInput.UnderlyingsIds = UnderlyingsIds.ToArray();
         }
         #endregion Public Methods
 
