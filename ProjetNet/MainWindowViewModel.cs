@@ -154,13 +154,10 @@ namespace ProjetNet
 
         private void AddShare()
         {
-            //if(SelectedShare == null) { throw new ArgumentException("Please Enter the underlying share"); }
+            if (SelectedShare == null) { System.Windows.MessageBox.Show("Please Enter the underlying share"); return; }
+            if (SelectedWeight <= 0 || SelectedWeight > 1 ) { System.Windows.MessageBox.Show("Please Enter a valid weight : weight in ]0,1]"); return; }
             if (SelectedUnderlyingAndWeights.ContainsKey(SelectedShare))
             {
-                //if (SelectedWeight <= 0)
-                //{
-                //    throw new ArgumentException("The weight must be positive");
-                //}
                 SelectedUnderlyingAndWeights[SelectedShare] = SelectedWeight;
             }
             else
@@ -194,6 +191,7 @@ namespace ProjetNet
                 IOption optionToAdd = HedgingToolVM.HedgTool.constructOption();
                 JsonHandlerVM.SaveOption(optionToAdd);
                 ComponentSavedOptions.Add(optionToAdd);
+                //JsonHandlerVM.SaveOption(optionToAdd);
             }
             catch (Exception ex)
             {
