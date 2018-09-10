@@ -43,7 +43,7 @@
     <StartupObject>ProjetNet.Test.SimulatedDataTest</StartupObject>
     <StartupObject>ProjetNet.App</StartupObject>
     <StartupObject>ProjetNet.App</StartupObject>
-    <StartupObject>ProjetNet.Models.HedgingTool</StartupObject>
+    <StartupObject>ProjetNet.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
