@@ -38,6 +38,10 @@ namespace ProjetNet.Models
             if (userInput.DataType.GetType() == typeof(HistoricalDataProvider))
             {
                 HistoricalDataProvider historicalData = new HistoricalDataProvider();
+                if (startDateOfEstimation < historicalData.GetMinDate() && userInput.Maturity > historicalData.GetMaxDate())
+                {
+                    throw new ArgumentException("Unavailable data for the selected dates and estimationWindow");
+                }
                 dataFeeds = historicalData.GetDataFeeds(option, startDateOfEstimation);
             }
             else
