@@ -15,17 +15,17 @@ namespace ProjetNet
     {
         #region Private Fields
 
-        public ObservableCollection<AbstractDataProviderViewModel> ComponentDatatypeList { get; private set; }
-        public ObservableCollection<String> ComponentOptionTypeList { get; private set; }
-        public ObservableCollection<String> ComponentExistingSharesIds { get; private set; }
-        
-
         private string selectedShare;
         private double selectedWeight;
 
         private UserInputViewModel userInputVM;
         private HedgingToolViewModel hedgingToolVM;
         private PlotViewModel windowPlotVM;
+        private ObservableCollection<String> componentSelectedShareIds;
+
+        public ObservableCollection<String> ComponentExistingSharesIds { get; private set; }
+
+        
 
         private Boolean plotBool = false;
 
@@ -46,7 +46,7 @@ namespace ProjetNet
             };
             ComponentOptionTypeList = new ObservableCollection<String>()
             {
-                "VanillaOption",
+                "VanillaCall",
                 "BasketOption"
             };
             //ComponentOptionTypeList.ToString
@@ -56,12 +56,15 @@ namespace ProjetNet
             //PlotCommand = new DelegateCommand(CanPlot);
         }
 
-        
+
 
         #endregion Public Constructors
 
         #region Public Properties
 
+        public ObservableCollection<AbstractDataProviderViewModel> ComponentDatatypeList { get; private set; }
+        public ObservableCollection<String> ComponentOptionTypeList { get; private set; }
+        
 
         public PlotViewModel WindowPlotVM
         {
@@ -69,20 +72,12 @@ namespace ProjetNet
             set { SetProperty(ref this.windowPlotVM, value); }
         }
 
-        public ObservableCollection<String> ComponentSelectedShareIds
-        {
-            get { return new ObservableCollection<String>(UserInputVM.UnderlyingsIds); }
-        }
 
         public UserInputViewModel UserInputVM
         {
             get { return this.userInputVM; }
             set { SetProperty(ref this.userInputVM, value); }
         }
-        //public UserInputViewModel UserInputVM
-        //{
-        //    get { return this.HedgingToolVM.UserInputVM; }
-        //}
 
         public HedgingToolViewModel HedgingToolVM
         {
@@ -110,25 +105,28 @@ namespace ProjetNet
             set { SetProperty(ref this.selectedWeight, value); }
         }
 
+        public ObservableCollection<string> ComponentSelectedShareIds { get => componentSelectedShareIds; set => componentSelectedShareIds = value; }
+
         #endregion Public Properties
 
         #region Public Methods
 
         private void AddShare()
         {
-            UserInputVM.UnderlyingsIds.Add(SelectedShare);
-            UserInputVM.Weights.Add(SelectedWeight);
+            UserInputVM.AddUnderlying(SelectedShare);
+            UserInputVM.AddWeight(SelectedWeight);
+            ComponentSelectedShareIds = new ObservableCollection<string>(UserInputVM.UnderlyingsIds);
         }
 
         private void CanPlot()
         {
-            //this.WindowPlotVM = new PlotViewModel();
-            //HedgingToolVM.UserInputVM.Weights = new List<double>() { 1 };
-            //HedgingToolVM.ComputeTest();
-            //double[] optionValues = HedgingToolVM.OptionValue.ToArray();
-            //double[] portfolioValues = HedgingToolVM.PortfolioValue.ToArray();
+            this.WindowPlotVM = new PlotViewModel();
+            HedgingToolVM.UserInputVM = UserInputVM;
+            HedgingToolVM.ComputeTest();
+            double[] optionValues = HedgingToolVM.OptionValue.ToArray();
+            double[] portfolioValues = HedgingToolVM.PortfolioValue.ToArray();
 
-            //WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(optionValues, portfolioValues);
+            WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(optionValues, portfolioValues);
 
             //WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(new double[] { 4, 6, 5, 2, 7 }, new double[] { 6, 7, 3, 4, 6 });
 
