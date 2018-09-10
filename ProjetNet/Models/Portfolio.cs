@@ -82,14 +82,14 @@ namespace ProjetNet.Models
                 int numberOfUnderlyingShares = underlyingShares.Length;
                 double freeRate = RiskFreeRateProvider.GetRiskFreeRateAccruedValue(numberOfDaysBetweenConvering / totalDays);
 
-                double cashRisk = productScalar(deltas, spots);
+                double cashRisk = Tools.productScalar(deltas, spots);
                 double[] previousDeltas = new double[numberOfUnderlyingShares];
                 for (int i = 0; i < numberOfUnderlyingShares; i++)
                 {
                     previousDeltas[i] = this.portfolioComposition[underlyingShares[i].Id];
                 }
 
-                double cashRiskFree = productScalar(minusArrays(previousDeltas, deltas), spots) + this.cashRiskFree * freeRate;
+                double cashRiskFree = Tools.productScalar(Tools.minusArrays(previousDeltas, deltas), spots) + this.cashRiskFree * freeRate;
 
                 this.currentPortfolioValue = cashRisk + cashRiskFree;
                 this.cashRiskFree = cashRiskFree;
@@ -138,7 +138,7 @@ namespace ProjetNet.Models
                 this.firstPortfolioValue = basketPrice;
                 this.currentPortfolioValue = basketPrice;
                 this.currentDate = currentDay;
-                this.cashRiskFree = basketPrice - productScalar(deltas, spots);
+                this.cashRiskFree = basketPrice - Tools.productScalar(deltas, spots);
                 for (int i = 0; i < shares.Length; i++)
                 {
                     this.portfolioComposition.Add(shares[i].Id, deltas[i]);
@@ -150,34 +150,10 @@ namespace ProjetNet.Models
             return new double[2] { optionValue, portfolioValue };
         }
 
-        public static double[] minusArrays(double[] firstArray, double[] secondArray)
-        {
-            if (firstArray.Length != secondArray.Length) { throw new ArgumentOutOfRangeException("The arrays must have the same size"); }
-            int size = firstArray.Length; 
-            double[] newArray = new double[size];
-            for (int i = 0; i < size; i++)
-            {
-                newArray[i] = firstArray[i] - secondArray[i];
-            }
-            return newArray;
-        }
-
-        public static double productScalar(double[] firstArray, double[] secondArray)
-        {
-            if (firstArray.Length != secondArray.Length) { throw new ArgumentOutOfRangeException("The arrays must have the same size"); }
-            int size = firstArray.Length;
-            double value = 0;
-            for (int i = 0; i < size; i++)
-            {
-                value += firstArray[i] * secondArray[i];
-            }
-            return value;
-        }
-
         public static double[] fillSpots(DataFeed data, Share[] shares)
         {
             int size = shares.Length;
-            double[] spots = new double[shares.Length];
+            double[] spots = new double[size];
             for (int i = 0; i < size; i++)
             {
                 spots[i] = (double)data.PriceList[shares[i].Id];

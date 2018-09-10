@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjetNet"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="MainWindow" Height="976.557" Width="880.888">
     <Grid Margin="10,4,16,418">
@@ -19,65 +20,6 @@
             </TextBlock.RenderTransform>
         </TextBlock>
 
-        <lvc:CartesianChart Series="{Binding WindowPlotVM.SeriesCollection}" LegendLocation="Right" Margin="-9,551,-16,-424" >
-            <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Values" LabelFormatter="{Binding WindowPlotVM.YFormatter}"></lvc:Axis>
-            </lvc:CartesianChart.AxisY>
-            <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Time" Labels="{Binding WindowPlotVM.Labels}"></lvc:Axis>
-            </lvc:CartesianChart.AxisX>
-        </lvc:CartesianChart>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="95,310,0,0" TextWrapping="Wrap" Text="Strike" VerticalAlignment="Top" Width="138" TextChanged="TextBox_TextChanged_1"/>
-        <TextBlock Margin="11,271,762,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
-            <TextBlock.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.015"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </TextBlock.RenderTransform><Run Text="TypeOption"/><Run Text=" :"/><Run Text=" "/><Run Text=" "/></TextBlock>
-        <TextBlock Margin="14,311,763,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Strike :" RenderTransformOrigin="0.5,0.5">
-            <TextBlock.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.015"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </TextBlock.RenderTransform>
-        </TextBlock>
-<!--        <RadioButton Content="VanillaOption" isChecked="{Binding OptionTypeAsV, Mode TwoWay}" Margin="10,5,0,0" GroupName="OptionType" HorizontalAlignment="Left" Margin="95,273,0,0" VerticalAlignment="Top" />-->
-<!--        <RadioButton Content="BasketOption" isChecked="{Binding OptionTypeAsB, Mode TwoWay}" Margin="10,5,0,0" GroupName="OptionType" HorizontalAlignment="Left" Margin="173,273,0,0" VerticalAlignment="Top" />-->
-        <CheckBox Content="VanillaCall" HorizontalAlignment="Left" Margin="95,273,0,0" VerticalAlignment="Top"/>
-        <CheckBox Content="BasketOption" HorizontalAlignment="Left" Margin="173,273,0,0" VerticalAlignment="Top"/>
-        <TextBlock Margin="13,352,764,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Maturity :" RenderTransformOrigin="0.5,0.5">
-            <TextBlock.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.015"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </TextBlock.RenderTransform>
-        </TextBlock>
-        <TextBlock Margin="12,397,765,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Underlying :" RenderTransformOrigin="0.5,0.5">
-            <TextBlock.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.015"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </TextBlock.RenderTransform>
-        </TextBlock>
-        <ComboBox ItemsSource="{Binding ComponentExistingSharesIds}" Margin="94,396,633,100" Text="Underlying">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
         <TextBlock Margin="12,70,761,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
@@ -86,9 +28,17 @@
                     <RotateTransform Angle="-0.015"/>
                     <TranslateTransform/>
                 </TransformGroup>
-            </TextBlock.RenderTransform><Run Text="Test Type"/><Run Text=" :"/><Run Text=" "/><Run Text=" "/></TextBlock>
+            </TextBlock.RenderTransform><Run Text="Test Type"/><Run Text=" :"/><Run Text=" "/><Run Text=" "/>
+        </TextBlock>
 
-        <Button Command="{Binding PlotCommand}" VerticalAlignment="Center" Margin="371,398,339,72" Padding="5,2,5,2" Height="34">Compute Test</Button>
+        <ComboBox ItemsSource="{Binding ComponentDatatypeList}" SelectedItem="{Binding UserInputVM.DataType}" Margin="95,70,603,428">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
         <TextBlock Margin="13,115,764,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Start Date :" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
@@ -99,7 +49,9 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBox HorizontalAlignment="Left" Height="29" Margin="94,155,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="139" TextChanged="TextBox_TextChanged_1"/>
+
+        <DatePicker SelectedDate="{Binding UserInputVM.StartDate, Mode=TwoWay}" HorizontalAlignment="Left" Margin="94,113,0,0" VerticalAlignment="Top"/>
+
         <TextBlock Margin="13,151,758,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
@@ -109,7 +61,9 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform><Run Text="Rebalancing "/><Run Text="In"/><Run Text="terval"/><Run Text=" :"/></TextBlock>
-        <TextBox HorizontalAlignment="Left" Height="29" Margin="94,198,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="139" TextChanged="TextBox_TextChanged_1"/>
+
+        <TextBox Text="{Binding UserInputVM.RebalancementFrequency}" HorizontalAlignment="Left" Height="29" Margin="94,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="139" TextChanged="TextBox_TextChanged_1"/>
+
         <TextBlock Margin="13,194,764,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" RenderTransformOrigin="0.5,0.5" Text="Estimation Window :">
             <TextBlock.RenderTransform>
                 <TransformGroup>
@@ -119,19 +73,198 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform></TextBlock>
-        <DatePicker SelectedDate ="{Binding start}" HorizontalAlignment="Left" Margin="94,113,0,0" VerticalAlignment="Top"/>
-        <DatePicker HorizontalAlignment="Left" Margin="94,113,0,0" VerticalAlignment="Top"/>
-        <DatePicker HorizontalAlignment="Left" Margin="94,113,0,0" VerticalAlignment="Top"/>
+
+        <TextBox Text="{Binding UserInputVM.EstimationWindow}" HorizontalAlignment="Left" Height="29" Margin="94,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="139" TextChanged="TextBox_TextChanged_1"/>
+
+
+
+        <TextBlock Margin="11,271,762,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform><Run Text="TypeOption"/><Run Text=" :"/><Run Text=" "/><Run Text=" "/></TextBlock>
+
+        <ComboBox ItemsSource="{Binding ComponentOptionTypeList}" SelectedItem="{Binding UserInputVM.OptionType}" Margin="94,266,604,229">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBlock Margin="14,311,763,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Strike :" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+
+        <TextBox Text="{Binding UserInputVM.Strike}" HorizontalAlignment="Left" Height="23" Margin="95,310,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" TextChanged="TextBox_TextChanged_1"/>
+
+
+        <TextBlock Margin="13,352,764,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Maturity :" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <DatePicker SelectedDate="{Binding UserInputVM.Maturity, Mode=TwoWay}" HorizontalAlignment="Left" Margin="95,352,0,0" VerticalAlignment="Top"/>
+
+
+        <TextBlock Margin="366,69,411,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Underlying :" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <!--<ListBox ItemsSource="{Binding ComponentExistingSharesIds}" SelectedItem ="{Binding UserInputVM.UnderlyingsIds, Mode=OneWayToSource}" Margin="499,146,120,218" Background="{x:Null}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListBox>-->
+        <ComboBox ItemsSource="{Binding ComponentExistingSharesIds}" SelectedItem="{Binding SelectedShare}" Margin="443,65,284,431" Text="Underlying">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+
+        <TextBlock Margin="579,68,219,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Text="Weight :" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <TextBox Text="{Binding SelectedWeight}" HorizontalAlignment="Left" Height="23" Margin="631,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="43" TextChanged="TextBox_TextChanged_1"/>
+        <Button Command="{Binding AddShareCommand}" Content="Add" HorizontalAlignment="Left" Margin="689,67,0,0" VerticalAlignment="Top" Width="52"/>
+        <Button Command="{Binding DeleteUnderlyingsCommand}" Content="Delete All" HorizontalAlignment="Left" Margin="754,67,0,0" VerticalAlignment="Top" Width="69"/>
+
+        <Button Command="{Binding PlotCommand}" VerticalAlignment="Center" Margin="371,398,339,72" Padding="5,2,5,2" Height="34">Compute Test</Button>
+
+        <ListBox ItemsSource="{Binding ComponentSelectedShareIds}" Height="158" Margin="380,138,281,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" SelectionChanged="ListBox_SelectionChanged">
+            <ListBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.183"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ListBox.RenderTransform>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox ItemsSource="{Binding ComponentSelectedWeights}" HorizontalAlignment="Left" Height="158" Margin="607,138,0,0" VerticalAlignment="Top" Width="186" RenderTransformOrigin="0.5,0.5">
+            <ListBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.183"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ListBox.RenderTransform>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <lvc:CartesianChart Series="{Binding WindowPlotVM.SeriesCollection}" LegendLocation="Right" Margin="-9,551,-16,-424" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Values" LabelFormatter="{Binding WindowPlotVM.YFormatter}"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Time" Labels="{Binding WindowPlotVM.Labels}"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
+        <TextBlock Margin="381,116,301,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform><Run Text="Selected Underlyings"/><Run Text=" :"/></TextBlock>
+        <TextBlock Margin="607,116,75,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform><Run Text="Selected "/><Run Text="Weights "/><Run Text=":"/></TextBlock>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!--<ComboBox VerticalAlignment="Center" Margin="10,5,10,5" Padding="5,2,5,2" Width="96" SelectionChanged="ComboBox_SelectionChanged" >-->
-        <ListBox ItemsSource="{Binding ComponentDatatypeList}" SelectedItem="{Binding UserInputVM.DataType}" Margin="85,63,586,417" IsSynchronizedWithCurrentItem="True" Background="{x:Null}">
+        <!--<ListBox ItemsSource="{Binding ComponentDatatypeList}" SelectedItem="{Binding UserInputVM.DataType}" Margin="85,63,586,417" IsSynchronizedWithCurrentItem="True" Background="{x:Null}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <RadioButton Content="{Binding Name}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
-        
-       <!-- <ItemsControl ItemsSource="{Binding ComponentDatatypeList}" SelectedItem="{Binding UserInputVM.DataType}" Margin="85,63,586,417" IsSynchronizedWithCurrentItem="True" Background="{x:Null}">
+        </ListBox>-->
+
+        <!--<ItemsControl ItemsSource="{Binding ComponentDatatypeList}" Width="{Binding UserInputVM.DataType}" Margin="85,63,586,417" Background="{x:Null}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel/>
@@ -143,8 +276,8 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>-->
-        
-       <!-- <ItemsControl ItemsSource="{Binding Radio}">
+
+        <!--<ItemsControl ItemsSource="{Binding Radio}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel/>
@@ -156,7 +289,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>-->
-        
+
         <!--<StackPanel  Name="rbHolder1" Orientation="Horizontal">
             <RadioButton GroupName="UserType" >Retail</RadioButton>
             <RadioButton GroupName="UserType" IsChecked="True">Wholesale</RadioButton>

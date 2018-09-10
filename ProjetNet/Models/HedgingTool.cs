@@ -31,12 +31,17 @@ namespace ProjetNet.Models
             IOption option = constructOption();
 
             List<DataFeed> dataFeeds;
+            userInput.StartDate = Tools.NextBusinessDay(userInput.StartDate);
 
-            DateTime startDateOfEstimation = userInput.StartDate.AddDays(-2 * userInput.EstimationWindow);
+            DateTime startDateOfEstimation = Tools.MinusBusinessDays(userInput.StartDate, userInput.EstimationWindow);
 
             if (userInput.DataType.GetType() == typeof(HistoricalDataProvider))
             {
                 HistoricalDataProvider historicalData = new HistoricalDataProvider();
+                if (startDateOfEstimation < historicalData.GetMinDate() || userInput.Maturity > historicalData.GetMaxDate())
+                {
+                    throw new ArgumentException("Unavailable historical data for the selected dates and estimationWindow");
+                }
                 dataFeeds = historicalData.GetDataFeeds(option, startDateOfEstimation);
             }
             else
@@ -53,33 +58,21 @@ namespace ProjetNet.Models
 
             Pricer pricer = new Pricer();
 
-            Share[] underlyingsShares = new Share[option.UnderlyingShareIds.Length];
-            int k = 0;
-            foreach (string underlyingId in userInput.UnderlyingsIds)
-            {
-                //String underlyingName = ShareName.GetShareName(underlyingId);
-                String underlyingName = "sfr";
-                underlyingsShares[k] = new Share(underlyingName, underlyingId);
-                k++;
-            }
+            Share[] underlyingsShares = ShareTools.GenerateShares(userInput.UnderlyingsIds);
 
             double[] returnedValue = portfolio.estimatePortfolioFirstDay(parameters, underlyingsShares, option, currentDay, dataFeeds[userInput.EstimationWindow], pricer);
             optionValue.Add(returnedValue[0]);
             portfolioValue.Add(returnedValue[1]);
 
-            List<DataFeed> dataFeedSkipped = new List<DataFeed>(); ;
-            for (int j = userInput.EstimationWindow; j < dataFeeds.Count; j++)
-            {
-                dataFeedSkipped.Add(dataFeeds[j]);
-            }
+            List<DataFeed> dataFeedSkipped = dataFeeds.Skip(userInput.EstimationWindow).ToList();
 
             int i = 1;
-            foreach (DataFeed data in dataFeedSkipped.Skip(1))
+            foreach (DataFeed data in dataFeedSkipped)
             {
                 if (i % userInput.RebalancementFrequency == 0 && !data.Date.Equals(dataFeedSkipped.Last().Date))
                 {
                     currentDay = data.Date;
-                    //parameters = parametersEstimation(dataFeeds, currentDay, userInput.EstimationWindow);
+                    parameters = new ParametersEstimation(dataFeeds, currentDay, userInput.EstimationWindow);
                     returnedValue = portfolio.updatePortfolio(userInput.RebalancementFrequency, parameters, underlyingsShares, option, currentDay, data, pricer);
                     optionValue.Add(returnedValue[0]);
                     portfolioValue.Add(returnedValue[1]);
@@ -94,46 +87,45 @@ namespace ProjetNet.Models
         }
         #endregion Public Constructors
 
-        public static void Main(string[] args)
-        {
-            //UserInput userInput = new UserInput("VanillaCall", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "12341" }, new double[] { 1 }, new SimulatedDataProvider(), 10, 20);
+        //public static void Main(string[] args)
+        //{
+        //UserInput userInput = new UserInput("VanillaCall", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP" }, new double[] { 1 }, new SimulatedDataProvider(), 10, 20);
 
-            UserInput userInput = new UserInput("BasketOption", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "12341", "45875 " }, new double[] { 0.7, 0.3 }, new SimulatedDataProvider(), 10, 20);
+        //UserInput userInput = new UserInput("BasketOption", new DateTime(2018, 09, 24), new DateTime(2019, 09, 28), 9, new string[] { "AC FP", "ACA FP" }, new double[] { 0.7, 0.3 }, new SimulatedDataProvider(), 10, 20);
 
-            HedgingTool hedging = new HedgingTool(userInput);
-            hedging.update();
+        //    HedgingTool hedging = new HedgingTool(userInput);
+        //    hedging.update();
 
-            int size = hedging.OptionValue.Count;
-            using (System.IO.StreamWriter file =
-               new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\PortefeuilleVanille.txt"))
-            {
-                for (int index = 0; index < size; index++)
-                {
-                    // If the line doesn't contain the word 'Second', write the line to the file.
-                    file.WriteLine(hedging.OptionValue[index]);
-                    file.WriteLine(hedging.PortfolioValue[index]);
-                }
-            }
-            Console.WriteLine("C'est terminé");
-        }
+        //    int size = hedging.OptionValue.Count;
+        //    using (System.IO.StreamWriter file =
+        //       new System.IO.StreamWriter(@"C:\Users\ensimag\Desktop\PortefeuilleVanille.txt"))
+        //    {
+        //        for (int index = 0; index < size; index++)
+        //        {
+        //            // If the line doesn't contain the word 'Second', write the line to the file.
+        //            file.WriteLine(hedging.OptionValue[index]);
+        //            file.WriteLine(hedging.PortfolioValue[index]);
+        //        }
+        //    }
+        //    Console.WriteLine("C'est terminé");
+        //}
 
-            #region Public Methods
+        #region Public Methods
 
-            public IOption constructOption()
+        public IOption constructOption()
         {
             IOption option = null;
 
-            if (!(userInput.Weights == null) && userInput.Weights.Sum() != 1){throw new ArgumentException("The sum of the weights must equal");}
+            if (!(userInput.Weights == null) && userInput.Weights.Sum() != 1) { throw new ArgumentException("The sum of the weights must equal"); }
             List<Share> underlyingsShares = new List<Share>();
             foreach (string underlyingId in userInput.UnderlyingsIds)
             {
-                //String underlyingName = ShareName.GetShareName(underlyingId);
-                String underlyingName = "sfr";
+                String underlyingName = ShareTools.GetShareName(underlyingId);
                 underlyingsShares.Add(new Share(underlyingName, underlyingId));
             }
             if (userInput.OptionType.Equals("VanillaCall"))
             {
-                if(underlyingsShares.Count > 1) { throw new ArgumentException("You have to choose only one option "); }
+                if (underlyingsShares.Count > 1) { throw new ArgumentException("You have to choose only one option "); }
                 option = new VanillaCall(userInput.OptionType, underlyingsShares[0], userInput.Maturity, userInput.Strike);
             }
             else if (userInput.OptionType.Equals("BasketOption"))

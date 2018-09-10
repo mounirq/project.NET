@@ -121,10 +121,11 @@
     <Compile Include="Models\HedgingTool.cs" />
     <Compile Include="Models\PortfolioBasket.cs" />
     <Compile Include="Models\JsonHandler.cs" />
-    <Compile Include="Models\SaveOption.cs" />
-    <Compile Include="Models\ShareName.cs" />
     <Compile Include="Models\UserInput.cs" />
     <Compile Include="Test\JsonHandlerTest.cs" />
+    <Compile Include="Models\ShareTools.cs" />
+    <Compile Include="Models\UserInput.cs" />
+    <Compile Include="Models\Tools.cs" />
     <Compile Include="Test\ParametersEstimationTest.cs" />
     <Compile Include="Test\HistoricalDataTest.cs" />
     <Compile Include="Test\PortfolioBasketTest.cs" />
