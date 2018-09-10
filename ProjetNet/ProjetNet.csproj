@@ -42,7 +42,7 @@
     <StartupObject>ProjetNet.Models.ComputingMatrix</StartupObject>
     <StartupObject>ProjetNet.Test.SimulatedDataTest</StartupObject>
     <StartupObject>ProjetNet.App</StartupObject>
-    <StartupObject>ProjetNet.Test.JsonHandlerTest</StartupObject>
+    <StartupObject>ProjetNet.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -124,7 +124,6 @@
     <Compile Include="Models\UserInput.cs" />
     <Compile Include="Test\JsonHandlerTest.cs" />
     <Compile Include="Models\ShareTools.cs" />
-    <Compile Include="Models\UserInput.cs" />
     <Compile Include="Models\Tools.cs" />
     <Compile Include="Test\ParametersEstimationTest.cs" />
     <Compile Include="Test\HistoricalDataTest.cs" />
@@ -215,11 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="OptionsSaved\test.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Baseclass.Contrib.Nuget.Output.2.3.0\build\net40\Baseclass.Contrib.Nuget.Output.targets" Condition="Exists('..\packages\Baseclass.Contrib.Nuget.Output.2.3.0\build\net40\Baseclass.Contrib.Nuget.Output.targets')" />

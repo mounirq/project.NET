@@ -12,14 +12,15 @@ namespace ProjetNet.Models
         #region Private Fields
 
         private String optionType;
-        private DateTime startDate;
-        private DateTime maturity;
+        private DateTime startDate = DateTime.Today;
+        private DateTime maturity = DateTime.Today;
         private double strike;
         private String[] undelyingsIds;
         private Double[] weights;
         private IDataProvider dataType;
         private int estimationWindow;
         private int rebalancementFrequency;
+        private string nameOption;
 
         #endregion Private Fields
 
@@ -27,7 +28,7 @@ namespace ProjetNet.Models
 
         public UserInput(){ }
 
-        public UserInput(string optionType, DateTime startDate, DateTime maturity, double strike, string[] undelyingsIds, double[] weights, IDataProvider dataType, int estimationWindow, int rebalancementFrequency)
+        public UserInput(string optionType, DateTime startDate, DateTime maturity, double strike, string[] undelyingsIds, double[] weights, IDataProvider dataType, int estimationWindow, int rebalancementFrequency, String nameOption)
         {
             this.optionType = optionType;
             this.maturity = maturity;
@@ -38,6 +39,7 @@ namespace ProjetNet.Models
             this.dataType = dataType;
             this.estimationWindow = estimationWindow;
             this.rebalancementFrequency = rebalancementFrequency;
+            this.nameOption = nameOption;
         }
 
         #endregion Public Constructors
@@ -95,6 +97,12 @@ namespace ProjetNet.Models
         }
 
         public int RebalancementFrequency { get => rebalancementFrequency; set => rebalancementFrequency = value; }
+
+        public string NameOption
+        {
+            get { return this.nameOption; }
+            set { this.nameOption = value; }
+        }
 
         #endregion Public Properties
     }

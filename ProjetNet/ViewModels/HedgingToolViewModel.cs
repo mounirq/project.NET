@@ -18,7 +18,6 @@ namespace ProjetNet.ViewModels
         {
             UserInputVM = userInputVM;
             HedgTool = new HedgingTool(UserInputVM.UnderlyingUserInput);
-
         }
 
 
@@ -35,11 +34,22 @@ namespace ProjetNet.ViewModels
         public List<double> OptionValue { get => HedgTool.OptionValue; }
 
         public List<double> PortfolioValue { get => HedgTool.PortfolioValue; }
+
+        public List<string> DateValue { get => HedgTool.DateValue; }
         internal UserInputViewModel UserInputVM { get => userInputVM; set => userInputVM = value; }
         
         public void ComputeTest()
         {
-            HedgTool.update();
+            try
+            {
+                HedgTool.update();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message.ToString());
+                return;
+            }
+
         }
 
     }
