@@ -173,7 +173,8 @@ namespace ProjetNet.Models
 
         private double[] computeWREVolatilityTable(double[,] returns)
         {
-            int numberOfDaysPerYear = 252;
+            SimulatedDataFeedProvider simulator = new SimulatedDataFeedProvider();
+            int numberOfDaysPerYear = simulator.NumberOfDaysPerYear;
             double[,] covarianceMatrix = computeWRECovarianceMatrix(returns);
             int size = covarianceMatrix.GetLength(0);
             double[] volatilityTable = new Double[size];
