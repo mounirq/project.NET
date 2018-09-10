@@ -81,6 +81,20 @@ namespace ProjetNet.Models
             string json = JsonConvert.SerializeObject(this.listVanillaCalls.ToArray());
             System.IO.File.WriteAllText("VanillaCalls.json", json);
         }
+
+        public void DeleteOption(VanillaCall option)
+        {
+            bool deleted = this.listVanillaCalls.Remove(option);
+            string json = JsonConvert.SerializeObject(this.listVanillaCalls.ToArray());
+            System.IO.File.WriteAllText("VanillaCalls.json", json);
+        }
+
+        public void DeleteOption(BasketOption option)
+        {
+            bool deleted = this.listBasketOptions.Remove(option);
+            string json = JsonConvert.SerializeObject(this.listBasketOptions.ToArray());
+            System.IO.File.WriteAllText("BasketOptions.json", json);
+        }
          
     }
 }
