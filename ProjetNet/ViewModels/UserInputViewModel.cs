@@ -16,15 +16,15 @@ namespace ProjetNet.ViewModels
         private UserInput underlyingUserInput;
 
         private String optionType;
-        private DateTime startDate;
-        private DateTime maturity;
+        private DateTime startDate = DateTime.Today;
+        private DateTime maturity = DateTime.Today;
         private double strike;
-        //private String[] underlyingsIds;
         private List<string> underlyingsIds = new List<string>();
         private List<double> weights = new List<double>();
         private AbstractDataProviderViewModel dataType;
         private int estimationWindow;
         private int rebalancementFrequency;
+        private String nameOption;
 
         #endregion Private Fields
 
@@ -32,7 +32,6 @@ namespace ProjetNet.ViewModels
 
         public UserInputViewModel()
         {
-            //this.underlyingUserInput = new UserInput(OptionType, Maturity, Strike, UnderlyingsIds, Weights, StartDate, dataType.Data, EstimationWindow);
             this.underlyingUserInput = new UserInput();
         }
 
@@ -53,8 +52,6 @@ namespace ProjetNet.ViewModels
             set
             {
                 SetProperty(ref this.optionType, value);
-                //RaisePropertyChanged("OptionTypeAsV");
-                //RaisePropertyChanged("OptionTypeAsB");
                 UnderlyingUserInput.OptionType = value;
             }
         }
@@ -139,11 +136,25 @@ namespace ProjetNet.ViewModels
             }
         }
 
+        public String NameOption
+        {
+            get { return this.nameOption; }
+            set
+            {
+                SetProperty(ref this.nameOption, value);
+                UnderlyingUserInput.NameOption = value;
+            }
+        }
+
         #endregion Public Properties
 
         #region Public Methods
         public void AddWeight(double weight)
         {
+            if (weight <= 0)
+            {
+                throw new ArgumentException("The weight must be positive");
+            }
             Weights.Add(weight);
             UnderlyingUserInput.Weights = Weights.ToArray();
         }

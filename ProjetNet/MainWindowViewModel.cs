@@ -10,6 +10,7 @@ using LiveCharts.Wpf;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using PricingLibrary.FinancialProducts;
 
 namespace ProjetNet
 {
@@ -26,6 +27,7 @@ namespace ProjetNet
         private ObservableCollection<String> componentSelectedShareIds;
         private ObservableCollection<double> componentSelectedWeights;
         private Dictionary<string, double> selectedUnderlyingAndWeights;
+        private JsonHandler jsonHandlerVM;
 
         private Visibility plotVisibility = Visibility.Hidden;
 
@@ -56,8 +58,17 @@ namespace ProjetNet
             ComponentSelectedShareIds = new ObservableCollection<string>();
             ComponentSelectedWeights = new ObservableCollection<double>();
             PlotCommand = new DelegateCommand(CanPlot);
+            //try
+            //{
             AddShareCommand = new DelegateCommand(AddShare);
+            //}
+            //catch (Exception ex)
+            //{
+            //    System.Windows.MessageBox.Show(ex.Message.ToString());
+            //    return;
+            //}
             DeleteUnderlyingsCommand = new DelegateCommand(DeleteUnderlyings);
+            AddOptionCommand = new DelegateCommand(AddOption);
         }
 
 
@@ -101,6 +112,8 @@ namespace ProjetNet
 
         public DelegateCommand DeleteUnderlyingsCommand { get; private set; }
 
+        public DelegateCommand AddOptionCommand { get; private set; }
+
         public string SelectedShare
         {
             get { return this.selectedShare; }
@@ -115,6 +128,7 @@ namespace ProjetNet
         public ObservableCollection<string> ComponentSelectedShareIds { get => componentSelectedShareIds; set => componentSelectedShareIds = value; }
         public ObservableCollection<double> ComponentSelectedWeights { get => componentSelectedWeights; set => componentSelectedWeights = value; }
         public Dictionary<string, double> SelectedUnderlyingAndWeights { get => selectedUnderlyingAndWeights; set => selectedUnderlyingAndWeights = value; }
+        internal JsonHandler JsonHandlerVM { get => jsonHandlerVM; set => jsonHandlerVM = value; }
 
         #endregion Public Properties
 
@@ -122,8 +136,13 @@ namespace ProjetNet
 
         private void AddShare()
         {
+            //if(SelectedShare == null) { throw new ArgumentException("Please Enter the underlying share"); }
             if (SelectedUnderlyingAndWeights.ContainsKey(SelectedShare))
             {
+                //if (SelectedWeight <= 0)
+                //{
+                //    throw new ArgumentException("The weight must be positive");
+                //}
                 SelectedUnderlyingAndWeights[SelectedShare] = SelectedWeight;
             }
             else
@@ -150,6 +169,21 @@ namespace ProjetNet
             SelectedUnderlyingAndWeights.Clear();
         }
 
+        private void AddOption()
+        {
+            try
+            {
+                IOption optionToAdd = HedgingToolVM.HedgTool.constructOption();
+                JsonHandlerVM.SaveOption(optionToAdd);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message.ToString());
+                return;
+            }
+            
+        }
+
         private void CanPlot()
         {
             this.WindowPlotVM = new PlotViewModel();
@@ -158,10 +192,11 @@ namespace ProjetNet
             HedgingToolVM.ComputeTest();
             double[] optionValues = HedgingToolVM.OptionValue.ToArray();
             double[] portfolioValues = HedgingToolVM.PortfolioValue.ToArray();
+            string[] dateValues = HedgingToolVM.DateValue.ToArray();
 
             WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(optionValues, portfolioValues);
 
-            WindowPlotVM.Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
+            WindowPlotVM.Labels = dateValues;
 
             WindowPlotVM.YFormatter = value => value.ToString("C");
 

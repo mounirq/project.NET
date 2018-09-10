@@ -66,7 +66,7 @@ namespace ProjetNet.Models
         }
         
 
-        public void SaveOption(BasketOption option)
+        public void SaveOptionBasket(BasketOption option)
         {
             this.listBasketOptions.Add(option);
             this.listBasketOptions = listBasketOptions.Distinct().ToList();
@@ -74,7 +74,7 @@ namespace ProjetNet.Models
             System.IO.File.WriteAllText("BasketOptions.json", json);
         }
 
-        public void SaveOption(VanillaCall option)
+        public void SaveOptionVanille(VanillaCall option)
         {           
             this.listVanillaCalls.Add(option);
             this.listVanillaCalls = this.listVanillaCalls.Distinct().ToList();
