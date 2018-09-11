@@ -32,5 +32,21 @@ namespace ProjetNet.Models
             }
         }
 
+        public DateTime GetMinDate()
+        {
+            using (DataBaseAccessDataContext asdc = new DataBaseAccessDataContext())
+            {
+                return asdc.HistoricalShareValues.Select(el => el.date).Min();
+            }
+        }
+
+        public DateTime GetMaxDate()
+        {
+            using (DataBaseAccessDataContext asdc = new DataBaseAccessDataContext())
+            {
+                return asdc.HistoricalShareValues.Select(el => el.date).Max();
+            }
+        }
+
     }
 }

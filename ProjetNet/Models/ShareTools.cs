@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using PricingLibrary.FinancialProducts;
 
 namespace ProjetNet.Models
 {
-    internal class ShareName
+    internal class ShareTools
     {
         public static String GetShareName(String id)
         {
@@ -13,6 +14,19 @@ namespace ProjetNet.Models
                 string name = asdc.ShareNames.First(el => (el.id.Trim() == id.Trim())).name.ToString();
                 return name;
             }
+        }
+
+        public static Share[] GenerateShares(string[] UnderlyingShareIds)
+        {
+            Share[] shares = new Share[UnderlyingShareIds.Length];
+            int k = 0;
+            foreach (string underlyingId in UnderlyingShareIds)
+            {
+                String underlyingName = ShareTools.GetShareName(underlyingId);
+                shares[k] = new Share(underlyingName, underlyingId);
+                k++;
+            }
+            return shares;
         }
 
         public static List<String> GetAllShareIds()

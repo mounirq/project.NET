@@ -20,6 +20,7 @@ namespace ProjetNet.Models
         private double currentPortfolioValue;
         private DateTime currentDate;
         private double cashRiskFree;
+        private double finalProfit;
 
         #endregion Private Fields
 
@@ -28,6 +29,7 @@ namespace ProjetNet.Models
         public Dictionary<string, double> PortfolioComposition { get => portfolioComposition; set => portfolioComposition = value; }
         public double CurrentPortfolioValue { get => currentPortfolioValue; set => currentPortfolioValue = value; }
         public DateTime CurrentDate { get => currentDate; set => currentDate = value; }
+        public double FinalProfit { get => finalProfit; set => finalProfit = value; }
 
         #endregion Public Properties
 
@@ -82,14 +84,14 @@ namespace ProjetNet.Models
                 int numberOfUnderlyingShares = underlyingShares.Length;
                 double freeRate = RiskFreeRateProvider.GetRiskFreeRateAccruedValue(numberOfDaysBetweenConvering / totalDays);
 
-                double cashRisk = productScalar(deltas, spots);
+                double cashRisk = Tools.productScalar(deltas, spots);
                 double[] previousDeltas = new double[numberOfUnderlyingShares];
                 for (int i = 0; i < numberOfUnderlyingShares; i++)
                 {
                     previousDeltas[i] = this.portfolioComposition[underlyingShares[i].Id];
                 }
 
-                double cashRiskFree = productScalar(minusArrays(previousDeltas, deltas), spots) + this.cashRiskFree * freeRate;
+                double cashRiskFree = Tools.productScalar(Tools.minusArrays(previousDeltas, deltas), spots) + this.cashRiskFree * freeRate;
 
                 this.currentPortfolioValue = cashRisk + cashRiskFree;
                 this.cashRiskFree = cashRiskFree;
@@ -108,6 +110,36 @@ namespace ProjetNet.Models
 
             return new double[2] { optionValue, portfolioValue };
 
+        }
+
+        internal double calculateGain(int numberOfDaysBetweenConvering, DataFeed maturityData, Share[] underlyingsShares, IOption option)
+        {
+            SimulatedDataFeedProvider simulator = new SimulatedDataFeedProvider();
+            int totalDays = simulator.NumberOfDaysPerYear;
+            int numberOfUnderlyingShares = underlyingsShares.Length;
+            double payoff = option.GetPayoff(maturityData.PriceList);
+            double cashRiskFree;
+            double cashRisk;
+            double freeRate = RiskFreeRateProvider.GetRiskFreeRateAccruedValue(numberOfDaysBetweenConvering / totalDays);
+            if (option.GetType() == typeof(VanillaCall))
+            {
+                double spot = (double)maturityData.PriceList[underlyingsShares[0].Id];
+                cashRisk = spot * this.portfolioComposition[underlyingsShares[0].Id];
+                cashRiskFree = this.cashRiskFree * freeRate;
+                this.currentPortfolioValue = cashRisk + cashRiskFree;
+            }
+            else
+            {
+                double[] spots = fillSpots(maturityData, underlyingsShares);
+                double[] previousDeltas = new double[numberOfUnderlyingShares];
+                for (int i = 0; i < numberOfUnderlyingShares; i++)
+                {
+                    previousDeltas[i] = this.portfolioComposition[underlyingsShares[i].Id];
+                }
+                cashRisk = Tools.productScalar(spots, previousDeltas);
+                cashRiskFree = this.cashRiskFree * freeRate;
+            }
+            return (this.currentPortfolioValue - payoff) / this.firstPortfolioValue;
         }
 
         internal double[] estimatePortfolioFirstDay(ParametersEstimation parameters, Share[] shares, IOption option, DateTime currentDay, DataFeed dataFeed, Pricer pricer)
@@ -138,7 +170,7 @@ namespace ProjetNet.Models
                 this.firstPortfolioValue = basketPrice;
                 this.currentPortfolioValue = basketPrice;
                 this.currentDate = currentDay;
-                this.cashRiskFree = basketPrice - productScalar(deltas, spots);
+                this.cashRiskFree = basketPrice - Tools.productScalar(deltas, spots);
                 for (int i = 0; i < shares.Length; i++)
                 {
                     this.portfolioComposition.Add(shares[i].Id, deltas[i]);
@@ -150,34 +182,10 @@ namespace ProjetNet.Models
             return new double[2] { optionValue, portfolioValue };
         }
 
-        public static double[] minusArrays(double[] firstArray, double[] secondArray)
-        {
-            if (firstArray.Length != secondArray.Length) { throw new ArgumentOutOfRangeException("The arrays must have the same size"); }
-            int size = firstArray.Length; 
-            double[] newArray = new double[size];
-            for (int i = 0; i < size; i++)
-            {
-                newArray[i] = firstArray[i] - secondArray[i];
-            }
-            return newArray;
-        }
-
-        public static double productScalar(double[] firstArray, double[] secondArray)
-        {
-            if (firstArray.Length != secondArray.Length) { throw new ArgumentOutOfRangeException("The arrays must have the same size"); }
-            int size = firstArray.Length;
-            double value = 0;
-            for (int i = 0; i < size; i++)
-            {
-                value += firstArray[i] * secondArray[i];
-            }
-            return value;
-        }
-
         public static double[] fillSpots(DataFeed data, Share[] shares)
         {
             int size = shares.Length;
-            double[] spots = new double[shares.Length];
+            double[] spots = new double[size];
             for (int i = 0; i < size; i++)
             {
                 spots[i] = (double)data.PriceList[shares[i].Id];
