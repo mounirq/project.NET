@@ -7,6 +7,10 @@ using ProjetNet.Models;
 using System.Windows.Input;
 using LiveCharts;
 using LiveCharts.Wpf;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using PricingLibrary.FinancialProducts;
 
 namespace ProjetNet
 {
@@ -14,14 +18,19 @@ namespace ProjetNet
     {
         #region Private Fields
 
-        public ObservableCollection<AbstractDataProviderViewModel> ComponentDatatypeList { get; private set; }
-        public ObservableCollection<String> ComponentExistingSharesIds { get; private set; }
+        private string selectedShare;
+        private double selectedWeight;
 
         private UserInputViewModel userInputVM;
         private HedgingToolViewModel hedgingToolVM;
         private PlotViewModel windowPlotVM;
+        private IOption selectedOption;
+        private ObservableCollection<String> componentSelectedShareIds;
+        private ObservableCollection<double> componentSelectedWeights;
+        private Dictionary<string, double> selectedUnderlyingAndWeights;
+        private JsonHandler jsonHandlerVM;
 
-        private Boolean plotBool = false;
+        private Visibility plotVisibility = Visibility.Hidden;
 
         #endregion Private Fields
 
@@ -30,31 +39,65 @@ namespace ProjetNet
         public MainWindowViewModel()
         {
             WindowPlotVM = new PlotViewModel();
-            UserInputVM = new UserInputViewModel();
+            userInputVM = new UserInputViewModel();
             HedgingToolVM = new HedgingToolViewModel(UserInputVM);
+            JsonHandlerVM = new JsonHandler();
 
             ComponentDatatypeList = new ObservableCollection<AbstractDataProviderViewModel>()
             {
                 new SimulatedDataProviderViewModel(),
                 new HistoricalDataProvioderViewModel()
             };
-            ComponentExistingSharesIds = new ObservableCollection<string>(ShareName.GetAllShareIds());
+            ComponentOptionTypeList = new ObservableCollection<String>()
+            {
+                "VanillaCall",
+                "BasketOption"
+            };
+
+            SelectedUnderlyingAndWeights = new Dictionary<string, double>();
+
+            ComponentExistingSharesIds = new ObservableCollection<string>(ShareTools.GetAllShareIds());
+            ComponentSelectedShareIds = new ObservableCollection<string>();
+            ComponentSelectedWeights = new ObservableCollection<double>();
+            ComponentSavedOptions = new ObservableCollection<IOption>();
+            JsonHandlerVM.LoadOptions();
+            foreach (VanillaCall option in JsonHandlerVM.ListVanillaCalls)
+            {
+                ComponentSavedOptions.Add(option);
+            }
+            foreach (BasketOption option in JsonHandlerVM.ListBasketOptions)
+            {
+                ComponentSavedOptions.Add(option);
+            }
+
             PlotCommand = new DelegateCommand(CanPlot);
-            //PlotCommand = new DelegateCommand(CanPlot);
+
+            AddShareCommand = new DelegateCommand(AddShare);
+
+            DeleteUnderlyingsCommand = new DelegateCommand(DeleteUnderlyings);
+            AddOptionCommand = new DelegateCommand(AddOption);
+            RemoveOptionCommand = new DelegateCommand(RemoveOption);
+            LoadOptionCommand = new DelegateCommand(LoadOption);
         }
 
-        
+
 
         #endregion Public Constructors
 
         #region Public Properties
 
+        public ObservableCollection<AbstractDataProviderViewModel> ComponentDatatypeList { get; private set; }
+        public ObservableCollection<String> ComponentOptionTypeList { get; private set; }
+
+        public ObservableCollection<String> ComponentExistingSharesIds { get; private set; }
+        public ObservableCollection<IOption> ComponentSavedOptions { get; private set; }
 
         public PlotViewModel WindowPlotVM
         {
             get { return this.windowPlotVM; }
             set { SetProperty(ref this.windowPlotVM, value); }
         }
+
 
         public UserInputViewModel UserInputVM
         {
@@ -68,47 +111,140 @@ namespace ProjetNet
             set { SetProperty(ref this.hedgingToolVM, value); }
         }
 
-        public bool PlotBool
+        public Visibility PlotVisibility
         {
-            get { return this.plotBool; }
-            set { this.plotBool = value; }
+            get { return this.plotVisibility; }
+            set { SetProperty(ref this.plotVisibility, value); }
         }
 
         public DelegateCommand PlotCommand { get; private set; }
+        public DelegateCommand AddShareCommand { get; private set; }
 
-        //public bool OptionTypeAsV
-        //{
-        //    get { return UserInputVM.OptionType.Equals("VanillaOption"); }
-        //    set { UserInputVM.OptionType = "VanillaOption"; }
-        //}
+        public DelegateCommand DeleteUnderlyingsCommand { get; private set; }
 
-        //public bool OptionTypeAsB
-        //{
-        //    get { return UserInputVM.OptionType.Equals("BasketOption"); }
-        //    set { UserInputVM.OptionType = "BasketOption"; }
-        //}
+        public DelegateCommand AddOptionCommand { get; private set; }
+
+        public DelegateCommand RemoveOptionCommand { get; private set; }
+
+        public DelegateCommand LoadOptionCommand { get; private set; }
+
+        public string SelectedShare
+        {
+            get { return this.selectedShare; }
+            set { SetProperty(ref this.selectedShare, value); }
+        }
+        public double SelectedWeight
+        {
+            get { return this.selectedWeight; }
+            set { SetProperty(ref this.selectedWeight, value); }
+        }
+
+        public ObservableCollection<string> ComponentSelectedShareIds { get => componentSelectedShareIds; set => componentSelectedShareIds = value; }
+        public ObservableCollection<double> ComponentSelectedWeights { get => componentSelectedWeights; set => componentSelectedWeights = value; }
+        public Dictionary<string, double> SelectedUnderlyingAndWeights { get => selectedUnderlyingAndWeights; set => selectedUnderlyingAndWeights = value; }
+        internal JsonHandler JsonHandlerVM { get => jsonHandlerVM; set => jsonHandlerVM = value; }
+        public IOption SelectedOption { get => selectedOption; set => selectedOption = value; }
 
         #endregion Public Properties
 
         #region Public Methods
 
+        private void AddShare()
+        {
+            if (SelectedShare == null) { System.Windows.MessageBox.Show("Please Enter the underlying share"); return; }
+            if (SelectedWeight <= 0 || SelectedWeight > 1 ) { System.Windows.MessageBox.Show("Please Enter a valid weight : weight in ]0,1]"); return; }
+            if (SelectedUnderlyingAndWeights.ContainsKey(SelectedShare))
+            {
+                SelectedUnderlyingAndWeights[SelectedShare] = SelectedWeight;
+            }
+            else
+            {
+                SelectedUnderlyingAndWeights.Add(SelectedShare, SelectedWeight);
+            }
+            ComponentSelectedShareIds.Clear();
+            ComponentSelectedWeights.Clear();
+            foreach(String key in SelectedUnderlyingAndWeights.Keys)
+            {
+                ComponentSelectedShareIds.Add(key);
+                ComponentSelectedWeights.Add(SelectedUnderlyingAndWeights[key]);
+            }
+            UserInputVM.UnderlyingsIds = SelectedUnderlyingAndWeights.Keys.ToList();
+            UserInputVM.Weights = SelectedUnderlyingAndWeights.Values.ToList();
+        }
+
+        private void DeleteUnderlyings()
+        {
+            UserInputVM.ClearWeight();
+            UserInputVM.ClearUnderlyings();
+            ComponentSelectedShareIds.Clear();
+            ComponentSelectedWeights.Clear();
+            SelectedUnderlyingAndWeights.Clear();
+        }
+
+        private void AddOption()
+        {
+            try
+            {
+                IOption optionToAdd = HedgingToolVM.HedgTool.constructOption();
+                JsonHandlerVM.SaveOption(optionToAdd);
+                ComponentSavedOptions.Add(optionToAdd);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message.ToString());
+                return;
+            }
+        }
+
+        private void RemoveOption()
+        {
+            try
+            {
+                JsonHandlerVM.DeleteOption(SelectedOption);
+                bool removed = ComponentSavedOptions.Remove(SelectedOption);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message.ToString());
+                return;
+            }
+        }
+
+        private void LoadOption()
+        {
+            UserInputVM.NameOption = SelectedOption.Name;
+            UserInputVM.Strike = SelectedOption.Strike;
+            UserInputVM.Maturity = SelectedOption.Maturity;
+            UserInputVM.UnderlyingsIds = SelectedOption.UnderlyingShareIds.ToList();
+            if (SelectedOption.GetType() == typeof(BasketOption))
+            {
+                UserInputVM.Weights = ((BasketOption)SelectedOption).Weights.ToList();
+            }
+            else if (SelectedOption.GetType() == typeof(VanillaCall))
+            {
+                UserInputVM.Weights = new List<double> { 1 };
+            }
+
+        }
+
         private void CanPlot()
         {
-            //this.WindowPlotVM = new PlotViewModel();
+            this.WindowPlotVM = new PlotViewModel();
+            PlotVisibility = Visibility.Visible;
+            HedgingToolVM.UserInputVM = UserInputVM;
+            HedgingToolVM.ComputeTest();
+            double[] optionValues = HedgingToolVM.OptionValue.ToArray();
+            double[] portfolioValues = HedgingToolVM.PortfolioValue.ToArray();
+            string[] dateValues = HedgingToolVM.DateValue.ToArray();
 
-            //HedgingToolVM.ComputeTest();
-            //double[] optionValues = HedgingToolVM.OptionValue.ToArray();
-            //double[] portfolioValues = HedgingToolVM.PortfolioValue.ToArray();
+            WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(optionValues, portfolioValues);
 
-            //WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(optionValues, portfolioValues);
-
-            WindowPlotVM.SeriesCollection = PlotViewModel.ValuesToPlot(new double[] { 4, 6, 5, 2, 7 }, new double[] { 6, 7, 3, 4, 6 });
-
-            WindowPlotVM.Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
+            WindowPlotVM.Labels = dateValues;
 
             WindowPlotVM.YFormatter = value => value.ToString("C");
 
-            //Console.WriteLine("On est la");
+            Console.WriteLine("la frequence  est : " + UserInputVM.RebalancementFrequency);
+
         }
 
         #endregion Public Methods
